@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ai-design-rules.dev/schema/observation.schema.json",
+  "title": "Observation",
+  "allOf": [
+    {
+      "$ref": "./common.schema.json"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "id": {
+          "pattern": "^OBS-[0-9]{5}$"
+        },
+        "object_type": {
+          "const": "observation"
+        }
+      }
+    }
+  ]
+}

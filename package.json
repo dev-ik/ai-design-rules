@@ -1,0 +1,8 @@
+{
+  "scripts": {
+    "validate": "node tools/validate-knowledge.mjs",
+    "generate:indexes": "node tools/generate-indexes.mjs",
+    "check": "npm run generate:indexes && npm run validate"
+  },
+  "type": "module"
+}

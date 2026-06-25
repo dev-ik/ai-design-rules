@@ -1,0 +1,16 @@
+{
+  "scenario": "Todo App",
+  "run_type": "baseline",
+  "date": "2026-06-25",
+  "model": "Codex GPT-5",
+  "provider": "OpenAI",
+  "generation_surface": "Codex chat session",
+  "temperature": "not exposed",
+  "tool_access": [
+    "filesystem write",
+    "shell validation"
+  ],
+  "implementation_target": "Markdown UI artifact",
+  "screenshots": "not captured",
+  "limitation": "The run was generated inside an active repository context, so the baseline is not perfectly isolated from prior conversation context."
+}

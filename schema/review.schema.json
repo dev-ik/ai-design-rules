@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ai-design-rules.dev/schema/review.schema.json",
+  "title": "Review",
+  "allOf": [
+    {
+      "$ref": "./common.schema.json"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "id": {
+          "pattern": "^REVIEW-[0-9]{5}$"
+        },
+        "object_type": {
+          "const": "review"
+        }
+      }
+    }
+  ]
+}

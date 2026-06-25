@@ -1,0 +1,35 @@
+{
+  "scenario": "Todo App",
+  "run_type": "ai-design-rules",
+  "date": "2026-06-25",
+  "model": "Codex GPT-5",
+  "provider": "OpenAI",
+  "generation_surface": "Codex chat session",
+  "temperature": "not exposed",
+  "tool_access": [
+    "filesystem write",
+    "shell validation"
+  ],
+  "implementation_target": "Markdown UI artifact",
+  "screenshots": "not captured",
+  "rules_context": [
+    "PRD-001",
+    "PRD-002",
+    "IA-001",
+    "IA-002",
+    "UX-001",
+    "UX-002",
+    "UX-003",
+    "VIS-001",
+    "A11Y-001"
+  ],
+  "patterns_context": [
+    "PAT-001",
+    "PAT-002",
+    "PAT-003",
+    "PAT-004",
+    "PAT-005",
+    "PAT-006"
+  ],
+  "limitation": "The same model and evaluator were used for generation and scoring. This is directional evidence, not independent validation."
+}

@@ -1,0 +1,11 @@
+# Generated Research Index
+
+This file is generated from registry metadata. Do not edit manually.
+
+| ID | Alias | Title | Category | Status | Maturity | File Path | Derived Or Inspired Rules |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| RESEARCH-00001 | TELEGRAM | Telegram | product | draft | seed | research/products/telegram.md | derived_from: PRD-001 / RULE-00001 Daily Actions First<br>derived_from: PRD-002 / RULE-00002 Low-Friction Capture Before Organization<br>derived_from: IA-001 / RULE-00003 One Stable Home Surface<br>derived_from: IA-002 / RULE-00004 Define The Object Model Before Screens<br>derived_from: UX-002 / RULE-00006 Progressively Disclose Power<br>derived_from: UX-003 / RULE-00007 Preserve Context During Inspection |
+| RESEARCH-00002 | THINGS-3 | Things 3 | product | draft | seed | research/products/things-3.md | derived_from: PRD-001 / RULE-00001 Daily Actions First<br>derived_from: PRD-002 / RULE-00002 Low-Friction Capture Before Organization<br>derived_from: IA-001 / RULE-00003 One Stable Home Surface<br>derived_from: UX-001 / RULE-00005 Thumb-Zone Primary Actions<br>derived_from: UX-002 / RULE-00006 Progressively Disclose Power<br>derived_from: VIS-001 / RULE-00008 Semantic Tokens Only<br>derived_from: A11Y-001 / RULE-00009 44x44 Touch Targets |
+| RESEARCH-00003 | APPLE-REMINDERS | Apple Reminders | product | draft | seed | research/products/apple-reminders.md | derived_from: PRD-001 / RULE-00001 Daily Actions First<br>derived_from: PRD-002 / RULE-00002 Low-Friction Capture Before Organization<br>derived_from: IA-001 / RULE-00003 One Stable Home Surface<br>derived_from: UX-001 / RULE-00005 Thumb-Zone Primary Actions<br>derived_from: UX-002 / RULE-00006 Progressively Disclose Power<br>derived_from: A11Y-001 / RULE-00009 44x44 Touch Targets |
+| RESEARCH-00004 | LINEAR | Linear | product | draft | seed | research/products/linear.md | derived_from: IA-002 / RULE-00004 Define The Object Model Before Screens<br>derived_from: UX-003 / RULE-00007 Preserve Context During Inspection<br>derived_from: VIS-001 / RULE-00008 Semantic Tokens Only |
+| RESEARCH-00005 | ARC | Arc | product | draft | seed | research/products/arc.md | derived_from: IA-002 / RULE-00004 Define The Object Model Before Screens<br>derived_from: UX-003 / RULE-00007 Preserve Context During Inspection |
