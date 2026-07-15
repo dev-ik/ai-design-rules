@@ -5,7 +5,7 @@
     "benchmark:validate": "node tools/validate-benchmark-evidence.mjs",
     "context": "node tools/context.mjs",
     "generate:indexes": "node tools/generate-indexes.mjs",
-    "check": "npm run generate:indexes && npm run validate && npm run lint:design && npm run benchmark:validate",
+    "check": "npm run validate && npm run lint:design && npm run benchmark:validate",
     "test:validate": "node --test tools/validate-knowledge.test.mjs",
     "test": "node --test tools/*.test.mjs"
   },

@@ -35,6 +35,8 @@ Both `metadata.json` files must contain the same benchmark setup and differ only
   "temperature": "0.2",
   "tool_access": ["filesystem write"],
   "implementation_target": "Rendered responsive web app",
+  "evaluator": "Evaluator name or handle",
+  "rubric_version": "docs/EVALUATION_RUBRIC.md@v0.1.0",
   "evidence_level": "rendered",
   "screenshots": ["baseline/screenshots/mobile.png", "baseline/screenshots/desktop.png"],
   "limitation": "Any remaining comparability limit"

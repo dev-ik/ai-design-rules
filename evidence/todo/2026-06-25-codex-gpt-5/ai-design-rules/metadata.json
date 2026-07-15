@@ -11,6 +11,8 @@
     "shell validation"
   ],
   "implementation_target": "Markdown UI artifact",
+  "evaluator": "Codex GPT-5, single evaluator",
+  "rubric_version": "docs/EVALUATION_RUBRIC.md@v0.1.0",
   "evidence_level": "directional",
   "screenshots": "not captured",
   "rules_context": [

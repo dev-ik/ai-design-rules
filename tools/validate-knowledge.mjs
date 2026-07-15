@@ -314,11 +314,13 @@ for (const filePath of files) {
     metadataById.set(metadata.id, { filePath, metadata });
   }
 
-  for (const relationship of metadata.relationships) {
-    if (/^[A-Z]+-\d{5}$/.test(relationship.target)) {
-      frontMatterRelationshipKeys.add(
-        relationshipKey({ ...relationship, source: metadata.id }),
-      );
+  if (Array.isArray(metadata.relationships)) {
+    for (const relationship of metadata.relationships) {
+      if (/^[A-Z]+-\d{5}$/.test(relationship.target)) {
+        frontMatterRelationshipKeys.add(
+          relationshipKey({ ...relationship, source: metadata.id }),
+        );
+      }
     }
   }
 

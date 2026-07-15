@@ -29,7 +29,7 @@ Markdown is the human default. `--format json` emits only this stable shape on s
 }
 ```
 
-The resolver searches stable registry fields and object Markdown. From its anchors it follows typed relationships to include directly applicable rules, upstream research, patterns, prompts, checklists, reference projects, and reviews. Platform matching is additive: it can include mobile-relevant rules or patterns, but does not replace the task's graph context.
+Task and review modes search stable registry fields and object Markdown. Object mode matches an exact ID, alias, slug, or registry path. From its anchors the resolver follows typed relationships to include directly applicable rules, upstream research, patterns, prompts, checklists, reference projects, and reviews. Platform matching is additive: it can include mobile-relevant rules or patterns, but does not replace the task's graph context.
 
 `--intent implement` gives an implementation-first use order. `--intent qa` gives an evidence-and-checklist-first use order. Task mode defaults to `implement`; review mode defaults to `qa`.
 

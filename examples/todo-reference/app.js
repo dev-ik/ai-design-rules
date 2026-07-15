@@ -34,14 +34,37 @@ function render() {
     ...visibleTasks.map((task) => {
       const item = document.createElement('li');
       item.className = `task-row${task.complete ? ' is-complete' : ''}`;
-      item.innerHTML = `
-        <div class="task-main">
-          <button class="complete-toggle" type="button" data-complete-id="${task.id}" aria-pressed="${task.complete}" aria-label="${task.complete ? 'Mark incomplete' : 'Mark complete'}: ${task.title}">${task.complete ? '✓' : ''}</button>
-          <button class="task-open" type="button" data-open-id="${task.id}">
-            <span class="task-title">${task.title}</span>
-            <span class="task-meta">${task.detail}</span>
-          </button>
-        </div>`;
+
+      const taskMain = document.createElement('div');
+      taskMain.className = 'task-main';
+
+      const completeButton = document.createElement('button');
+      completeButton.className = 'complete-toggle';
+      completeButton.type = 'button';
+      completeButton.dataset.completeId = String(task.id);
+      completeButton.setAttribute('aria-pressed', String(task.complete));
+      completeButton.setAttribute(
+        'aria-label',
+        `${task.complete ? 'Mark incomplete' : 'Mark complete'}: ${task.title}`,
+      );
+      completeButton.textContent = task.complete ? '✓' : '';
+
+      const openButton = document.createElement('button');
+      openButton.className = 'task-open';
+      openButton.type = 'button';
+      openButton.dataset.openId = String(task.id);
+
+      const title = document.createElement('span');
+      title.className = 'task-title';
+      title.textContent = task.title;
+
+      const meta = document.createElement('span');
+      meta.className = 'task-meta';
+      meta.textContent = task.detail;
+
+      openButton.append(title, meta);
+      taskMain.append(completeButton, openButton);
+      item.append(taskMain);
       return item;
     }),
   );

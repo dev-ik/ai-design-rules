@@ -42,3 +42,20 @@ test('fails with a machine-readable error when no object matches', () => {
   assert.equal(result.status, 1);
   assert.deepEqual(JSON.parse(result.stderr), { error: 'No graph object matches "qzxvzz-notfound"' });
 });
+
+test('does not turn a non-ASCII unmatched query into an empty wildcard', () => {
+  const result = runContext('--task', 'быстрый захват', '--format', 'json');
+
+  assert.equal(result.status, 1);
+  assert.deepEqual(JSON.parse(result.stderr), { error: 'No graph object matches "быстрый захват"' });
+});
+
+test('object mode resolves only exact stable fields', () => {
+  const exact = runContext('--object', 'PAT-00002', '--format', 'json');
+  const fuzzy = runContext('--object', 'pattern', '--format', 'json');
+
+  assert.equal(exact.status, 0, exact.stderr);
+  assert.equal(JSON.parse(exact.stdout).anchors[0].id, 'PAT-00002');
+  assert.equal(fuzzy.status, 1);
+  assert.deepEqual(JSON.parse(fuzzy.stderr), { error: 'No graph object matches "pattern"' });
+});

@@ -75,15 +75,16 @@ function parseArgs(argv) {
 
 function normalize(value) {
   return String(value ?? '')
+    .normalize('NFKC')
     .toLocaleLowerCase()
-    .replace(/[^a-z0-9]+/g, ' ')
+    .replace(/[^\p{L}\p{N}]+/gu, ' ')
     .trim()
     .replace(/\s+/g, ' ');
 }
 
 function tokenise(value) {
   return normalize(value)
-    .split(/[^a-z0-9]+/)
+    .split(/\s+/u)
     .filter((token) => token.length > 1);
 }
 
@@ -96,6 +97,8 @@ function objectText(object) {
 function findAnchors(objects, query) {
   const normalizedQuery = normalize(query);
   const tokens = tokenise(query);
+  if (!normalizedQuery || tokens.length === 0) return [];
+
   const scored = objects
     .map((object) => {
       const text = objectText(object);
@@ -113,6 +116,19 @@ function findAnchors(objects, query) {
     .sort((left, right) => right.score - left.score || left.object.id.localeCompare(right.object.id));
 
   return scored.slice(0, 1).map(({ object }) => object);
+}
+
+function findExactObject(objects, query) {
+  const normalizedQuery = normalize(query);
+  if (!normalizedQuery) return [];
+
+  const object = objects.find((candidate) =>
+    [candidate.id, candidate.alias, candidate.slug, candidate.path]
+      .map(normalize)
+      .includes(normalizedQuery),
+  );
+
+  return object ? [object] : [];
 }
 
 function relatedContext(anchors, objectsById, relationships, platform) {
@@ -248,7 +264,9 @@ function main() {
     );
     const objectsById = new Map(registry.objects.map((object) => [object.id, object]));
     const query = options[options.mode];
-    const anchors = findAnchors(registry.objects, query);
+    const anchors = options.mode === 'object'
+      ? findExactObject(registry.objects, query)
+      : findAnchors(registry.objects, query);
     if (anchors.length === 0) throw new Error(`No graph object matches "${query}"`);
 
     const result = {

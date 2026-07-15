@@ -123,3 +123,26 @@ test('rejects a skill without Codex front matter', async () => {
   assert.equal(result.status, 1);
   assert.match(result.stderr, /skills\/product-designer\/SKILL\.md: missing YAML front matter/);
 });
+
+test('reports missing relationships without crashing', async () => {
+  const result = await withFixture(async (root) => {
+    const filePath = path.join(root, 'rules/product/PRD-001.md');
+    const rule = await readFile(filePath, 'utf8');
+    await writeFile(filePath, rule.replace('relationships:', 'relationz:'));
+  });
+
+  assert.equal(result.status, 1);
+  assert.match(result.stderr, /rules\/product\/PRD-001\.md: missing required field relationships/);
+  assert.doesNotMatch(result.stderr, /TypeError/);
+});
+
+test('rejects a stale generated index', async () => {
+  const result = await withFixture(async (root) => {
+    const filePath = path.join(root, 'rules/GENERATED_INDEX.md');
+    const index = await readFile(filePath, 'utf8');
+    await writeFile(filePath, `${index}\nStale content\n`);
+  });
+
+  assert.equal(result.status, 1);
+  assert.match(result.stderr, /rules\/GENERATED_INDEX\.md: generated index is out of sync/);
+});

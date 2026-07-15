@@ -125,6 +125,7 @@ npm run check
 ```
 
 This command validates metadata, relationships, generated indexes, and the repository knowledge graph.
+It is read-only and fails when generated indexes are stale. After changing registry metadata, run `npm run generate:indexes` before `npm run check`.
 
 For focused checks:
 

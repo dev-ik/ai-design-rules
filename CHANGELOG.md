@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.2.1 — Validation Hardening
+
+- Fixed Unicode task lookup and exact object resolution in the agent context CLI.
+- Removed unsafe HTML rendering from the runnable Todo fixture.
+- Made the main validation command read-only so stale generated indexes fail CI.
+- Hardened rendered benchmark screenshot path, file, and metadata validation.
+- Improved malformed knowledge-object diagnostics and expanded regression coverage.
+
 ## v0.2.0 — Evidence-Aware QA and Context Retrieval
 
 - Added focused agent context retrieval for implementation and QA tasks.

@@ -13,6 +13,8 @@ const requiredMetadataFields = [
   'temperature',
   'tool_access',
   'implementation_target',
+  'evaluator',
+  'rubric_version',
   'evidence_level',
   'screenshots',
   'limitation',
@@ -35,6 +37,29 @@ const rubricCategories = [
 const errors = [];
 const warnings = [];
 const runs = [];
+const screenshotExtensions = new Set(['.avif', '.gif', '.jpeg', '.jpg', '.png', '.webp']);
+
+function hasSupportedImageSignature(filePath, extension) {
+  const bytes = fs.readFileSync(filePath).subarray(0, 16);
+  const ascii = bytes.toString('ascii');
+  const hex = bytes.toString('hex');
+
+  switch (extension) {
+    case '.png':
+      return hex.startsWith('89504e470d0a1a0a');
+    case '.jpeg':
+    case '.jpg':
+      return hex.startsWith('ffd8ff');
+    case '.gif':
+      return ascii.startsWith('GIF87a') || ascii.startsWith('GIF89a');
+    case '.webp':
+      return ascii.startsWith('RIFF') && ascii.slice(8, 12) === 'WEBP';
+    case '.avif':
+      return ascii.slice(4, 8) === 'ftyp' && ['avif', 'avis'].includes(ascii.slice(8, 12));
+    default:
+      return false;
+  }
+}
 
 function listDirectories(directory) {
   if (!fs.existsSync(directory)) {
@@ -105,9 +130,40 @@ function validateMetadata(runPath, runType) {
           continue;
         }
 
-        const screenshotPath = path.join(runPath, screenshot);
+        const screenshotRoot = path.resolve(runPath, runType);
+        const screenshotPath = path.resolve(runPath, screenshot);
+        const relativeScreenshotPath = path.relative(screenshotRoot, screenshotPath);
+        if (
+          relativeScreenshotPath === '' ||
+          relativeScreenshotPath.startsWith(`..${path.sep}`) ||
+          path.isAbsolute(relativeScreenshotPath)
+        ) {
+          errors.push(
+            `${path.relative(root, metadataPath)}: declared screenshot ${screenshot} must stay inside ${runType}/`,
+          );
+          continue;
+        }
+
+        const extension = path.extname(screenshotPath).toLowerCase();
+        if (!screenshotExtensions.has(extension)) {
+          errors.push(`${path.relative(root, metadataPath)}: declared screenshot ${screenshot} must be an image file`);
+          continue;
+        }
+
         if (!fs.existsSync(screenshotPath)) {
           errors.push(`${path.relative(root, metadataPath)}: declared screenshot ${screenshot} does not exist`);
+          continue;
+        }
+
+        if (!fs.lstatSync(screenshotPath).isFile()) {
+          errors.push(`${path.relative(root, metadataPath)}: declared screenshot ${screenshot} must be a regular file`);
+          continue;
+        }
+
+        if (!hasSupportedImageSignature(screenshotPath, extension)) {
+          errors.push(
+            `${path.relative(root, metadataPath)}: declared screenshot ${screenshot} has invalid image data`,
+          );
         }
       }
     }
@@ -148,6 +204,8 @@ function validateRun(runPath) {
     'temperature',
     'tool_access',
     'implementation_target',
+    'evaluator',
+    'rubric_version',
     'evidence_level',
   ]) {
     if (JSON.stringify(baseline[field]) !== JSON.stringify(rules[field])) {

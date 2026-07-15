@@ -60,7 +60,7 @@ Each benchmark run must record:
 
 If this metadata is missing, the result is not reproducible enough to count.
 
-`rendered` runs must list at least one repository-local screenshot file for both baseline and AI Design Rules outputs. Preview links can be supplementary, but do not replace stored visual evidence. `directional` runs remain useful for learning but must record their limitation.
+`rendered` runs must list at least one repository-local screenshot file for both baseline and AI Design Rules outputs. Each screenshot must be a regular image file stored inside its matching `baseline/` or `ai-design-rules/` directory. Preview links can be supplementary, but do not replace stored visual evidence. `directional` runs remain useful for learning but must record their limitation.
 
 ## Scoring Model
 
