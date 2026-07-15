@@ -1,3 +1,8 @@
+---
+name: knowledge-graph-architect
+description: Maintain the AI Design Rules knowledge graph. Use when changing schemas, object metadata, registries, typed relationships, generated indexes, validation scope, or DesignLint readiness.
+---
+
 # Knowledge Graph Architect Skill
 
 ## Role

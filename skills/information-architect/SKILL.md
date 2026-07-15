@@ -1,3 +1,8 @@
+---
+name: information-architect
+description: Shape product object models, navigation, hierarchy, labels, and status language. Use before screen layout when users, content relationships, wayfinding, or information structure are unclear.
+---
+
 # Information Architect Skill
 
 ## Role

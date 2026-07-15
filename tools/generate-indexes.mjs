@@ -210,23 +210,32 @@ function generatePromptsIndex(registry) {
     .sort((a, b) => a.id.localeCompare(b.id));
 
   const rows = prompts.map((prompt) => {
-    const requiredPatterns = registry.relationships
+    const patternReferences = registry.relationships
       .filter(
         (relationship) =>
-          relationship.type === 'requires' &&
+          ['requires', 'related_to'].includes(relationship.type) &&
           relationship.source === prompt.id &&
           registry.objectsById.get(relationship.target)?.object_type === 'pattern',
       )
-      .map((relationship) => objectLabel(registry.objectsById.get(relationship.target)));
+      .map((relationship) => `${relationship.type}: ${objectLabel(registry.objectsById.get(relationship.target))}`);
 
-    const requiredRules = registry.relationships
+    const ruleReferences = registry.relationships
       .filter(
         (relationship) =>
-          relationship.type === 'requires' &&
+          ['requires', 'related_to'].includes(relationship.type) &&
           relationship.source === prompt.id &&
           registry.objectsById.get(relationship.target)?.object_type === 'rule',
       )
-      .map((relationship) => objectLabel(registry.objectsById.get(relationship.target)));
+      .map((relationship) => `${relationship.type}: ${objectLabel(registry.objectsById.get(relationship.target))}`);
+
+    const checklistReferences = registry.relationships
+      .filter(
+        (relationship) =>
+          ['requires', 'related_to'].includes(relationship.type) &&
+          relationship.source === prompt.id &&
+          registry.objectsById.get(relationship.target)?.object_type === 'checklist',
+      )
+      .map((relationship) => `${relationship.type}: ${objectLabel(registry.objectsById.get(relationship.target))}`);
 
     return [
       prompt.id,
@@ -236,8 +245,9 @@ function generatePromptsIndex(registry) {
       prompt.status,
       prompt.maturity,
       prompt.path,
-      listOrNone(requiredPatterns),
-      listOrNone(requiredRules),
+      listOrNone(patternReferences),
+      listOrNone(ruleReferences),
+      listOrNone(checklistReferences),
     ];
   });
 
@@ -247,7 +257,111 @@ function generatePromptsIndex(registry) {
     generatedNotice,
     '',
     table(
-      ['ID', 'Alias', 'Title', 'Category', 'Status', 'Maturity', 'File Path', 'Required Patterns', 'Required Rules'],
+      [
+        'ID',
+        'Alias',
+        'Title',
+        'Category',
+        'Status',
+        'Maturity',
+        'File Path',
+        'Pattern References',
+        'Rule References',
+        'Checklist References',
+      ],
+      rows,
+    ),
+    '',
+  ].join('\n');
+}
+
+function generateChecklistsIndex(registry) {
+  const checklists = registry.objects
+    .filter((object) => object.object_type === 'checklist')
+    .sort((a, b) => a.id.localeCompare(b.id));
+
+  const rows = checklists.map((checklist) => {
+    const coverageReferences = registry.relationships
+      .filter(
+        (relationship) =>
+          relationship.target === checklist.id &&
+          ['prompt', 'review', 'skill'].includes(registry.objectsById.get(relationship.source)?.object_type),
+      )
+      .map((relationship) => `${relationship.type}: ${objectLabel(registry.objectsById.get(relationship.source))}`);
+
+    const relatedRules = registry.relationships
+      .filter(
+        (relationship) =>
+          relationship.source === checklist.id &&
+          registry.objectsById.get(relationship.target)?.object_type === 'rule',
+      )
+      .map((relationship) => `${relationship.type}: ${objectLabel(registry.objectsById.get(relationship.target))}`);
+
+    return [
+      checklist.id,
+      checklist.alias,
+      checklist.title,
+      checklist.category,
+      checklist.status,
+      checklist.maturity,
+      checklist.path,
+      listOrNone(relatedRules),
+      listOrNone(coverageReferences),
+    ];
+  });
+
+  return [
+    '# Generated Checklists Index',
+    '',
+    generatedNotice,
+    '',
+    table(
+      ['ID', 'Alias', 'Title', 'Category', 'Status', 'Maturity', 'File Path', 'Rule Coverage', 'Used By'],
+      rows,
+    ),
+    '',
+  ].join('\n');
+}
+
+function generateReviewsIndex(registry) {
+  const reviews = registry.objects
+    .filter((object) => object.object_type === 'review')
+    .sort((a, b) => a.id.localeCompare(b.id));
+
+  const rows = reviews.map((review) => {
+    const requiredChecklists = registry.relationships
+      .filter(
+        (relationship) =>
+          relationship.type === 'requires' &&
+          relationship.source === review.id &&
+          registry.objectsById.get(relationship.target)?.object_type === 'checklist',
+      )
+      .map((relationship) => objectLabel(registry.objectsById.get(relationship.target)));
+
+    const validatedObjects = registry.relationships
+      .filter((relationship) => relationship.type === 'validates' && relationship.source === review.id)
+      .map((relationship) => objectLabel(registry.objectsById.get(relationship.target)));
+
+    return [
+      review.id,
+      review.alias,
+      review.title,
+      review.category,
+      review.status,
+      review.maturity,
+      review.path,
+      listOrNone(requiredChecklists),
+      listOrNone(validatedObjects),
+    ];
+  });
+
+  return [
+    '# Generated Reviews Index',
+    '',
+    generatedNotice,
+    '',
+    table(
+      ['ID', 'Alias', 'Title', 'Category', 'Status', 'Maturity', 'File Path', 'Required Checklists', 'Validates'],
       rows,
     ),
     '',
@@ -397,15 +511,15 @@ function generateGraphReport(registry) {
     )
     .map(objectLabel);
 
-  const promptsWithoutRequiredPatternsOrRules = registry.objects
+  const promptsWithoutKnowledgeReferences = registry.objects
     .filter((object) => object.object_type === 'prompt')
     .filter(
       (prompt) =>
         !registry.relationships.some(
           (relationship) =>
-            relationship.type === 'requires' &&
+            ['requires', 'related_to'].includes(relationship.type) &&
             relationship.source === prompt.id &&
-            ['pattern', 'rule'].includes(registry.objectsById.get(relationship.target)?.object_type),
+            ['pattern', 'rule', 'checklist'].includes(registry.objectsById.get(relationship.target)?.object_type),
         ),
     )
     .map(objectLabel);
@@ -449,9 +563,9 @@ function generateGraphReport(registry) {
     '',
     linesOrNone(rulesWithoutResearch),
     '',
-    '## Prompts Without Required Patterns Or Rules',
+    '## Prompts Without Knowledge References',
     '',
-    linesOrNone(promptsWithoutRequiredPatternsOrRules),
+    linesOrNone(promptsWithoutKnowledgeReferences),
     '',
     '## Reference Projects Without Validates Relationships',
     '',
@@ -480,6 +594,8 @@ export function generateIndexFiles(root = process.cwd()) {
     'rules/GENERATED_INDEX.md': generateRulesIndex(registry),
     'patterns/GENERATED_INDEX.md': generatePatternsIndex(registry),
     'prompts/GENERATED_INDEX.md': generatePromptsIndex(registry),
+    'checklists/GENERATED_INDEX.md': generateChecklistsIndex(registry),
+    'reviews/GENERATED_INDEX.md': generateReviewsIndex(registry),
     'examples/GENERATED_INDEX.md': generateExamplesIndex(registry),
     'graph/GENERATED_GRAPH.md': generateGraphReport(registry),
   };

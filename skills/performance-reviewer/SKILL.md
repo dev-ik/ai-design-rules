@@ -1,3 +1,8 @@
+---
+name: performance-reviewer
+description: Review perceived performance in product UI. Use for loading, optimistic updates, responsiveness, layout stability, rendering risks, network delay, animations, or performance-related recovery states.
+---
+
 # Performance Reviewer Skill
 
 ## Role
@@ -75,6 +80,7 @@ Keep product workflows fast enough that users can act, recover, and stay oriente
 - `RULE-00001` / `PRD-001` Daily Actions First
 - `RULE-00002` / `PRD-002` Low-Friction Capture Before Organization
 - `RULE-00007` / `UX-003` Preserve Context During Inspection
+- `RULE-00011` / `PERF-001` Reserve Layout Space For Asynchronous Content
 
 ## Related Patterns
 

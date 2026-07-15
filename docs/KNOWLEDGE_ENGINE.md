@@ -141,6 +141,7 @@ Common status values:
 Common maturity values:
 
 - `seed`
+- `reviewed`
 - `validated`
 - `canonical`
 
@@ -150,6 +151,21 @@ Common risk values:
 - `medium`
 - `high`
 - `critical`
+
+## Maturity Lifecycle
+
+Maturity expresses the strength of evidence behind an object, not whether its prose sounds complete.
+
+```text
+seed -> reviewed -> validated -> canonical
+```
+
+- `seed`: a draft object with traceable upstream evidence but no completed review.
+- `reviewed`: an object reviewed on the recorded `last_reviewed_at` date; it can remain `draft` while follow-up work is open.
+- `validated`: an `active` object with a resolvable `validates` relationship to evidence, a reference project, or a review.
+- `canonical`: an `active`, validated object with a stable major version (`1.x.x` or higher). Use sparingly for guidance that should be the default choice.
+
+`tools/validate-knowledge.mjs` enforces these observable lifecycle invariants. It cannot infer historical process, so do not promote maturity without recording the underlying review or validation relationship.
 
 ## Global IDs, Aliases, And Slugs
 
@@ -186,7 +202,9 @@ Generated indexes are the preferred navigation layer for migrated objects:
 - `rules/GENERATED_INDEX.md`
 - `patterns/GENERATED_INDEX.md`
 - `prompts/GENERATED_INDEX.md`
+- `checklists/GENERATED_INDEX.md`
 - `examples/GENERATED_INDEX.md`
+- `reviews/GENERATED_INDEX.md`
 - `graph/GENERATED_GRAPH.md`
 
 Manual indexes are temporary context pages. They should not become the source of truth for migrated objects.
@@ -195,13 +213,14 @@ Run `npm run generate:indexes` after changing registry metadata.
 
 ## Migration Status
 
-The minimal knowledge chain is now registry-backed:
+The migrated knowledge flow is now registry-backed:
 
 ```text
-research -> rules -> patterns -> prompts -> reference projects
+research -> rules -> patterns -> prompts -> reference projects -> reviews
+                              \-> checklists -/
 ```
 
-Every current product research file, rule, pattern, prompt, and reference project file in the minimal chain now has schema-compatible YAML front matter with:
+Every current product research file, rule, pattern, prompt, checklist, reference project, and review in the migrated flow has schema-compatible YAML front matter with:
 
 - global machine ID;
 - human alias;
@@ -212,11 +231,11 @@ Every current product research file, rule, pattern, prompt, and reference projec
 - maturity and risk level;
 - typed relationships.
 
-`tools/validate-knowledge.mjs` validates the migrated minimal chain plus registry relationship targets.
+`tools/validate-knowledge.mjs` validates schema-compatible observation front matter, every migrated directory (including `checklists/`, `examples/`, and `reviews/`), local Codex skill metadata, and registry relationship targets in both directions.
 
 It also checks that generated indexes are in sync with registry metadata.
 
-Other object types are still transitional. Observations, reviews, checklists, and skills should follow the same metadata model when they are migrated, but they are not fully enforced yet.
+Observations are validated but are not registry-backed yet. Skills use standalone Codex metadata and are intentionally not registry objects until skill metadata migration is explicitly requested.
 
 ## Object Types
 
@@ -483,7 +502,9 @@ Current navigation strategy:
 - `rules/GENERATED_INDEX.md` lists current migrated rules from registry metadata.
 - `patterns/GENERATED_INDEX.md` lists current migrated patterns from registry metadata.
 - `prompts/GENERATED_INDEX.md` lists current migrated prompts from registry metadata.
+- `checklists/GENERATED_INDEX.md` lists current migrated checklists from registry metadata.
 - `examples/GENERATED_INDEX.md` lists current migrated reference projects from registry metadata.
+- `reviews/GENERATED_INDEX.md` lists current migrated reviews from registry metadata.
 - `graph/GENERATED_GRAPH.md` reports graph coverage, orphans, missing targets, and chain usage.
 - Manual `INDEX.md` files remain transitional human context pages.
 
@@ -491,7 +512,7 @@ At scale, every index should be sortable by ID, status, category, and last revie
 
 Manual indexes are transitional. Generated indexes read `registry/objects.json` and `registry/relationships.json`.
 
-For migrated research, rules, patterns, prompts, and reference projects, update metadata and registry records first, then regenerate indexes. Do not edit generated files manually.
+For migrated research, rules, patterns, prompts, checklists, reference projects, and reviews, update metadata and registry records first, then regenerate indexes. Do not edit generated files manually.
 
 ## DesignLint Readiness
 
@@ -538,22 +559,21 @@ Machine-readable relationships should support:
 ## Strengths
 
 - Clear top-level graph: research, docs, rules, patterns, prompts, examples, benchmarks, and evidence.
-- Research, rules, patterns, and prompts now have generated indexes.
+- Research, rules, patterns, prompts, checklists, reference projects, and reviews now have generated indexes.
 - Patterns have a strict specification and template.
 - Benchmarks provide the current public validation mechanism.
 - Rules already reference source research.
 
 ## Weaknesses
 
-- Observations, reviews, checklists, and skills are not fully migrated to common metadata front matter.
-- Observation objects do not exist as first-class files.
-- Prompt and example indexes are generated but reference projects are intentionally empty for the first OSS release.
+- Observations are validated but not registry-backed.
+- The Todo App benchmark reference project is directional evidence only: it has no rendered output, screenshots, or independent evaluation.
 - Rules need severity, category normalization, and checklist naming.
-- Reviews are only lightly introduced as objects.
+- The first review validates benchmark evidence, not a rendered product surface.
 
 ## Technical Debt
 
-- Migrate observations, reviews, checklists, and skills to the metadata standard.
+- Decide when to migrate observations into the registry.
 - Decide which manual `INDEX.md` files should remain as human guides after generated navigation stabilizes.
 - Add future reference archetypes only after benchmark-backed public validation exists.
 - Expand generated indexes when more object metadata becomes enforceable.
@@ -562,17 +582,13 @@ Machine-readable relationships should support:
 ## Missing Architectural Pieces
 
 - Observation intake format.
-- Review object template.
 - Prompt specification.
 - Skill specification.
-- Checklist specification.
-- Machine-readable relationship validation.
 - DesignLint schema.
 
 ## Recommended Roadmap After Phase 5
 
-1. Phase 5.1: Metadata migration for templates and indexes.
-2. Phase 5.2: Prompt specification and prompt index.
-3. Phase 5.3: Review/checklist specification.
-4. Phase 5.4: Reference project specification.
-5. Phase 5.5: DesignLint schema prototype without lint rules.
+1. Phase 5.1: Migrate observations into the registry when intake volume justifies it.
+2. Phase 5.2: Add rendered, independently evaluated reference projects.
+3. Phase 5.3: Add schema validation in CI after the lightweight validator stabilizes.
+4. Phase 5.4: Prototype DesignLint without prose heuristics.

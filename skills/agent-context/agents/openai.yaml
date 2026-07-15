@@ -1,0 +1,4 @@
+interface:
+  display_name: "Agent Context"
+  short_description: "Resolve concise graph context for an implementation or review."
+  default_prompt: "Use the agent context CLI to gather graph-backed guidance for this task."

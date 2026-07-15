@@ -19,12 +19,25 @@ const requiredFields = [
 ];
 
 const idPrefixes = {
+  observation: 'OBS-',
   research: 'RESEARCH-',
   rule: 'RULE-',
   pattern: 'PAT-',
   prompt: 'PROMPT-',
+  checklist: 'CHECK-',
+  review: 'REVIEW-',
   reference_project: 'REF-',
 };
+
+const registryBackedObjectTypes = new Set([
+  'research',
+  'rule',
+  'pattern',
+  'prompt',
+  'checklist',
+  'review',
+  'reference_project',
+]);
 
 const allowedRelationshipTypes = new Set([
   'derived_from',
@@ -38,9 +51,29 @@ const allowedRelationshipTypes = new Set([
   'deprecated_by',
   'replaced_by',
 ]);
+const maturityLevels = new Set(['seed', 'reviewed', 'validated', 'canonical']);
 
 function readJson(filePath) {
   return JSON.parse(fs.readFileSync(path.join(root, filePath), 'utf8'));
+}
+
+function findDuplicateJsonKeyErrors(filePath) {
+  const raw = fs.readFileSync(path.join(root, filePath), 'utf8');
+  const errors = [];
+
+  for (const objectMatch of raw.matchAll(/\{([^{}]*)\}/g)) {
+    const keys = new Set();
+
+    for (const keyMatch of objectMatch[1].matchAll(/"([^"\\]+)"\s*:/g)) {
+      const key = keyMatch[1];
+      if (keys.has(key)) {
+        errors.push(`${filePath}: duplicate JSON key ${key}`);
+      }
+      keys.add(key);
+    }
+  }
+
+  return errors;
 }
 
 function collectMarkdownFiles(dir) {
@@ -71,6 +104,9 @@ function collectMarkdownFiles(dir) {
 
 function parseScalar(value) {
   const trimmed = value.trim();
+  if (trimmed === '[]') {
+    return [];
+  }
   if (
     (trimmed.startsWith('"') && trimmed.endsWith('"')) ||
     (trimmed.startsWith("'") && trimmed.endsWith("'"))
@@ -78,6 +114,26 @@ function parseScalar(value) {
     return trimmed.slice(1, -1);
   }
   return trimmed;
+}
+
+function validateSkillMetadata(filePath, metadata, errors) {
+  const skillName = path.basename(path.dirname(filePath));
+
+  if (metadata.name !== skillName) {
+    errors.push(`${filePath}: skill name must match directory ${skillName}`);
+  }
+
+  if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(metadata.name ?? '')) {
+    errors.push(`${filePath}: skill name must use lowercase kebab-case`);
+  }
+
+  if (typeof metadata.description !== 'string' || metadata.description.trim() === '') {
+    errors.push(`${filePath}: skill description must be a non-empty string`);
+  }
+}
+
+function relationshipKey(relationship) {
+  return `${relationship.type}:${relationship.source}:${relationship.target}`;
 }
 
 function parseFrontMatter(markdown, filePath) {
@@ -166,6 +222,28 @@ function validateMetadata(filePath, metadata, registryIds, errors) {
     errors.push(`${filePath}: tags must be a non-empty array`);
   }
 
+  if (!maturityLevels.has(metadata.maturity)) {
+    errors.push(`${filePath}: unsupported maturity ${metadata.maturity}`);
+  }
+
+  if (metadata.maturity === 'seed' && metadata.status !== 'draft') {
+    errors.push(`${filePath}: seed maturity requires draft status`);
+  }
+
+  if (['reviewed', 'validated', 'canonical'].includes(metadata.maturity)) {
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(metadata.last_reviewed_at ?? '')) {
+      errors.push(`${filePath}: ${metadata.maturity} maturity requires last_reviewed_at in YYYY-MM-DD format`);
+    }
+  }
+
+  if (['validated', 'canonical'].includes(metadata.maturity) && metadata.status !== 'active') {
+    errors.push(`${filePath}: ${metadata.maturity} maturity requires active status`);
+  }
+
+  if (metadata.maturity === 'canonical' && !/^[1-9]\d*\.\d+\.\d+$/.test(metadata.version ?? '')) {
+    errors.push(`${filePath}: canonical maturity requires a stable major version`);
+  }
+
   if (!Array.isArray(metadata.relationships)) {
     errors.push(`${filePath}: relationships must be an array`);
     return;
@@ -195,20 +273,30 @@ function validateMetadata(filePath, metadata, registryIds, errors) {
   }
 }
 
+const errors = [
+  ...findDuplicateJsonKeyErrors('registry/objects.json'),
+  ...findDuplicateJsonKeyErrors('registry/relationships.json'),
+];
 const registryObjects = readJson('registry/objects.json').objects;
 const registryRelationships = readJson('registry/relationships.json').relationships;
 const registryIds = new Set(registryObjects.map((object) => object.id));
 const registryByPath = new Map(registryObjects.map((object) => [object.path, object]));
 const files = [
+  ...collectMarkdownFiles('observations'),
   ...collectMarkdownFiles('research'),
   ...collectMarkdownFiles('rules'),
   ...collectMarkdownFiles('patterns'),
   ...collectMarkdownFiles('prompts'),
+  ...collectMarkdownFiles('checklists'),
+  ...collectMarkdownFiles('reviews'),
+  ...collectMarkdownFiles('examples'),
 ].sort();
-const errors = [];
+const skillFiles = collectMarkdownFiles('skills').filter((file) => path.basename(file) === 'SKILL.md').sort();
 const aliases = new Map();
 const slugs = new Map();
 const ids = new Map();
+const metadataById = new Map();
+const frontMatterRelationshipKeys = new Set();
 
 for (const filePath of files) {
   const markdown = fs.readFileSync(path.join(root, filePath), 'utf8');
@@ -222,6 +310,17 @@ for (const filePath of files) {
   }
 
   validateMetadata(filePath, metadata, registryIds, errors);
+  if (metadata.id) {
+    metadataById.set(metadata.id, { filePath, metadata });
+  }
+
+  for (const relationship of metadata.relationships) {
+    if (/^[A-Z]+-\d{5}$/.test(relationship.target)) {
+      frontMatterRelationshipKeys.add(
+        relationshipKey({ ...relationship, source: metadata.id }),
+      );
+    }
+  }
 
   for (const [map, keyName] of [
     [ids, 'id'],
@@ -239,6 +338,10 @@ for (const filePath of files) {
     }
   }
 
+  if (!registryBackedObjectTypes.has(metadata.object_type)) {
+    continue;
+  }
+
   const registryObject = registryByPath.get(filePath);
   if (!registryObject) {
     errors.push(`${filePath}: missing registry object`);
@@ -254,6 +357,63 @@ for (const filePath of files) {
   }
 }
 
+for (const filePath of skillFiles) {
+  const markdown = fs.readFileSync(path.join(root, filePath), 'utf8');
+
+  try {
+    validateSkillMetadata(filePath, parseFrontMatter(markdown, filePath), errors);
+  } catch (error) {
+    errors.push(error.message);
+  }
+}
+
+for (const [field, label] of [
+  ['id', 'id'],
+  ['alias', 'alias'],
+  ['slug', 'slug'],
+]) {
+  const values = new Map();
+
+  for (const object of registryObjects) {
+    const value = object[field];
+    if (values.has(value)) {
+      errors.push(
+        `registry/objects.json: duplicate ${label} ${value}; first seen in ${values.get(value)}`,
+      );
+    } else {
+      values.set(value, object.id);
+    }
+  }
+}
+
+for (const object of registryObjects) {
+  if (!registryBackedObjectTypes.has(object.object_type)) {
+    continue;
+  }
+
+  const filePath = ids.get(object.id);
+  if (!filePath) {
+    errors.push(`registry/objects.json: ${object.id} has no matching knowledge file`);
+  } else if (filePath !== object.path) {
+    errors.push(
+      `registry/objects.json: ${object.id} path is ${object.path}, expected ${filePath}`,
+    );
+  }
+}
+
+for (const [id, { filePath, metadata }] of metadataById) {
+  if (!registryBackedObjectTypes.has(metadata.object_type) || !['validated', 'canonical'].includes(metadata.maturity)) {
+    continue;
+  }
+
+  const hasValidationRelationship = registryRelationships.some(
+    (relationship) => relationship.type === 'validates' && (relationship.source === id || relationship.target === id),
+  );
+  if (!hasValidationRelationship) {
+    errors.push(`${filePath}: ${metadata.maturity} maturity requires a validates relationship`);
+  }
+}
+
 for (const relationship of registryRelationships) {
   if (!allowedRelationshipTypes.has(relationship.type)) {
     errors.push(`registry/relationships.json: unsupported relationship type ${relationship.type}`);
@@ -265,6 +425,20 @@ for (const relationship of registryRelationships) {
 
   if (!registryIds.has(relationship.target)) {
     errors.push(`registry/relationships.json: target ${relationship.target} is not in registry`);
+  }
+
+  if (!frontMatterRelationshipKeys.has(relationshipKey(relationship))) {
+    errors.push(
+      `registry/relationships.json: ${relationship.type} ${relationship.source} -> ${relationship.target} is missing from front matter`,
+    );
+  }
+}
+
+for (const relationshipKeyFromFrontMatter of frontMatterRelationshipKeys) {
+  if (!registryRelationships.some((relationship) => relationshipKey(relationship) === relationshipKeyFromFrontMatter)) {
+    errors.push(
+      `knowledge front matter: ${relationshipKeyFromFrontMatter} is missing from registry/relationships.json`,
+    );
   }
 }
 
@@ -295,8 +469,11 @@ const ruleCount = files.filter((file) => file.startsWith('rules/')).length;
 const patternCount = files.filter((file) => file.startsWith('patterns/')).length;
 const researchCount = files.filter((file) => file.startsWith('research/')).length;
 const promptCount = files.filter((file) => file.startsWith('prompts/')).length;
+const checklistCount = files.filter((file) => file.startsWith('checklists/')).length;
+const reviewCount = files.filter((file) => file.startsWith('reviews/')).length;
 const referenceProjectCount = files.filter((file) => file.startsWith('examples/')).length;
+const observationCount = files.filter((file) => file.startsWith('observations/')).length;
 
 console.log(
-  `Knowledge validation passed: ${researchCount} research, ${ruleCount} rules, ${patternCount} patterns, ${promptCount} prompts, ${referenceProjectCount} reference projects.`,
+  `Knowledge validation passed: ${observationCount} observations, ${researchCount} research, ${ruleCount} rules, ${patternCount} patterns, ${promptCount} prompts, ${checklistCount} checklists, ${reviewCount} reviews, ${referenceProjectCount} reference projects, ${skillFiles.length} skills.`,
 );

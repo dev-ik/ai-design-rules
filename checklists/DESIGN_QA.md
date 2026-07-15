@@ -1,3 +1,47 @@
+---
+id: CHECK-00001
+alias: CHECK-DESIGN-QA
+slug: design-qa
+title: Design QA Checklist
+object_type: checklist
+status: draft
+version: 0.1.0
+category: design-qa
+tags:
+  - checklist
+  - review
+  - design-qa
+maturity: seed
+risk_level: medium
+relationships:
+  - type: related_to
+    target: RULE-00001
+  - type: related_to
+    target: RULE-00002
+  - type: related_to
+    target: RULE-00003
+  - type: related_to
+    target: RULE-00004
+  - type: related_to
+    target: RULE-00005
+  - type: related_to
+    target: RULE-00006
+  - type: related_to
+    target: RULE-00007
+  - type: related_to
+    target: RULE-00008
+  - type: related_to
+    target: RULE-00009
+  - type: related_to
+    target: RULE-00010
+  - type: related_to
+    target: RULE-00011
+  - type: related_to
+    target: RULE-00012
+  - type: related_to
+    target: RULE-00013
+---
+
 # Design QA Checklist
 
 Use this checklist after applying research, rules, and patterns.
@@ -13,6 +57,10 @@ Use this checklist after applying research, rules, and patterns.
 - `UX-003` - Can users inspect without losing context?
 - `VIS-001` - Are semantic tokens used for visual decisions?
 - `A11Y-001` - Are touch targets at least 44x44 CSS pixels?
+- `A11Y-002` - Are validation errors specific, textual, and recoverable?
+- `A11Y-003` - Does every keyboard-operable control retain visible focus?
+- `A11Y-004` - When non-essential motion exists, can users reduce or disable it?
+- `PERF-001` - Does asynchronous content preserve surrounding layout geometry?
 
 ## Pattern Coverage
 
@@ -27,4 +75,11 @@ Use this checklist after applying research, rules, and patterns.
 - Primary and secondary actions are visually distinct.
 - Empty, loading, error, success, and disabled states are accounted for.
 - Mobile layout works at 390px width.
-- Accessibility basics are present: labels, focus, contrast, and target size.
+- Accessibility basics are present: labels, focus, contrast, target size, and textual error recovery.
+- State changes avoid unexpected layout shifts.
+- Motion, when present, has a reduced-motion equivalent.
+
+## Evidence Boundary
+
+- Mark unrendered, unmeasured, or untested behavior as a gap rather than a pass.
+- Cite the reviewed artifact, prompt, reference project, or benchmark evidence in the resulting review object.

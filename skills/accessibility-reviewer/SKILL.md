@@ -1,3 +1,8 @@
+---
+name: accessibility-reviewer
+description: Review accessibility of product UI and interaction states. Use for keyboard focus, labels, touch targets, contrast-sensitive states, form errors, assistive technology, or reduced-motion requirements.
+---
+
 # Accessibility Reviewer Skill
 
 ## Role
@@ -77,6 +82,9 @@ Ensure AI-generated designs remain usable with keyboard, assistive technology, r
 - `RULE-00007` / `UX-003` Preserve Context During Inspection
 - `RULE-00008` / `VIS-001` Semantic Tokens Only
 - `RULE-00009` / `A11Y-001` 44x44 Touch Targets
+- `RULE-00010` / `A11Y-002` Textual Input Error Recovery
+- `RULE-00012` / `A11Y-003` Visible Keyboard Focus
+- `RULE-00013` / `A11Y-004` Reduce Non-Essential Interaction Motion
 
 ## Related Patterns
 

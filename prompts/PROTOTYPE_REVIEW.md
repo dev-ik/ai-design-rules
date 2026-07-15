@@ -14,35 +14,35 @@ tags:
 maturity: seed
 risk_level: medium
 relationships:
-  - type: requires
+  - type: related_to
     target: PAT-00001
-  - type: requires
+  - type: related_to
     target: PAT-00002
-  - type: requires
+  - type: related_to
     target: PAT-00003
-  - type: requires
+  - type: related_to
     target: PAT-00004
-  - type: requires
+  - type: related_to
     target: PAT-00005
-  - type: requires
+  - type: related_to
     target: PAT-00006
-  - type: requires
+  - type: related_to
     target: RULE-00001
-  - type: requires
+  - type: related_to
     target: RULE-00002
-  - type: requires
+  - type: related_to
     target: RULE-00003
-  - type: requires
+  - type: related_to
     target: RULE-00004
-  - type: requires
+  - type: related_to
     target: RULE-00005
-  - type: requires
+  - type: related_to
     target: RULE-00006
-  - type: requires
+  - type: related_to
     target: RULE-00007
-  - type: requires
+  - type: related_to
     target: RULE-00008
-  - type: requires
+  - type: related_to
     target: RULE-00009
 ---
 

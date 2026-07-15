@@ -1,3 +1,8 @@
+---
+name: visual-designer
+description: Review or refine visual hierarchy in product UI. Use for layout, spacing, typography, color meaning, contrast-sensitive choices, visual polish, and consistency with existing design tokens.
+---
+
 # Visual Designer Skill
 
 ## Role

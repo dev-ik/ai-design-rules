@@ -1,8 +1,8 @@
 # Skills
 
-AI Design Rules skills are reusable agent workflows.
+AI Design Rules skills are reusable Codex agent workflows. Every `skills/*/SKILL.md` has standalone Codex metadata (`name` and a trigger-rich `description`) in addition to its workflow body.
 
-They are not design rules, patterns, prompts, or registry objects yet. Skill metadata migration is deferred until explicitly requested.
+They are not design rules, patterns, prompts, or registry objects yet. Knowledge-graph registry migration is deferred until explicitly requested.
 
 Use skills as an agent design team:
 
@@ -19,12 +19,18 @@ Use skills as an agent design team:
 | `accessibility-reviewer` | Labels, focus, target size, contrast, errors, and reduced motion. |
 | `performance-reviewer` | Perceived performance, loading behavior, responsiveness, and layout stability. |
 | `design-reviewer` | Final design QA and rule/pattern traceability review. |
+| `design-evidence-researcher` | Evidence intake, observations, research synthesis, and knowledge-gap identification. |
+| `agent-context` | Read-only graph context retrieval for an implementation or review target. |
 | `prompt-architect` | Graph-backed prompt structure and output contracts. |
 | `knowledge-graph-architect` | Schema, registry, generated indexes, relationships, and validation scope. |
 
 ## Routing
 
 Start with `product-designer` when product intent is unclear.
+
+Use `agent-context` first when the task needs a focused subset of graph objects before routing to a specialist skill.
+
+Use `design-evidence-researcher` before adding a rule, pattern, prompt, or skill when upstream evidence is missing.
 
 Use `information-architect` before screen layout when object structure is unclear.
 

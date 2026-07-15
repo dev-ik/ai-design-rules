@@ -1,3 +1,8 @@
+---
+name: product-designer
+description: Frame product direction for consumer workflows. Use when a feature needs a user goal, primary action, core object model, state coverage, or research-backed pattern selection before UI design.
+---
+
 # Product Designer Skill
 
 ## Role

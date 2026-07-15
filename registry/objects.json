@@ -169,6 +169,54 @@
       "path": "rules/accessibility/A11Y-001.md"
     },
     {
+      "id": "RESEARCH-00006",
+      "alias": "TEXTUAL-ERROR-RECOVERY",
+      "slug": "textual-error-recovery",
+      "title": "Textual Error Recovery",
+      "object_type": "research",
+      "status": "draft",
+      "version": "0.1.0",
+      "category": "accessibility",
+      "maturity": "seed",
+      "path": "research/accessibility/textual-error-recovery.md"
+    },
+    {
+      "id": "RESEARCH-00007",
+      "alias": "RESERVED-LOADING-SPACE",
+      "slug": "reserved-loading-space",
+      "title": "Reserved Loading Space",
+      "object_type": "research",
+      "status": "draft",
+      "version": "0.1.0",
+      "category": "performance",
+      "maturity": "seed",
+      "path": "research/performance/reserved-loading-space.md"
+    },
+    {
+      "id": "RULE-00010",
+      "alias": "A11Y-002",
+      "slug": "textual-input-error-recovery",
+      "title": "Textual Input Error Recovery",
+      "object_type": "rule",
+      "status": "draft",
+      "version": "0.1.0",
+      "category": "accessibility",
+      "maturity": "seed",
+      "path": "rules/accessibility/A11Y-002.md"
+    },
+    {
+      "id": "RULE-00011",
+      "alias": "PERF-001",
+      "slug": "reserve-layout-space-for-asynchronous-content",
+      "title": "Reserve Layout Space For Asynchronous Content",
+      "object_type": "rule",
+      "status": "draft",
+      "version": "0.1.0",
+      "category": "performance",
+      "maturity": "seed",
+      "path": "rules/performance/PERF-001.md"
+    },
+    {
       "id": "PAT-00001",
       "alias": "PAT-001",
       "slug": "daily-home-surface",
@@ -251,6 +299,126 @@
       "category": "review",
       "maturity": "seed",
       "path": "prompts/PROTOTYPE_REVIEW.md"
+    },
+    {
+      "id": "PROMPT-00003",
+      "alias": "PROMPT-TODO-BENCHMARK",
+      "slug": "todo-app-benchmark",
+      "title": "Todo App Benchmark Prompt",
+      "object_type": "prompt",
+      "status": "draft",
+      "version": "0.1.0",
+      "category": "generation",
+      "maturity": "seed",
+      "path": "prompts/TODO_APP_BENCHMARK.md"
+    },
+    {
+      "id": "RESEARCH-00008",
+      "alias": "KEYBOARD-FOCUS-AND-MOTION",
+      "slug": "keyboard-focus-and-interaction-motion",
+      "title": "Keyboard Focus And Interaction Motion",
+      "object_type": "research",
+      "status": "draft",
+      "version": "0.1.0",
+      "category": "accessibility",
+      "maturity": "seed",
+      "path": "research/accessibility/keyboard-focus-and-interaction-motion.md"
+    },
+    {
+      "id": "RULE-00012",
+      "alias": "A11Y-003",
+      "slug": "visible-keyboard-focus",
+      "title": "Visible Keyboard Focus",
+      "object_type": "rule",
+      "status": "draft",
+      "version": "0.1.0",
+      "category": "accessibility",
+      "maturity": "seed",
+      "path": "rules/accessibility/A11Y-003.md"
+    },
+    {
+      "id": "RULE-00013",
+      "alias": "A11Y-004",
+      "slug": "reduce-non-essential-interaction-motion",
+      "title": "Reduce Non-Essential Interaction Motion",
+      "object_type": "rule",
+      "status": "draft",
+      "version": "0.1.0",
+      "category": "accessibility",
+      "maturity": "seed",
+      "path": "rules/accessibility/A11Y-004.md"
+    },
+    {
+      "id": "PROMPT-00004",
+      "alias": "PROMPT-QUICK-CAPTURE-STATE-REVIEW",
+      "slug": "quick-capture-state-review",
+      "title": "Quick Capture State Review Prompt",
+      "object_type": "prompt",
+      "status": "draft",
+      "version": "0.1.0",
+      "category": "review",
+      "maturity": "seed",
+      "path": "prompts/QUICK_CAPTURE_STATE_REVIEW.md"
+    },
+    {
+      "id": "CHECK-00001",
+      "alias": "CHECK-DESIGN-QA",
+      "slug": "design-qa",
+      "title": "Design QA Checklist",
+      "object_type": "checklist",
+      "status": "draft",
+      "version": "0.1.0",
+      "category": "design-qa",
+      "maturity": "seed",
+      "path": "checklists/DESIGN_QA.md"
+    },
+    {
+      "id": "PROMPT-00005",
+      "alias": "PROMPT-DESIGN-EVIDENCE-REVIEW",
+      "slug": "design-evidence-review",
+      "title": "Design Evidence Review Prompt",
+      "object_type": "prompt",
+      "status": "draft",
+      "version": "0.1.0",
+      "category": "review",
+      "maturity": "seed",
+      "path": "prompts/DESIGN_EVIDENCE_REVIEW.md"
+    },
+    {
+      "id": "REVIEW-00001",
+      "alias": "REVIEW-TODO-BENCHMARK",
+      "slug": "todo-app-benchmark-reference-review",
+      "title": "Todo App Benchmark Reference Review",
+      "object_type": "review",
+      "status": "draft",
+      "version": "0.1.0",
+      "category": "reference-eval",
+      "maturity": "seed",
+      "path": "reviews/todo-app-benchmark-reference-review.md"
+    },
+    {
+      "id": "REVIEW-00002",
+      "alias": "REVIEW-TODO-RUNNABLE-FIXTURE",
+      "slug": "todo-reference-fixture-review",
+      "title": "Todo Runnable Fixture Review",
+      "object_type": "review",
+      "status": "draft",
+      "version": "0.1.0",
+      "category": "reference-eval",
+      "maturity": "seed",
+      "path": "reviews/todo-reference-fixture-review.md"
+    },
+    {
+      "id": "REF-00001",
+      "alias": "REF-TODO-BENCHMARK",
+      "slug": "todo-app-benchmark-reference",
+      "title": "Todo App Benchmark Reference Project",
+      "object_type": "reference_project",
+      "status": "draft",
+      "version": "0.1.0",
+      "category": "consumer",
+      "maturity": "reviewed",
+      "path": "examples/todo-app-benchmark.md"
     }
   ]
 }

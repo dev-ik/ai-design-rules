@@ -26,9 +26,17 @@ relationships:
 
 # Review Title
 
+## Verdict
+
+PASS or NEEDS WORK.
+
 ## Scope
 
 What object or product surface is being reviewed?
+
+## Evidence Reviewed
+
+- Artifact, benchmark output, screenshot, implementation, or evaluation note.
 
 ## Findings
 
@@ -41,3 +49,7 @@ What object or product surface is being reviewed?
 ## Recommendations
 
 - Recommendation.
+
+## Handoff
+
+- Exact follow-up evidence, owner, or knowledge update required.

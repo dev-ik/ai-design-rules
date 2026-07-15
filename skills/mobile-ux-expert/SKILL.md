@@ -1,3 +1,8 @@
+---
+name: mobile-ux-expert
+description: Design or review touch-first mobile product behavior. Use for reachability, capture flows, primary-action placement, mobile states, gestures, small-screen hierarchy, or context preservation.
+---
+
 # Mobile UX Expert Skill
 
 ## Role

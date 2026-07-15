@@ -82,7 +82,7 @@ The repository is built as a **schema-first knowledge graph** for both humans an
 - AI agent skills
 - Validation tooling
 - Benchmark framework
-- Foundation for future DesignLint tooling
+- DesignLint v0 for evidence-chain relationship checks
 
 ---
 
@@ -125,6 +125,24 @@ npm run check
 ```
 
 This command validates metadata, relationships, generated indexes, and the repository knowledge graph.
+
+For focused checks:
+
+```bash
+npm run lint:design
+npm run benchmark:validate
+```
+
+The benchmark validator checks raw evidence completeness and distinguishes directional runs from rendered runs with local visual artifacts. It never treats scores alone as proof of product quality.
+
+Ask the graph for task-specific context instead of reading every index manually:
+
+```bash
+npm run context -- --task quick-capture --platform mobile
+npm run context -- --review examples/todo-reference
+```
+
+Use `--format json` when another agent or script will consume the result. See `docs/AGENT_CONTEXT.md` for the object-resolution and evidence-boundary contract.
 
 ---
 
@@ -207,7 +225,7 @@ See `CHANGELOG.md` for release history.
 
 - Expanded benchmark evidence
 - Public reference archetypes
-- DesignLint
+- Expanded DesignLint semantics
 - IDE integrations
 - MCP integrations
 - Community-driven rule evolution

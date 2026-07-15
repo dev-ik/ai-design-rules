@@ -37,7 +37,8 @@ The reviewer should not reward an output for mentioning AI Design Rules. Reward 
 5. Keep model, temperature, context window, tool access, and implementation target the same.
 6. Review both outputs using `docs/EVALUATION_RUBRIC.md`.
 7. Store prompts, outputs, screenshots or links, evaluator notes, and scores in `evidence/`.
-8. Report aggregate score and per-category differences.
+8. Declare `evidence_level` as `directional` or `rendered` in both run metadata files, then run `npm run benchmark:validate`.
+9. Report aggregate score and per-category differences.
 
 ## Required Run Metadata
 
@@ -58,6 +59,8 @@ Each benchmark run must record:
 - links to generated outputs.
 
 If this metadata is missing, the result is not reproducible enough to count.
+
+`rendered` runs must list at least one repository-local screenshot file for both baseline and AI Design Rules outputs. Preview links can be supplementary, but do not replace stored visual evidence. `directional` runs remain useful for learning but must record their limitation.
 
 ## Scoring Model
 

@@ -1,8 +1,8 @@
 # Examples Index
 
-Reference projects are intentionally omitted from the first OSS release.
+Reference projects use generic product archetypes and benchmark-backed evidence.
 
-Future reference projects will use generic product archetypes and benchmark-backed evidence.
+The Todo App Benchmark Reference Project is a `draft` / `seed` object backed by one directional benchmark run. It is not a production or general-quality claim.
 
 Use `examples/GENERATED_INDEX.md` for registry-backed reference project navigation. It may be empty until public reference archetypes are added.
 

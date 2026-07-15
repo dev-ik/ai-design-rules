@@ -1,3 +1,8 @@
+---
+name: interaction-designer
+description: Design and review interaction mechanics for product flows. Use for feedback, state transitions, recovery, previews, confirmations, loading behavior, and context-preserving interactions.
+---
+
 # Interaction Designer Skill
 
 ## Role

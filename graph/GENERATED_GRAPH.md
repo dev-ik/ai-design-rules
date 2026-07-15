@@ -6,18 +6,24 @@ This file is generated from registry metadata. Do not edit manually.
 
 | Object Type | Count |
 | --- | --- |
+| checklist | 1 |
 | pattern | 6 |
-| prompt | 1 |
-| research | 5 |
-| rule | 9 |
+| prompt | 4 |
+| reference_project | 1 |
+| research | 8 |
+| review | 2 |
+| rule | 13 |
 
 ## Relationship Counts By Type
 
 | Relationship Type | Count |
 | --- | --- |
-| derived_from | 24 |
-| related_to | 8 |
-| requires | 38 |
+| cites | 1 |
+| derived_from | 28 |
+| implements | 9 |
+| related_to | 36 |
+| requires | 51 |
+| validates | 9 |
 
 ## Orphan Objects
 
@@ -35,7 +41,7 @@ None
 
 None
 
-## Prompts Without Required Patterns Or Rules
+## Prompts Without Knowledge References
 
 None
 
@@ -45,16 +51,16 @@ None
 
 ## Most Connected Objects
 
+- PROMPT-TODO-BENCHMARK / PROMPT-00003 Todo App Benchmark Prompt: 18
+- CHECK-DESIGN-QA / CHECK-00001 Design QA Checklist: 16
+- REF-TODO-BENCHMARK / REF-00001 Todo App Benchmark Reference Project: 16
+- PAT-002 / PAT-00002 Quick Capture: 15
 - PROMPT-PROTOTYPE-REVIEW / PROMPT-00002 Prototype Review Prompt: 15
-- PAT-006 / PAT-00006 Object Status List: 9
-- A11Y-001 / RULE-00009 44x44 Touch Targets: 9
-- PAT-002 / PAT-00002 Quick Capture: 8
-- PAT-001 / PAT-00001 Daily Home Surface: 7
-- PAT-003 / PAT-00003 Mobile Primary Action: 7
-- PAT-004 / PAT-00004 Progressive Detail: 7
-- PAT-005 / PAT-00005 Context-Preserving Preview: 7
-- THINGS-3 / RESEARCH-00002 Things 3: 7
-- UX-002 / RULE-00006 Progressively Disclose Power: 7
+- PAT-006 / PAT-00006 Object Status List: 12
+- A11Y-001 / RULE-00009 44x44 Touch Targets: 12
+- PAT-005 / PAT-00005 Context-Preserving Preview: 11
+- PAT-001 / PAT-00001 Daily Home Surface: 10
+- PAT-003 / PAT-00003 Mobile Primary Action: 10
 
 ## Patterns Without Required Rules
 

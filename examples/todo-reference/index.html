@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Runnable Todo reference fixture for visual and interaction QA." />
+    <title>Today — Todo reference fixture</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="content-column">
+      <header class="app-header">
+        <div>
+          <p class="eyebrow">Tuesday, 14 July</p>
+          <h1>Today</h1>
+        </div>
+        <button class="icon-button" type="button" data-action="toggle-empty" aria-pressed="false" aria-label="Show empty state">
+          <span aria-hidden="true">⌁</span>
+        </button>
+      </header>
+
+      <section class="summary" aria-label="Today summary">
+        <p><strong id="remaining-count">3</strong> tasks left</p>
+        <p id="progress-copy">A clear plan for the day.</p>
+      </section>
+
+      <form class="quick-capture" data-capture-form novalidate>
+        <label class="sr-only" for="task-title">Add a task</label>
+        <input id="task-title" name="task-title" type="text" autocomplete="off" placeholder="What needs doing?" aria-describedby="capture-error" />
+        <button type="submit" data-add-task>Add task</button>
+        <p id="capture-error" class="form-error" role="alert" hidden></p>
+      </form>
+
+      <section class="task-surface" aria-labelledby="task-list-heading" aria-busy="false">
+        <div class="section-heading">
+          <h2 id="task-list-heading">Your tasks</h2>
+          <span id="save-status" class="save-status" aria-live="polite"></span>
+        </div>
+        <ul class="task-list" data-task-list></ul>
+        <div class="empty-state" data-empty-state hidden>
+          <span class="empty-icon" aria-hidden="true">✓</span>
+          <h2>Your day is clear</h2>
+          <p>Add the first small thing you want to remember.</p>
+          <button type="button" data-action="focus-capture">Add a task</button>
+        </div>
+      </section>
+      </section>
+
+      <aside class="detail-panel" data-detail-panel aria-labelledby="detail-heading" hidden>
+        <div class="detail-header">
+          <p class="eyebrow">Task details</p>
+          <button class="icon-button" type="button" data-action="close-detail" aria-label="Close task details">×</button>
+        </div>
+        <h2 id="detail-heading"></h2>
+        <dl class="detail-list">
+          <div><dt>Status</dt><dd data-detail-status></dd></div>
+          <div><dt>When</dt><dd data-detail-date>Today</dd></div>
+          <div><dt>Notes</dt><dd>Optional details stay here, not in the list.</dd></div>
+        </dl>
+        <button type="button" class="secondary-button" data-action="complete-detail">Mark complete</button>
+      </aside>
+    </main>
+    <script type="module" src="app.js"></script>
+  </body>
+</html>

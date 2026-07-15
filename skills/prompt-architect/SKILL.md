@@ -1,3 +1,8 @@
+---
+name: prompt-architect
+description: Create or review graph-backed prompts for design agents. Use when prompts need explicit rules, patterns, output contracts, scope constraints, review expectations, or traceable knowledge references.
+---
+
 # Prompt Architect Skill
 
 ## Role

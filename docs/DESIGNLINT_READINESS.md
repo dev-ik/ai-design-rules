@@ -1,8 +1,8 @@
 # DesignLint Readiness
 
-DesignLint is not implemented yet.
+DesignLint v0 is implemented as a small, deterministic relationship checker.
 
-This document defines what the future tool should consume and what validation becomes possible after metadata migration.
+This document defines its current scope and the richer validation that can follow metadata migration.
 
 ## Inputs
 
@@ -33,7 +33,26 @@ DesignLint requires stable metadata:
 
 Optional metadata such as `platform`, `product_type`, `surface`, `applies_to`, and `does_not_apply_to` will improve context matching.
 
-## Possible Validation
+## DesignLint v0
+
+Run it with:
+
+```bash
+npm run lint:design
+```
+
+It reads only registered objects and typed registry relationships. It fails when:
+
+- a rule has no upstream research via `derived_from` or `inspired_by`;
+- a pattern does not `require` a rule;
+- a prompt has no pattern, rule, or checklist reference;
+- a checklist has no rule or pattern coverage;
+- a reference project does not implement a prompt and validate a prompt or pattern;
+- a review does not require a checklist and validate a knowledge object.
+
+It does not judge prose, visual quality, or whether a relationship is substantively well chosen. `npm run validate` remains responsible for synchronizing registry relationships with front matter.
+
+## Future Validation
 
 With the schema-first foundation, DesignLint can later validate:
 
@@ -57,28 +76,28 @@ With the schema-first foundation, DesignLint can later validate:
 
 It currently validates:
 
-- YAML front matter on migrated research, rules, patterns, prompts, and reference projects;
+- YAML front matter on migrated research, rules, patterns, prompts, checklists, reviews, and reference projects;
 - required metadata fields;
 - object ID prefixes for migrated object types;
 - unique aliases and slugs within the migrated set;
 - registry coverage for migrated files;
 - registry relationship source and target IDs;
-- front matter relationship targets that point to registered IDs or existing files.
+- front matter relationship targets that point to registered IDs or existing files;
+- duplicate IDs, aliases, slugs, and raw JSON keys;
+- local Codex skill metadata and generated-index freshness.
 
-This is not DesignLint. It is a migration guard for the minimal registry-backed chain.
+This is a metadata migration guard. It complements DesignLint v0 rather than replacing it.
 
 ## Not Implemented Yet
 
 The current repository does not yet include:
 
-- DesignLint runtime;
-- CLI commands;
-- generated indexes beyond the minimal migrated chain;
-- full front matter migration beyond research, rules, patterns, prompts, and reference projects;
+- registry-backed observations;
 - schema validation in CI;
 - graph traversal;
 - stale-object detection;
-- duplicate-object detection.
+- relationship-quality evaluation;
+- visual or runtime product evaluation.
 
 ## Readiness Standard
 

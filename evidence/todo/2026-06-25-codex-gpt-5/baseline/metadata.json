@@ -11,6 +11,7 @@
     "shell validation"
   ],
   "implementation_target": "Markdown UI artifact",
+  "evidence_level": "directional",
   "screenshots": "not captured",
   "limitation": "The run was generated inside an active repository context, so the baseline is not perfectly isolated from prior conversation context."
 }

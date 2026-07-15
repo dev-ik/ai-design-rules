@@ -11,6 +11,7 @@
     "shell validation"
   ],
   "implementation_target": "Markdown UI artifact",
+  "evidence_level": "directional",
   "screenshots": "not captured",
   "rules_context": [
     "PRD-001",

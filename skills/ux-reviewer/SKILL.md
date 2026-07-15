@@ -1,3 +1,8 @@
+---
+name: ux-reviewer
+description: Review product journeys for usability and friction. Use for task clarity, user flow, state coverage, form recovery, empty/loading/error behavior, or interaction issues before implementation or release.
+---
+
 # UX Reviewer Skill
 
 ## Role

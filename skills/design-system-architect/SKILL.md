@@ -1,3 +1,8 @@
+---
+name: design-system-architect
+description: Define or review reusable UI tokens, components, and state behavior. Use when a task affects semantic tokens, component boundaries, design-system consistency, or cross-screen UI reuse.
+---
+
 # Design System Architect Skill
 
 ## Role

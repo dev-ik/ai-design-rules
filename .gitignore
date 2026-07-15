@@ -1,4 +1,7 @@
 .history/
-.github/
+.github/ISSUE_TEMPLATE/
+.github/PULL_REQUEST_TEMPLATE.md
 node_modules/
 .DS_Store
+output/playwright/
+.playwright-cli/

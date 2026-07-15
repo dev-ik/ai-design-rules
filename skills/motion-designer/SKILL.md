@@ -1,3 +1,8 @@
+---
+name: motion-designer
+description: Design or review purposeful UI motion. Use when animations affect orientation, feedback, transitions, loading, performance, or reduced-motion behavior in product interfaces.
+---
+
 # Motion Designer Skill
 
 ## Role
@@ -73,6 +78,7 @@ Use motion only when it clarifies continuity, preserves context, or explains sta
 - `RULE-00006` / `UX-002` Progressively Disclose Power
 - `RULE-00007` / `UX-003` Preserve Context During Inspection
 - `RULE-00009` / `A11Y-001` 44x44 Touch Targets
+- `RULE-00013` / `A11Y-004` Reduce Non-Essential Interaction Motion
 
 ## Related Patterns
 

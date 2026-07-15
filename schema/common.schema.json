@@ -76,6 +76,7 @@
       "type": "string",
       "enum": [
         "seed",
+        "reviewed",
         "validated",
         "canonical"
       ]

@@ -20,6 +20,17 @@ Every benchmark result should include:
 - completed evaluation rubric;
 - evaluator notes.
 
+Validate all stored runs with:
+
+```bash
+npm run benchmark:validate
+```
+
+## Evidence Levels
+
+- `directional`: raw prompts, outputs, scorecards, and evaluator notes are present, but the implementation is not rendered or has no local visual evidence. It must not be described as proof of product quality.
+- `rendered`: both comparison outputs are runnable or rendered, and each run stores at least one local screenshot path. The harness verifies that the declared files exist; it does not score pixels or certify a result as production-ready.
+
 Suggested structure:
 
 ```text

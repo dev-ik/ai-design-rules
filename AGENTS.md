@@ -44,6 +44,22 @@ Use it as the source of truth for:
 - Do not add prompts that invent design advice outside rules and patterns.
 - Do not treat reference projects as demos; use them to validate the graph.
 
+## Agent Context Retrieval
+
+Before planning or changing a user-facing product, UX, UI, accessibility, motion, or prompt task, resolve focused graph context:
+
+```bash
+npm run context -- --task <task-slug-or-phrase> --intent implement
+```
+
+Add `--platform mobile` when narrow-screen behavior matters. Before reviewing an implementation, reference fixture, benchmark artifact, or prompt output, use:
+
+```bash
+npm run context -- --review <path-or-object-id> --intent qa
+```
+
+Read the returned research and rules before making product decisions. Treat `draft` and `seed` objects as bounded guidance. If no context resolves, record an observation or research need rather than inventing a rule. Skip the command for backend-only, infrastructure-only, or unrelated maintenance tasks.
+
 ## Knowledge Objects
 
 - Observation
@@ -75,6 +91,7 @@ Use them when the task matches their role:
 - `skills/design-reviewer/SKILL.md` for design QA, traceability checks, and rule/pattern coverage review.
 - `skills/prompt-architect/SKILL.md` for graph-backed prompt structure and output contracts.
 - `skills/knowledge-graph-architect/SKILL.md` for schema, registry, generated indexes, relationships, and validation scope.
+- `skills/agent-context/SKILL.md` for focused graph retrieval before implementation or review.
 
 These skill files are not registered knowledge objects yet. Do not add them to `registry/objects.json` until skill metadata migration is explicitly requested.
 

@@ -1,3 +1,8 @@
+---
+name: design-reviewer
+description: Run final design QA for product proposals, prototypes, or implemented UI. Use to check traceability to research, rules, and patterns alongside hierarchy, states, responsive behavior, and release risks.
+---
+
 # Design Reviewer Skill
 
 ## Role
@@ -81,6 +86,10 @@ PASS or NEEDS WORK
 - `RULE-00007` / `UX-003` Preserve Context During Inspection
 - `RULE-00008` / `VIS-001` Semantic Tokens Only
 - `RULE-00009` / `A11Y-001` 44x44 Touch Targets
+- `RULE-00010` / `A11Y-002` Textual Error Recovery
+- `RULE-00011` / `PERF-001` Reserve Space For Async Content
+- `RULE-00012` / `A11Y-003` Visible Keyboard Focus
+- `RULE-00013` / `A11Y-004` Reduce Non-Essential Interaction Motion
 
 ## Related Patterns
 
@@ -90,6 +99,11 @@ PASS or NEEDS WORK
 - `PAT-00004` / `PAT-004` Progressive Detail
 - `PAT-00005` / `PAT-005` Context-Preserving Preview
 - `PAT-00006` / `PAT-006` Object Status List
+
+## Related Checklist And Prompt
+
+- `CHECK-00001` / `CHECK-DESIGN-QA` Design QA Checklist
+- `PROMPT-00005` / `PROMPT-DESIGN-EVIDENCE-REVIEW` Design Evidence Review Prompt
 
 ## Handoff To Other Skills
 

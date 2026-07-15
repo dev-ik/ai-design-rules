@@ -1,0 +1,4 @@
+interface:
+  display_name: "Design Evidence Researcher"
+  short_description: "Turn source evidence into design knowledge"
+  default_prompt: "Use $design-evidence-researcher to turn these sources into observations and research."

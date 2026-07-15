@@ -6,9 +6,11 @@ Use reviews to evaluate research, rules, patterns, prompts, reference projects, 
 
 ## Object Format
 
-Review objects should follow `schema/review.schema.json`.
+Review objects should follow `schema/review.schema.json` and be registered in `registry/objects.json` with typed relationships in `registry/relationships.json`.
 
 Use `templates/REVIEW_TEMPLATE.md` for new reviews.
+
+Use `reviews/GENERATED_INDEX.md` to discover migrated reviews. The Todo benchmark review is deliberately `NEEDS WORK`: it records evidence limits rather than implying that directional benchmark output is proof of product quality.
 
 ## Graph Role
 

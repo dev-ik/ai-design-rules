@@ -1,0 +1,7 @@
+# Generated Checklists Index
+
+This file is generated from registry metadata. Do not edit manually.
+
+| ID | Alias | Title | Category | Status | Maturity | File Path | Rule Coverage | Used By |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| CHECK-00001 | CHECK-DESIGN-QA | Design QA Checklist | design-qa | draft | seed | checklists/DESIGN_QA.md | related_to: PRD-001 / RULE-00001 Daily Actions First<br>related_to: PRD-002 / RULE-00002 Low-Friction Capture Before Organization<br>related_to: IA-001 / RULE-00003 One Stable Home Surface<br>related_to: IA-002 / RULE-00004 Define The Object Model Before Screens<br>related_to: UX-001 / RULE-00005 Thumb-Zone Primary Actions<br>related_to: UX-002 / RULE-00006 Progressively Disclose Power<br>related_to: UX-003 / RULE-00007 Preserve Context During Inspection<br>related_to: VIS-001 / RULE-00008 Semantic Tokens Only<br>related_to: A11Y-001 / RULE-00009 44x44 Touch Targets<br>related_to: A11Y-002 / RULE-00010 Textual Input Error Recovery<br>related_to: PERF-001 / RULE-00011 Reserve Layout Space For Asynchronous Content<br>related_to: A11Y-003 / RULE-00012 Visible Keyboard Focus<br>related_to: A11Y-004 / RULE-00013 Reduce Non-Essential Interaction Motion | requires: PROMPT-DESIGN-EVIDENCE-REVIEW / PROMPT-00005 Design Evidence Review Prompt<br>requires: REVIEW-TODO-BENCHMARK / REVIEW-00001 Todo App Benchmark Reference Review<br>requires: REVIEW-TODO-RUNNABLE-FIXTURE / REVIEW-00002 Todo Runnable Fixture Review |

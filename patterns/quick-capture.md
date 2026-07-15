@@ -21,6 +21,12 @@ relationships:
     target: RULE-00006
   - type: requires
     target: RULE-00009
+  - type: requires
+    target: RULE-00010
+  - type: requires
+    target: RULE-00011
+  - type: requires
+    target: RULE-00012
   - type: related_to
     target: PAT-00003
 ---
@@ -60,6 +66,12 @@ Everyday consumer workflows where speed matters more than complete metadata at c
 ## Accessibility Rules
 
 - `A11Y-001` 44x44 Touch Targets
+- `A11Y-002` Textual Input Error Recovery
+- `A11Y-003` Visible Keyboard Focus
+
+## Performance Rules
+
+- `PERF-001` Reserve Layout Space For Asynchronous Content
 
 ## Mobile Behavior
 
@@ -75,11 +87,11 @@ Show the create action and one concise cue for what can be captured.
 
 ## Loading State
 
-Preserve entered content and show saving progress without moving the input.
+Preserve entered content, reserve the same input and row geometry, and show saving progress without moving the input or nearby actions.
 
 ## Error State
 
-Keep the user's input, explain what failed, and offer retry.
+Keep the user's input, identify the affected input and failed condition in text, and offer retry.
 
 ## Required Rules
 
@@ -87,6 +99,9 @@ Keep the user's input, explain what failed, and offer retry.
 - `UX-001` Thumb-Zone Primary Actions
 - `UX-002` Progressively Disclose Power
 - `A11Y-001` 44x44 Touch Targets
+- `A11Y-002` Textual Input Error Recovery
+- `PERF-001` Reserve Layout Space For Asynchronous Content
+- `A11Y-003` Visible Keyboard Focus
 
 ## Related Research
 
@@ -112,3 +127,6 @@ Keep the user's input, explain what failed, and offer retry.
 - How many decisions are required before saving?
 - Can optional metadata be added later?
 - Is failed save recoverable without losing input?
+- Does loading preserve the input and surrounding layout geometry?
+- Is the validation error understandable without relying on color?
+- Does every keyboard-operable capture control keep visible focus?
