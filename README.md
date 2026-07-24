@@ -117,6 +117,14 @@ The first benchmark is **directional**, not conclusive, and serves as the starti
 
 ---
 
+## Add It to a Product Repository
+
+Ask your coding agent to follow [Install with a Coding Agent](starter-kit/INSTALL_WITH_AGENT.md).
+
+The recommended setup pins AI Design Rules as a Git submodule, merges the starter kit with existing project instructions and documentation, and verifies graph context retrieval. It does not add a runtime dependency or replace the product's application stack.
+
+---
+
 ## Quick Start
 
 ```bash

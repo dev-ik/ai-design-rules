@@ -89,6 +89,7 @@ Use shared vocabulary before adding new concepts.
 - `AGENTS.md` - instructions for Codex, Cursor, Claude Code, and similar agents.
 - `CONTRIBUTING.md` - contribution workflow.
 - `ROADMAP.md` - planned phases.
+- `starter-kit/INSTALL_WITH_AGENT.md` - agent-driven adoption guide for an existing product repository.
 
 ## 14. Working Folders
 

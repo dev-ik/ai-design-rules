@@ -8,6 +8,7 @@ It does not include a UI kit, components, or generated rules. It gives agents a 
 
 ## Included
 
+- `INSTALL_WITH_AGENT.md` - safe, agent-driven installation for an existing repository.
 - `PROJECT_INTEGRATION.md` - how the project should adopt AI Design Rules.
 - `AGENTS.md` - local agent instructions for feature work.
 - `BOOTSTRAP.md` - first setup checklist.
@@ -23,6 +24,8 @@ research -> rules -> patterns -> prompts -> prototype -> review -> code -> bench
 ```
 
 ## How To Use
+
+For an existing repository, start with `INSTALL_WITH_AGENT.md`. It tells an agent how to preserve current instructions and populated project documents.
 
 1. Fill `docs/PRD.md`.
 2. Define users in `docs/PERSONAS.md`.
