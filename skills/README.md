@@ -15,6 +15,7 @@ Use skills as an agent design team:
 | `interaction-designer` | Flow mechanics, feedback, recovery, previews, and state transitions. |
 | `design-system-architect` | Semantic tokens, reusable states, and pattern/component boundaries. |
 | `visual-designer` | Visual hierarchy, spacing, typography, color meaning, and polish. |
+| `reference-driven-design` | Evidence-backed reference selection and abstract visual direction without brand copying. |
 | `motion-designer` | Purposeful motion that preserves orientation and respects reduced motion. |
 | `accessibility-reviewer` | Labels, focus, target size, contrast, errors, and reduced motion. |
 | `performance-reviewer` | Perceived performance, loading behavior, responsiveness, and layout stability. |
@@ -31,6 +32,8 @@ Start with `product-designer` when product intent is unclear.
 Use `agent-context` first when the task needs a focused subset of graph objects before routing to a specialist skill.
 
 Use `design-evidence-researcher` before adding a rule, pattern, prompt, or skill when upstream evidence is missing.
+
+Use `reference-driven-design` before visual exploration or polish when the interface needs a modern, premium, expressive, or product-specific direction.
 
 Use `information-architect` before screen layout when object structure is unclear.
 

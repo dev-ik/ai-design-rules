@@ -25,6 +25,17 @@ test('resolves a task into patterns, rules, and upstream research', () => {
   assert.ok(context.objects.some((object) => object.id === 'CHECK-00001'));
 });
 
+test('resolves research-led visual tasks into downstream rules and review gates', () => {
+  const result = runContext('--task', 'modern UI visual quality', '--format', 'json');
+
+  assert.equal(result.status, 0, result.stderr);
+  const context = JSON.parse(result.stdout);
+  assert.ok(context.anchors.some((object) => object.id === 'RESEARCH-00009'));
+  assert.ok(context.objects.some((object) => object.id === 'RULE-00014'));
+  assert.ok(context.objects.some((object) => object.id === 'PROMPT-00002'));
+  assert.ok(context.objects.some((object) => object.id === 'CHECK-00001'));
+});
+
 test('resolves a runnable fixture path into its reference project and review', () => {
   const result = runContext('--review', 'examples/todo-reference', '--format', 'json');
 

@@ -31,6 +31,7 @@ Turn rules, patterns, reference projects, and review expectations into agent ins
 - Target task and agent audience.
 - Required rules and patterns.
 - Reference project context if applicable.
+- Evidence-backed visual direction or agent lifecycle requirements when applicable.
 - Known constraints and expected output format.
 
 ## Process
@@ -39,9 +40,10 @@ Turn rules, patterns, reference projects, and review expectations into agent ins
 2. List required rules and patterns by ID.
 3. State what the agent must not invent.
 4. Define input requirements.
-5. Define output format and review criteria.
-6. Add traceability expectations.
-7. Hand off to design review or knowledge graph review.
+5. Require source or artifact evidence for visual-reference claims.
+6. Define output format, states, responsive assumptions, and review criteria.
+7. Add traceability expectations and explicit knowledge gaps.
+8. Hand off to design review or knowledge graph review.
 
 ## Output Format
 
@@ -55,11 +57,13 @@ Turn rules, patterns, reference projects, and review expectations into agent ins
 - Rules:
 - Patterns:
 - Reference project:
+- Reference evidence:
 
 ## Output Contract
 - Sections:
 - Validation:
 - Forbidden output:
+- Evidence gaps:
 
 ## Handoff
 - Next skill:
@@ -74,6 +78,7 @@ Turn rules, patterns, reference projects, and review expectations into agent ins
 - Output format is explicit.
 - Review criteria are included.
 - Reference project usage is traceable.
+- Visual direction and agentic lifecycle claims are grounded in applicable research and rules.
 
 ## Related Rules
 

@@ -148,6 +148,11 @@ function relatedContext(anchors, objectsById, relationships, platform) {
         if (['pattern', 'prompt', 'checklist'].includes(objectsById.get(relationship.source)?.object_type)) add(relationship.source);
       }
     }
+    if (anchor.object_type === 'research') {
+      for (const relationship of incoming(anchor.id)) {
+        if (objectsById.get(relationship.source)?.object_type === 'rule') add(relationship.source);
+      }
+    }
     if (anchor.object_type === 'pattern') {
       for (const relationship of incoming(anchor.id)) {
         if (['prompt', 'reference_project'].includes(objectsById.get(relationship.source)?.object_type)) add(relationship.source);
@@ -166,7 +171,7 @@ function relatedContext(anchors, objectsById, relationships, platform) {
         if (objectsById.get(relationship.target)?.object_type === 'research') add(relationship.target);
       }
       for (const relationship of incoming(object.id)) {
-        if (objectsById.get(relationship.source)?.object_type === 'checklist') add(relationship.source);
+        if (['pattern', 'prompt', 'checklist'].includes(objectsById.get(relationship.source)?.object_type)) add(relationship.source);
       }
     }
     if (object.object_type === 'pattern') {

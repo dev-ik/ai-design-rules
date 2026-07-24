@@ -5,7 +5,7 @@ slug: design-qa
 title: Design QA Checklist
 object_type: checklist
 status: draft
-version: 0.1.0
+version: 0.2.0
 category: design-qa
 tags:
   - checklist
@@ -40,6 +40,12 @@ relationships:
     target: RULE-00012
   - type: related_to
     target: RULE-00013
+  - type: related_to
+    target: RULE-00014
+  - type: related_to
+    target: RULE-00015
+  - type: related_to
+    target: RULE-00016
 ---
 
 # Design QA Checklist
@@ -61,6 +67,9 @@ Use this checklist after applying research, rules, and patterns.
 - `A11Y-003` - Does every keyboard-operable control retain visible focus?
 - `A11Y-004` - When non-essential motion exists, can users reduce or disable it?
 - `PERF-001` - Does asynchronous content preserve surrounding layout geometry?
+- `VIS-002` - Do expressive materials preserve content and primary-action priority?
+- `UX-004` - Does motion explain state continuity with reduced-motion and platform fallbacks?
+- `UX-005` - When work is delegated to an agent, are status, result, and intervention points observable?
 
 ## Pattern Coverage
 
@@ -78,6 +87,8 @@ Use this checklist after applying research, rules, and patterns.
 - Accessibility basics are present: labels, focus, contrast, target size, and textual error recovery.
 - State changes avoid unexpected layout shifts.
 - Motion, when present, has a reduced-motion equivalent.
+- Platform-specific visual effects and interaction APIs have appropriate fallbacks.
+- Visual direction cites observable references instead of imitating a brand.
 
 ## Evidence Boundary
 

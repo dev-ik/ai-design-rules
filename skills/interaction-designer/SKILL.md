@@ -32,6 +32,7 @@ Make actions feel direct, recoverable, and context-preserving without adding uns
 - Object model and navigation context.
 - Selected rules and patterns.
 - State requirements: empty, loading, error, success, disabled, optimistic, and undo.
+- Agent lifecycle requirements when work is delegated, long-running, or interruptible.
 
 ## Process
 
@@ -41,7 +42,8 @@ Make actions feel direct, recoverable, and context-preserving without adding uns
 4. Define optimistic, loading, error, and undo behavior.
 5. Preserve context during preview and detail inspection.
 6. Avoid transitions that hide state or create mode confusion.
-7. Hand off mobile, motion, accessibility, or performance concerns.
+7. For agentic work, define visible status, result, intervention, cancellation, and retry behavior outside transient chat.
+8. Hand off mobile, motion, accessibility, or performance concerns.
 
 ## Output Format
 
@@ -58,6 +60,7 @@ Make actions feel direct, recoverable, and context-preserving without adding uns
 - Error:
 - Undo:
 - Disabled:
+- Agent status and intervention:
 
 ## Applied Rules And Patterns
 - Rule:
@@ -76,6 +79,7 @@ Make actions feel direct, recoverable, and context-preserving without adding uns
 - Context remains visible where possible.
 - State changes do not create layout jumps.
 - Interaction choices map to existing rules and patterns.
+- Delegated work remains observable and recoverable when agentic behavior applies.
 
 ## Related Rules
 
@@ -83,6 +87,7 @@ Make actions feel direct, recoverable, and context-preserving without adding uns
 - `RULE-00005` / `UX-001` Thumb-Zone Primary Actions
 - `RULE-00006` / `UX-002` Progressively Disclose Power
 - `RULE-00007` / `UX-003` Preserve Context During Inspection
+- `RULE-00016` / `UX-005` Expose Agent Work And Intervention
 
 ## Related Patterns
 

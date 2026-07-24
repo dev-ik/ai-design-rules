@@ -1,5 +1,18 @@
 # Changelog
 
+## v0.3.0 — Expressive Systems And Agent Context
+
+- Added primary-source observations for expressive platform materials, adaptive web UI, systematic motion, and observable agentic workflows.
+- Added research on expressive system UI, motion as state continuity, and contextual agentic interfaces.
+- Added `VIS-002`, `UX-004`, and `UX-005` for content-first expression, purposeful motion, and visible agent work.
+- Added the `reference-driven-design` skill for evidence-backed reference selection without brand copying.
+- Expanded Prototype Review and Design QA with visual layers, responsive behavior, complete state coverage, motion fallbacks, and agent lifecycle review.
+- Improved research-led context retrieval so matching research can resolve downstream rules, prompts, and review gates.
+
+### Evidence Boundary
+
+The new visual, motion, and agentic knowledge remains `draft` and `seed`. It is traceable to primary-source observations, but it does not yet have paired rendered benchmark evidence or independent evaluation. This release improves the knowledge and review workflow; it does not claim measured visual-quality gains.
+
 ## v0.2.1 — Validation Hardening
 
 - Fixed Unicode task lookup and exact object resolution in the agent context CLI.

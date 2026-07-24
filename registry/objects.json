@@ -295,7 +295,7 @@
       "title": "Prototype Review Prompt",
       "object_type": "prompt",
       "status": "draft",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "category": "review",
       "maturity": "seed",
       "path": "prompts/PROTOTYPE_REVIEW.md"
@@ -367,7 +367,7 @@
       "title": "Design QA Checklist",
       "object_type": "checklist",
       "status": "draft",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "category": "design-qa",
       "maturity": "seed",
       "path": "checklists/DESIGN_QA.md"
@@ -419,6 +419,78 @@
       "category": "consumer",
       "maturity": "reviewed",
       "path": "examples/todo-app-benchmark.md"
+    },
+    {
+      "id": "RESEARCH-00009",
+      "alias": "EXPRESSIVE-SYSTEM-UI-2026",
+      "slug": "expressive-system-ui-2026",
+      "title": "Expressive System UI In 2026",
+      "object_type": "research",
+      "status": "draft",
+      "version": "0.1.0",
+      "category": "visual",
+      "maturity": "seed",
+      "path": "research/visual/expressive-system-ui-2026.md"
+    },
+    {
+      "id": "RESEARCH-00010",
+      "alias": "MOTION-AS-STATE-CONTINUITY",
+      "slug": "motion-as-state-continuity",
+      "title": "Motion As State Continuity",
+      "object_type": "research",
+      "status": "draft",
+      "version": "0.1.0",
+      "category": "ux",
+      "maturity": "seed",
+      "path": "research/ux/motion-as-state-continuity.md"
+    },
+    {
+      "id": "RESEARCH-00011",
+      "alias": "CONTEXTUAL-AGENTIC-INTERFACE",
+      "slug": "contextual-agentic-interface",
+      "title": "Contextual And Observable Agentic Interfaces",
+      "object_type": "research",
+      "status": "draft",
+      "version": "0.1.0",
+      "category": "ux",
+      "maturity": "seed",
+      "path": "research/ux/contextual-agentic-interface.md"
+    },
+    {
+      "id": "RULE-00014",
+      "alias": "VIS-002",
+      "slug": "keep-expression-subordinate-to-content",
+      "title": "Keep Expression Subordinate To Content",
+      "object_type": "rule",
+      "status": "draft",
+      "version": "0.1.0",
+      "category": "visual",
+      "maturity": "seed",
+      "path": "rules/visual/VIS-002.md"
+    },
+    {
+      "id": "RULE-00015",
+      "alias": "UX-004",
+      "slug": "use-motion-to-explain-state-continuity",
+      "title": "Use Motion To Explain State Continuity",
+      "object_type": "rule",
+      "status": "draft",
+      "version": "0.1.0",
+      "category": "ux",
+      "maturity": "seed",
+      "path": "rules/ux/UX-004.md"
+    },
+    {
+      "id": "RULE-00016",
+      "alias": "UX-005",
+      "slug": "expose-agent-work-and-intervention",
+      "title": "Expose Agent Work And Intervention",
+      "object_type": "rule",
+      "status": "draft",
+      "version": "0.1.0",
+      "category": "ux",
+      "maturity": "seed",
+      "path": "rules/ux/UX-005.md"
     }
   ]
 }

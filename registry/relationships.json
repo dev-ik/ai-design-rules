@@ -677,6 +677,116 @@
       "type": "validates",
       "source": "REVIEW-00002",
       "target": "REF-00001"
+    },
+    {
+      "type": "related_to",
+      "source": "RESEARCH-00010",
+      "target": "RESEARCH-00008"
+    },
+    {
+      "type": "related_to",
+      "source": "RESEARCH-00010",
+      "target": "RESEARCH-00005"
+    },
+    {
+      "type": "related_to",
+      "source": "RESEARCH-00011",
+      "target": "RESEARCH-00004"
+    },
+    {
+      "type": "derived_from",
+      "source": "RULE-00014",
+      "target": "RESEARCH-00009"
+    },
+    {
+      "type": "related_to",
+      "source": "RULE-00014",
+      "target": "RULE-00008"
+    },
+    {
+      "type": "derived_from",
+      "source": "RULE-00015",
+      "target": "RESEARCH-00010"
+    },
+    {
+      "type": "related_to",
+      "source": "RULE-00015",
+      "target": "RULE-00007"
+    },
+    {
+      "type": "related_to",
+      "source": "RULE-00015",
+      "target": "RULE-00013"
+    },
+    {
+      "type": "derived_from",
+      "source": "RULE-00016",
+      "target": "RESEARCH-00011"
+    },
+    {
+      "type": "related_to",
+      "source": "RULE-00016",
+      "target": "RULE-00004"
+    },
+    {
+      "type": "related_to",
+      "source": "RULE-00016",
+      "target": "RULE-00007"
+    },
+    {
+      "type": "related_to",
+      "source": "CHECK-00001",
+      "target": "RULE-00014"
+    },
+    {
+      "type": "related_to",
+      "source": "CHECK-00001",
+      "target": "RULE-00015"
+    },
+    {
+      "type": "related_to",
+      "source": "CHECK-00001",
+      "target": "RULE-00016"
+    },
+    {
+      "type": "related_to",
+      "source": "PROMPT-00002",
+      "target": "RULE-00010"
+    },
+    {
+      "type": "related_to",
+      "source": "PROMPT-00002",
+      "target": "RULE-00011"
+    },
+    {
+      "type": "related_to",
+      "source": "PROMPT-00002",
+      "target": "RULE-00012"
+    },
+    {
+      "type": "related_to",
+      "source": "PROMPT-00002",
+      "target": "RULE-00013"
+    },
+    {
+      "type": "related_to",
+      "source": "PROMPT-00002",
+      "target": "RULE-00014"
+    },
+    {
+      "type": "related_to",
+      "source": "PROMPT-00002",
+      "target": "RULE-00015"
+    },
+    {
+      "type": "related_to",
+      "source": "PROMPT-00002",
+      "target": "RULE-00016"
+    },
+    {
+      "type": "requires",
+      "source": "PROMPT-00002",
+      "target": "CHECK-00001"
     }
   ]
 }

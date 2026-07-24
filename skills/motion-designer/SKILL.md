@@ -37,10 +37,11 @@ Use motion only when it clarifies continuity, preserves context, or explains sta
 
 1. Identify what orientation problem motion must solve.
 2. Define start state, end state, and preserved context.
-3. Keep duration short and purpose clear.
-4. Provide reduced-motion behavior.
-5. Avoid hiding loading, errors, or state changes behind animation.
-6. Hand off performance and accessibility checks.
+3. Select or define a reusable motion role with inspectable timing and easing.
+4. Keep duration short and purpose clear.
+5. Provide reduced-motion and unsupported-platform behavior.
+6. Avoid hiding loading, errors, or state changes behind animation.
+7. Hand off performance and accessibility checks.
 
 ## Output Format
 
@@ -50,7 +51,10 @@ Use motion only when it clarifies continuity, preserves context, or explains sta
 - Purpose:
 - Start state:
 - End state:
+- Motion role:
+- Timing and easing:
 - Reduced motion:
+- Platform fallback:
 
 ## Risks
 - Accessibility:
@@ -72,6 +76,8 @@ Use motion only when it clarifies continuity, preserves context, or explains sta
 - Reduced-motion behavior is defined.
 - Loading and error states remain clear.
 - Motion supports context preservation.
+- Repeated transitions use consistent named roles.
+- Unsupported APIs have a progressive fallback.
 
 ## Related Rules
 
@@ -79,6 +85,7 @@ Use motion only when it clarifies continuity, preserves context, or explains sta
 - `RULE-00007` / `UX-003` Preserve Context During Inspection
 - `RULE-00009` / `A11Y-001` 44x44 Touch Targets
 - `RULE-00013` / `A11Y-004` Reduce Non-Essential Interaction Motion
+- `RULE-00015` / `UX-004` Use Motion To Explain State Continuity
 
 ## Related Patterns
 

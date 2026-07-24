@@ -10,19 +10,19 @@ This file is generated from registry metadata. Do not edit manually.
 | pattern | 6 |
 | prompt | 4 |
 | reference_project | 1 |
-| research | 8 |
+| research | 11 |
 | review | 2 |
-| rule | 13 |
+| rule | 16 |
 
 ## Relationship Counts By Type
 
 | Relationship Type | Count |
 | --- | --- |
 | cites | 1 |
-| derived_from | 28 |
+| derived_from | 31 |
 | implements | 9 |
-| related_to | 36 |
-| requires | 51 |
+| related_to | 54 |
+| requires | 52 |
 | validates | 9 |
 
 ## Orphan Objects
@@ -51,11 +51,11 @@ None
 
 ## Most Connected Objects
 
+- PROMPT-PROTOTYPE-REVIEW / PROMPT-00002 Prototype Review Prompt: 23
+- CHECK-DESIGN-QA / CHECK-00001 Design QA Checklist: 20
 - PROMPT-TODO-BENCHMARK / PROMPT-00003 Todo App Benchmark Prompt: 18
-- CHECK-DESIGN-QA / CHECK-00001 Design QA Checklist: 16
 - REF-TODO-BENCHMARK / REF-00001 Todo App Benchmark Reference Project: 16
 - PAT-002 / PAT-00002 Quick Capture: 15
-- PROMPT-PROTOTYPE-REVIEW / PROMPT-00002 Prototype Review Prompt: 15
 - PAT-006 / PAT-00006 Object Status List: 12
 - A11Y-001 / RULE-00009 44x44 Touch Targets: 12
 - PAT-005 / PAT-00005 Context-Preserving Preview: 11
@@ -68,4 +68,6 @@ None
 
 ## Rules Not Used By Any Pattern
 
-None
+- VIS-002 / RULE-00014 Keep Expression Subordinate To Content
+- UX-004 / RULE-00015 Use Motion To Explain State Continuity
+- UX-005 / RULE-00016 Expose Agent Work And Intervention
