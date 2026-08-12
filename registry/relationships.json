@@ -784,9 +784,174 @@
       "target": "RULE-00016"
     },
     {
+      "type": "related_to",
+      "source": "RESEARCH-00012",
+      "target": "RESEARCH-00011"
+    },
+    {
+      "type": "related_to",
+      "source": "RESEARCH-00012",
+      "target": "RESEARCH-00006"
+    },
+    {
+      "type": "derived_from",
+      "source": "RULE-00017",
+      "target": "RESEARCH-00012"
+    },
+    {
+      "type": "related_to",
+      "source": "RULE-00017",
+      "target": "RULE-00007"
+    },
+    {
+      "type": "related_to",
+      "source": "RULE-00017",
+      "target": "RULE-00010"
+    },
+    {
+      "type": "related_to",
+      "source": "RULE-00017",
+      "target": "RULE-00016"
+    },
+    {
+      "type": "related_to",
+      "source": "CHECK-00001",
+      "target": "RULE-00017"
+    },
+    {
+      "type": "requires",
+      "source": "PAT-00007",
+      "target": "RULE-00017"
+    },
+    {
+      "type": "requires",
+      "source": "PAT-00007",
+      "target": "RULE-00007"
+    },
+    {
+      "type": "requires",
+      "source": "PAT-00007",
+      "target": "RULE-00010"
+    },
+    {
+      "type": "requires",
+      "source": "PAT-00007",
+      "target": "RULE-00016"
+    },
+    {
+      "type": "related_to",
+      "source": "PAT-00007",
+      "target": "PAT-00005"
+    },
+    {
+      "type": "related_to",
+      "source": "PAT-00007",
+      "target": "PAT-00006"
+    },
+    {
+      "type": "related_to",
+      "source": "PROMPT-00002",
+      "target": "PAT-00007"
+    },
+    {
+      "type": "related_to",
+      "source": "PROMPT-00002",
+      "target": "RULE-00017"
+    },
+    {
+      "type": "requires",
+      "source": "PROMPT-00006",
+      "target": "PAT-00007"
+    },
+    {
+      "type": "requires",
+      "source": "PROMPT-00006",
+      "target": "RULE-00017"
+    },
+    {
+      "type": "requires",
+      "source": "PROMPT-00006",
+      "target": "RULE-00007"
+    },
+    {
+      "type": "requires",
+      "source": "PROMPT-00006",
+      "target": "RULE-00010"
+    },
+    {
+      "type": "related_to",
+      "source": "PROMPT-00006",
+      "target": "RULE-00016"
+    },
+    {
       "type": "requires",
       "source": "PROMPT-00002",
       "target": "CHECK-00001"
+    },
+    {
+      "type": "implements",
+      "source": "REF-00002",
+      "target": "PROMPT-00006"
+    },
+    {
+      "type": "implements",
+      "source": "REF-00002",
+      "target": "PAT-00007"
+    },
+    {
+      "type": "validates",
+      "source": "REF-00002",
+      "target": "RESEARCH-00012"
+    },
+    {
+      "type": "validates",
+      "source": "REF-00002",
+      "target": "RULE-00017"
+    },
+    {
+      "type": "validates",
+      "source": "REF-00002",
+      "target": "PAT-00007"
+    },
+    {
+      "type": "validates",
+      "source": "REF-00002",
+      "target": "PROMPT-00006"
+    },
+    {
+      "type": "requires",
+      "source": "REVIEW-00003",
+      "target": "CHECK-00001"
+    },
+    {
+      "type": "implements",
+      "source": "REVIEW-00003",
+      "target": "PROMPT-00006"
+    },
+    {
+      "type": "validates",
+      "source": "REVIEW-00003",
+      "target": "REF-00002"
+    },
+    {
+      "type": "validates",
+      "source": "REVIEW-00003",
+      "target": "RESEARCH-00012"
+    },
+    {
+      "type": "validates",
+      "source": "REVIEW-00003",
+      "target": "RULE-00017"
+    },
+    {
+      "type": "validates",
+      "source": "REVIEW-00003",
+      "target": "PAT-00007"
+    },
+    {
+      "type": "validates",
+      "source": "REVIEW-00003",
+      "target": "PROMPT-00006"
     }
   ]
 }

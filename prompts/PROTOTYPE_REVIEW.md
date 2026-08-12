@@ -5,7 +5,7 @@ slug: prototype-review
 title: Prototype Review Prompt
 object_type: prompt
 status: draft
-version: 0.2.0
+version: 0.3.0
 category: review
 tags:
   - prompt
@@ -26,6 +26,8 @@ relationships:
     target: PAT-00005
   - type: related_to
     target: PAT-00006
+  - type: related_to
+    target: PAT-00007
   - type: related_to
     target: RULE-00001
   - type: related_to
@@ -58,6 +60,8 @@ relationships:
     target: RULE-00015
   - type: related_to
     target: RULE-00016
+  - type: related_to
+    target: RULE-00017
   - type: requires
     target: CHECK-00001
 ---
@@ -89,6 +93,7 @@ Check whether a documented pattern applies:
 - `patterns/progressive-detail.md`
 - `patterns/object-status-list.md`
 - `patterns/context-preserving-preview.md`
+- `patterns/consequential-action-confirmation.md`
 
 ## Rule Coverage
 
@@ -108,6 +113,7 @@ Check whether a documented pattern applies:
 - `VIS-002`
 - `UX-004`
 - `UX-005` when delegated or long-running agent work exists
+- `UX-006` when consequential actions, money movement, account access, destructive durable changes, external publishing, or agent side effects exist
 
 ## Review Sequence
 
@@ -120,13 +126,14 @@ Check whether a documented pattern applies:
 7. Review focus, labels, target size, contrast-sensitive choices, textual errors, and reduced motion.
 8. Review start state, end state, purpose, timing role, and fallback for meaningful motion.
 9. When agentic work applies, review queued, active, blocked, review-ready, complete, failed, cancelled, and intervention behavior.
-10. Compare recommendations with supplied references at the level of abstract behavior; do not copy a brand composition or proprietary asset.
+10. When consequential actions apply, review affected object, critical inputs, side effects, reversibility, confirmation, challenge, error, retry, success, cancellation, and audit evidence.
+11. Compare recommendations with supplied references at the level of abstract behavior; do not copy a brand composition or proprietary asset.
 
 ## Instruction
 
 Use `CHECK-00001`.
 
-Do not redesign immediately. Do not invent rendered behavior, visual evidence, benchmark results, or unsupported design rules.
+Do not redesign immediately. Before broad visual design, visual exploration, or product polish, ask whether the user wants multiple design options or one conservative implementation path. Do not invent rendered behavior, visual evidence, benchmark results, or unsupported design rules.
 
 Produce a severity-ordered review and a phased change plan. Every recommendation must cite the inspected artifact and an applicable rule, pattern, token, component convention, or explicit research gap.
 
@@ -153,6 +160,7 @@ Produce a severity-ordered review and a phased change plan. Every recommendation
 ## State Coverage
 - Missing or weak states:
 - Agent lifecycle states, when applicable:
+- Consequential action states, when applicable:
 
 ## Responsive And Accessibility
 - Desktop:

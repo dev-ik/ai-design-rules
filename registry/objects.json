@@ -295,7 +295,7 @@
       "title": "Prototype Review Prompt",
       "object_type": "prompt",
       "status": "draft",
-      "version": "0.2.0",
+      "version": "0.3.0",
       "category": "review",
       "maturity": "seed",
       "path": "prompts/PROTOTYPE_REVIEW.md"
@@ -367,7 +367,7 @@
       "title": "Design QA Checklist",
       "object_type": "checklist",
       "status": "draft",
-      "version": "0.2.0",
+      "version": "0.4.0",
       "category": "design-qa",
       "maturity": "seed",
       "path": "checklists/DESIGN_QA.md"
@@ -491,6 +491,78 @@
       "category": "ux",
       "maturity": "seed",
       "path": "rules/ux/UX-005.md"
+    },
+    {
+      "id": "RESEARCH-00012",
+      "alias": "HIGH-RISK-OPERATIONAL-FLOWS",
+      "slug": "high-risk-operational-flows",
+      "title": "High-Risk Operational Flows",
+      "object_type": "research",
+      "status": "active",
+      "version": "0.1.0",
+      "category": "ux",
+      "maturity": "validated",
+      "path": "research/ux/high-risk-operational-flows.md"
+    },
+    {
+      "id": "RULE-00017",
+      "alias": "UX-006",
+      "slug": "confirm-consequential-actions-with-preserved-context",
+      "title": "Confirm Consequential Actions With Preserved Context",
+      "object_type": "rule",
+      "status": "active",
+      "version": "0.1.0",
+      "category": "ux",
+      "maturity": "validated",
+      "path": "rules/ux/UX-006.md"
+    },
+    {
+      "id": "PAT-00007",
+      "alias": "PAT-007",
+      "slug": "consequential-action-confirmation",
+      "title": "Consequential Action Confirmation",
+      "object_type": "pattern",
+      "status": "active",
+      "version": "0.1.0",
+      "category": "ux",
+      "maturity": "validated",
+      "path": "patterns/consequential-action-confirmation.md"
+    },
+    {
+      "id": "PROMPT-00006",
+      "alias": "PROMPT-CONSEQUENTIAL-ACTION-REVIEW",
+      "slug": "consequential-action-review",
+      "title": "Consequential Action Review Prompt",
+      "object_type": "prompt",
+      "status": "active",
+      "version": "0.1.0",
+      "category": "review",
+      "maturity": "validated",
+      "path": "prompts/CONSEQUENTIAL_ACTION_REVIEW.md"
+    },
+    {
+      "id": "REF-00002",
+      "alias": "REF-CONSEQUENTIAL-ACTION-CONFIRMATION",
+      "slug": "consequential-action-confirmation-reference",
+      "title": "Consequential Action Confirmation Reference Project",
+      "object_type": "reference_project",
+      "status": "active",
+      "version": "0.1.0",
+      "category": "fintech",
+      "maturity": "validated",
+      "path": "examples/consequential-action-confirmation-reference.md"
+    },
+    {
+      "id": "REVIEW-00003",
+      "alias": "REVIEW-CONSEQUENTIAL-ACTION-CONFIRMATION",
+      "slug": "consequential-action-confirmation-review",
+      "title": "Consequential Action Confirmation Validation Review",
+      "object_type": "review",
+      "status": "active",
+      "version": "0.1.0",
+      "category": "reference-eval",
+      "maturity": "validated",
+      "path": "reviews/consequential-action-confirmation-review.md"
     }
   ]
 }

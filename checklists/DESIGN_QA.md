@@ -5,7 +5,7 @@ slug: design-qa
 title: Design QA Checklist
 object_type: checklist
 status: draft
-version: 0.2.0
+version: 0.4.0
 category: design-qa
 tags:
   - checklist
@@ -46,6 +46,8 @@ relationships:
     target: RULE-00015
   - type: related_to
     target: RULE-00016
+  - type: related_to
+    target: RULE-00017
 ---
 
 # Design QA Checklist
@@ -70,6 +72,7 @@ Use this checklist after applying research, rules, and patterns.
 - `VIS-002` - Do expressive materials preserve content and primary-action priority?
 - `UX-004` - Does motion explain state continuity with reduced-motion and platform fallbacks?
 - `UX-005` - When work is delegated to an agent, are status, result, and intervention points observable?
+- `UX-006` - Are consequential actions confirmed with preserved object, consequence, and recovery context?
 
 ## Pattern Coverage
 
@@ -77,6 +80,7 @@ Use this checklist after applying research, rules, and patterns.
 - Is the pattern appropriate for the product context?
 - Did the pattern preserve the user's primary job?
 - Did the pattern avoid copying a source product blindly?
+- If consequential side effects exist, did the screen use or explicitly reject `PAT-007`?
 
 ## Final Checks
 
@@ -89,6 +93,8 @@ Use this checklist after applying research, rules, and patterns.
 - Motion, when present, has a reduced-motion equivalent.
 - Platform-specific visual effects and interaction APIs have appropriate fallbacks.
 - Visual direction cites observable references instead of imitating a brand.
+- Consequential actions preserve critical context through confirmation, challenge, error, retry, and success states.
+- Before broad design work, the agent asked whether to show multiple options or proceed with one conservative implementation path.
 
 ## Evidence Boundary
 

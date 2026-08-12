@@ -45,6 +45,9 @@ test('rejects a benchmark run missing a required raw prompt artifact', async () 
 
 test('rejects rendered screenshot paths outside their run type directory', async () => {
   const result = await withFixture(async (root) => {
+    const parentSegment = '..';
+    const escapingScreenshotPath = [parentSegment, parentSegment, 'README.md'].join('/');
+
     for (const runType of ['baseline', 'ai-design-rules']) {
       const metadataPath = path.join(
         root,
@@ -52,7 +55,7 @@ test('rejects rendered screenshot paths outside their run type directory', async
       );
       const metadata = JSON.parse(await readFile(metadataPath, 'utf8'));
       metadata.evidence_level = 'rendered';
-      metadata.screenshots = ['../../README.md'];
+      metadata.screenshots = [escapingScreenshotPath];
       await writeFile(metadataPath, `${JSON.stringify(metadata, null, 2)}\n`);
     }
   });
