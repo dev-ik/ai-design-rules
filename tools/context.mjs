@@ -85,118 +85,145 @@ function normalize(value) {
 function tokenise(value) {
   return normalize(value)
     .split(/\s+/u)
-    .filter((token) => token.length > 1);
+    .filter(Boolean);
 }
 
-function objectText(object) {
-  const filePath = path.join(root, object.path);
-  const content = fs.existsSync(filePath) ? fs.readFileSync(filePath, 'utf8') : '';
-  return normalize([object.id, object.alias, object.slug, object.title, object.category, object.path, content].join('\n'));
+const taskFillers = new Set(['a', 'an', 'the', 'please', 'build', 'create', 'implement', 'make', 'for', 'me']);
+const dependencyTypes = new Set(['requires', 'derived_from', 'inspired_by', 'implements']);
+
+function searchIndex(objects) {
+  return objects.map((object) => {
+    const filePath = path.join(root, object.path);
+    const content = fs.existsSync(filePath) ? fs.readFileSync(filePath, 'utf8') : '';
+    return {
+      object,
+      terms: new Set(tokenise([object.id, object.alias, object.slug, object.title, object.category, object.path, content].join('\n'))),
+      fields: [
+        ['title', object.title, 100],
+        ['slug', object.slug, 90],
+        ['alias', object.alias, 80],
+        ['category', object.category, 20],
+      ],
+    };
+  });
 }
 
-function findAnchors(objects, query) {
+function findAnchors(index, query) {
   const normalizedQuery = normalize(query);
-  const tokens = tokenise(query);
+  const exact = findExactObject(index.map(({ object }) => object), query);
+  if (exact.length > 0) return exact;
+  const tokens = [...new Set(tokenise(query).filter((token) => !taskFillers.has(token)))];
   if (!normalizedQuery || tokens.length === 0) return [];
 
-  const scored = objects
-    .map((object) => {
-      const text = objectText(object);
-      const exactFields = [object.id, object.alias, object.slug, object.path].map(normalize);
-      const allTokensMatch = tokens.length > 0 && tokens.every((token) => text.includes(token));
-      if (!text.includes(normalizedQuery) && !allTokensMatch) return null;
-
-      const score =
-        (exactFields.includes(normalizedQuery) ? 100 : 0) +
-        (text.includes(normalizedQuery) ? 20 : 0) +
-        tokens.filter((token) => text.includes(token)).length;
-      return { object, score };
+  const scored = index
+    .map(({ object, terms, fields }) => {
+      if (!tokens.every((token) => terms.has(token))) return null;
+      let score = 0;
+      let field = 'content';
+      let matchedTerms = tokens;
+      for (const [name, value, weight] of fields) {
+        const fieldTerms = new Set(tokenise(value));
+        const matched = tokens.filter((token) => fieldTerms.has(token)).length;
+        const fieldScore = matched === 0 ? 0 : weight * matched / tokens.length + matched / fieldTerms.size;
+        if (fieldScore > score) {
+          score = fieldScore;
+          field = name;
+          matchedTerms = tokens.filter((token) => fieldTerms.has(token));
+        }
+      }
+      return { object, score, reason: { kind: 'match', field, terms: matchedTerms } };
     })
     .filter(Boolean)
     .sort((left, right) => right.score - left.score || left.object.id.localeCompare(right.object.id));
 
-  return scored.slice(0, 1).map(({ object }) => object);
+  return scored.slice(0, 1);
 }
 
 function findExactObject(objects, query) {
   const normalizedQuery = normalize(query);
   if (!normalizedQuery) return [];
 
-  const object = objects.find((candidate) =>
-    [candidate.id, candidate.alias, candidate.slug, candidate.path]
-      .map(normalize)
-      .includes(normalizedQuery),
-  );
-
-  return object ? [object] : [];
+  for (const object of objects) {
+    const field = ['id', 'alias', 'slug', 'path'].find((name) => normalize(object[name]) === normalizedQuery);
+    if (field) return [{ object, reason: { kind: 'match', field, terms: tokenise(query) } }];
+  }
+  return [];
 }
 
-function relatedContext(anchors, objectsById, relationships, platform) {
-  const selected = new Map(anchors.map((object) => [object.id, object]));
-  const add = (id) => {
+function relatedContext(anchors, objectsById, relationships, platform, index) {
+  const selected = new Map();
+  const queue = [];
+  const outgoing = new Map();
+  const incoming = new Map();
+  for (const edge of [...relationships].sort((a, b) =>
+    a.source.localeCompare(b.source) || a.type.localeCompare(b.type) || a.target.localeCompare(b.target))) {
+    if (!outgoing.has(edge.source)) outgoing.set(edge.source, []);
+    if (!incoming.has(edge.target)) incoming.set(edge.target, []);
+    outgoing.get(edge.source).push(edge);
+    incoming.get(edge.target).push(edge);
+  }
+  const add = (id, reason) => {
     const object = objectsById.get(id);
-    if (object) selected.set(id, object);
+    if (!object) throw new Error(`Context relationship target is not registered: ${id}`);
+    if (selected.has(id)) return;
+    selected.set(id, { object, reason });
+    queue.push(object);
   };
-  const outgoing = (id) => relationships.filter((relationship) => relationship.source === id);
-  const incoming = (id) => relationships.filter((relationship) => relationship.target === id);
-
-  for (const anchor of anchors) {
-    for (const relationship of outgoing(anchor.id)) add(relationship.target);
-
-    if (anchor.object_type === 'rule') {
-      for (const relationship of incoming(anchor.id)) {
-        if (['pattern', 'prompt', 'checklist'].includes(objectsById.get(relationship.source)?.object_type)) add(relationship.source);
-      }
-    }
-    if (anchor.object_type === 'research') {
-      for (const relationship of incoming(anchor.id)) {
-        if (objectsById.get(relationship.source)?.object_type === 'rule') add(relationship.source);
-      }
-    }
-    if (anchor.object_type === 'pattern') {
-      for (const relationship of incoming(anchor.id)) {
-        if (['prompt', 'reference_project'].includes(objectsById.get(relationship.source)?.object_type)) add(relationship.source);
-      }
-    }
-    if (anchor.object_type === 'reference_project') {
-      for (const relationship of incoming(anchor.id)) {
-        if (objectsById.get(relationship.source)?.object_type === 'review') add(relationship.source);
-      }
-    }
-  }
-
-  for (const object of [...selected.values()]) {
-    if (object.object_type === 'rule') {
-      for (const relationship of outgoing(object.id)) {
-        if (objectsById.get(relationship.target)?.object_type === 'research') add(relationship.target);
-      }
-      for (const relationship of incoming(object.id)) {
-        if (['pattern', 'prompt', 'checklist'].includes(objectsById.get(relationship.source)?.object_type)) add(relationship.source);
-      }
-    }
-    if (object.object_type === 'pattern') {
-      for (const relationship of outgoing(object.id)) {
-        if (objectsById.get(relationship.target)?.object_type === 'rule') add(relationship.target);
-      }
-    }
-    if (object.object_type === 'review') {
-      for (const relationship of outgoing(object.id)) add(relationship.target);
-    }
-  }
-
+  const seeds = [...anchors];
   if (platform) {
-    const platformMatches = findAnchors([...objectsById.values()], platform).filter((object) =>
-      ['rule', 'pattern'].includes(object.object_type),
+    const matches = findAnchors(
+      index.filter(({ object }) => ['rule', 'pattern'].includes(object.object_type)), platform,
     );
-    for (const object of platformMatches.slice(0, 2)) add(object.id);
+    seeds.push(...matches.map(({ object, reason }) => ({ object, reason: { ...reason, kind: 'platform', value: platform } })));
+  }
+  for (const { object, reason } of seeds) add(object.id, reason);
+
+  // Only seed objects select optional neighbors; dependencies cannot pull in every consumer.
+  const reviewTargets = new Set(seeds.map(({ object }) => object.id));
+  for (const { object } of seeds) {
+    for (const edge of outgoing.get(object.id) ?? []) {
+      if (edge.type === 'related_to' && ['research', 'rule', 'pattern'].includes(object.object_type)) {
+        add(edge.target, { kind: 'related', source: edge.source, relationship: edge.type });
+      }
+    }
+    for (const edge of incoming.get(object.id) ?? []) {
+      const source = objectsById.get(edge.source);
+      if (object.object_type === 'research' && source?.object_type === 'rule' && ['derived_from', 'inspired_by'].includes(edge.type)) {
+        add(source.id, { kind: 'derived_rule', source: object.id, relationship: edge.type });
+        reviewTargets.add(source.id);
+      }
+      if (object.object_type === 'reference_project' && source?.object_type === 'review' && edge.type === 'validates') {
+        add(source.id, { kind: 'review', source: object.id, relationship: edge.type });
+      }
+    }
+  }
+  for (const id of reviewTargets) {
+    for (const edge of incoming.get(id) ?? []) {
+      const source = objectsById.get(edge.source);
+      if (['requires', 'related_to'].includes(edge.type) &&
+          (source?.object_type === 'checklist' || (source?.object_type === 'prompt' && source.category === 'review'))) {
+        add(source.id, { kind: 'review', source: id, relationship: edge.type });
+      }
+    }
+  }
+
+  // A growing queue computes the dependency closure and terminates even when the graph has cycles.
+  for (let cursor = 0; cursor < queue.length; cursor += 1) {
+    const object = queue[cursor];
+    for (const edge of outgoing.get(object.id) ?? []) {
+      if (dependencyTypes.has(edge.type) ||
+          (edge.type === 'validates' && ['reference_project', 'review'].includes(object.object_type))) {
+        add(edge.target, { kind: 'dependency', source: edge.source, relationship: edge.type });
+      }
+    }
   }
 
   return [...selected.values()].sort(
-    (left, right) => objectOrder.indexOf(left.object_type) - objectOrder.indexOf(right.object_type) || left.id.localeCompare(right.id),
+    (left, right) => objectOrder.indexOf(left.object.object_type) - objectOrder.indexOf(right.object.object_type) || left.object.id.localeCompare(right.object.id),
   );
 }
 
-function serializeObject(object) {
+function serializeObject({ object, reason }) {
   return {
     id: object.id,
     alias: object.alias,
@@ -205,7 +232,15 @@ function serializeObject(object) {
     status: object.status,
     maturity: object.maturity,
     path: object.path,
+    reason,
   };
+}
+
+function explainReason(reason) {
+  if (reason.kind === 'match') return `matched ${reason.field}: ${reason.terms.join(', ')}`;
+  if (reason.kind === 'platform') return `platform ${reason.value}, matched ${reason.field}`;
+  if (['review', 'derived_rule'].includes(reason.kind)) return `${reason.kind === 'review' ? 'review gate' : 'derived rule'} for ${reason.source} (${reason.relationship})`;
+  return `${reason.source} ${reason.relationship} this object`;
 }
 
 function asMarkdown(result) {
@@ -229,7 +264,7 @@ function asMarkdown(result) {
     lines.push(
       ...objects.map(
         (object) =>
-          `- \`${object.id}\` / \`${object.alias}\` — ${object.title} (${object.status}, ${object.maturity}) · \`${object.path}\``,
+          `- \`${object.id}\` / \`${object.alias}\` — ${object.title} (${object.status}, ${object.maturity}) · \`${object.path}\` — ${explainReason(object.reason)}`,
       ),
     );
   }
@@ -268,16 +303,17 @@ function main() {
       fs.readFileSync(path.join(root, 'registry/relationships.json'), 'utf8'),
     );
     const objectsById = new Map(registry.objects.map((object) => [object.id, object]));
+    const index = searchIndex(registry.objects);
     const query = options[options.mode];
     const anchors = options.mode === 'object'
       ? findExactObject(registry.objects, query)
-      : findAnchors(registry.objects, query);
+      : findAnchors(index, query);
     if (anchors.length === 0) throw new Error(`No graph object matches "${query}"`);
 
     const result = {
       query: { mode: options.mode, value: query, platform: options.platform ?? null, intent: options.intent },
       anchors: anchors.map(serializeObject),
-      objects: relatedContext(anchors, objectsById, relationshipRegistry.relationships, options.platform).map(serializeObject),
+      objects: relatedContext(anchors, objectsById, relationshipRegistry.relationships, options.platform, index).map(serializeObject),
     };
     console.log(options.format === 'json' ? JSON.stringify(result, null, 2) : asMarkdown(result));
   } catch (error) {

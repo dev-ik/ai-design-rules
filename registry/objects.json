@@ -223,7 +223,7 @@
       "title": "Daily Home Surface",
       "object_type": "pattern",
       "status": "draft",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "category": "product",
       "maturity": "seed",
       "path": "patterns/daily-home-surface.md"
@@ -271,7 +271,7 @@
       "title": "Context-Preserving Preview",
       "object_type": "pattern",
       "status": "draft",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "category": "ux",
       "maturity": "seed",
       "path": "patterns/context-preserving-preview.md"
@@ -355,7 +355,7 @@
       "title": "Quick Capture State Review Prompt",
       "object_type": "prompt",
       "status": "draft",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "category": "review",
       "maturity": "seed",
       "path": "prompts/QUICK_CAPTURE_STATE_REVIEW.md"

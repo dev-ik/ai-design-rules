@@ -1,0 +1,47 @@
+{
+  "status": "completed",
+  "scenario": "Todo App",
+  "scenario_sha256": "368b10d4e3db8850d282010560e96e520b87737bc014a0385c30c45fd5b68f3d",
+  "brief_sha256": "5b35c4e957e106467c870fa10e70132cad6ef03fb7a390ad6edfdcfea7526ff7",
+  "seed_sha256": "09426e774f630cf8d673ade4a30c049d5e2e98ad661160e1ba71db85416728b4",
+  "knowledge_commit": "3d9a6a70c47b7008a47dafd24a4aeef2855b07f2",
+  "knowledge_patch_sha256": "a26da973623d431c7258c64c7092352b03bce590154763be67b20cfabb90a03a",
+  "model": "Inherited Codex session model; exact backend model identifier not exposed",
+  "provider": "OpenAI",
+  "sampling": "Not exposed; inherited identically, no model or reasoning override",
+  "generation_surface": "Codex collaboration.spawn_agent; fork_turns=none; worker role",
+  "time_budget_minutes": 10,
+  "allowed_generation_tools": [
+    "filesystem read/write",
+    "shell syntax checks"
+  ],
+  "disallowed_generation_tools": [
+    "network",
+    "browser",
+    "other agents"
+  ],
+  "implementation_target": "Static HTML/CSS/JavaScript; no build dependencies or external assets",
+  "viewports": [
+    {
+      "name": "mobile",
+      "width": 390,
+      "height": 844
+    },
+    {
+      "name": "desktop",
+      "width": 1440,
+      "height": 900
+    }
+  ],
+  "device_scale_factor": 1,
+  "evaluator": "Codex parent agent; internal, unblinded evaluation",
+  "isolation": "Prompt-enforced separate directories and fresh conversation; shared host, tools, and inherited system instructions. No OS-level read isolation.",
+  "browser_version": "153.0.8010.53",
+  "browser_mode": "Headless Chrome, narrow/desktop viewports, no physical mobile keyboard emulation",
+  "color_scheme": "light",
+  "zoom": "100%",
+  "blinded": false,
+  "browser_locale": "en-GB",
+  "evaluation_type": "internal, unblinded, one pair",
+  "playwright_cli_version": "0.1.21"
+}

@@ -952,6 +952,21 @@
       "type": "validates",
       "source": "REVIEW-00003",
       "target": "PROMPT-00006"
+    },
+    {
+      "type": "requires",
+      "source": "PAT-00001",
+      "target": "RULE-00008"
+    },
+    {
+      "type": "requires",
+      "source": "PAT-00001",
+      "target": "RULE-00014"
+    },
+    {
+      "type": "requires",
+      "source": "PAT-00005",
+      "target": "RULE-00015"
     }
   ]
 }

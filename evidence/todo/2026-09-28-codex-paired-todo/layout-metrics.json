@@ -1,0 +1,133 @@
+{
+  "browserVersion": "153.0.8010.53",
+  "locale": "en-GB",
+  "deviceScaleFactor": 1,
+  "rows": [
+    {
+      "variant": "baseline",
+      "initial": {
+        "input": {
+          "x": 61.875,
+          "y": 286.671875,
+          "width": 239.3125,
+          "height": 34
+        },
+        "button": {
+          "x": 311.1875,
+          "y": 281.671875,
+          "width": 47.8125,
+          "height": 44
+        },
+        "firstRow": {
+          "x": 23,
+          "y": 426.671875,
+          "width": 344,
+          "height": 63
+        }
+      },
+      "saving": {
+        "input": {
+          "x": 61.875,
+          "y": 286.671875,
+          "width": 209.6875,
+          "height": 34
+        },
+        "button": {
+          "x": 281.5625,
+          "y": 281.671875,
+          "width": 77.4375,
+          "height": 44
+        },
+        "firstRow": {
+          "x": 23,
+          "y": 426.671875,
+          "width": 344,
+          "height": 63
+        }
+      },
+      "failure": {
+        "input": {
+          "x": 61.875,
+          "y": 286.671875,
+          "width": 239.3125,
+          "height": 34
+        },
+        "button": {
+          "x": 311.1875,
+          "y": 281.671875,
+          "width": 47.8125,
+          "height": 44
+        },
+        "firstRow": {
+          "x": 23,
+          "y": 448.671875,
+          "width": 344,
+          "height": 63
+        }
+      }
+    },
+    {
+      "variant": "ai-design-rules",
+      "initial": {
+        "input": {
+          "x": 52,
+          "y": 754.5,
+          "width": 242.546875,
+          "height": 44
+        },
+        "button": {
+          "x": 302.546875,
+          "y": 754.5,
+          "width": 62.453125,
+          "height": 44
+        },
+        "firstRow": {
+          "x": 20,
+          "y": 306.5,
+          "width": 350,
+          "height": 64.796875
+        }
+      },
+      "saving": {
+        "input": {
+          "x": 52,
+          "y": 754.5,
+          "width": 207.78125,
+          "height": 44
+        },
+        "button": {
+          "x": 267.78125,
+          "y": 754.5,
+          "width": 97.21875,
+          "height": 44
+        },
+        "firstRow": {
+          "x": 20,
+          "y": 306.5,
+          "width": 350,
+          "height": 64.796875
+        }
+      },
+      "failure": {
+        "input": {
+          "x": 52,
+          "y": 754.5,
+          "width": 232.0625,
+          "height": 44
+        },
+        "button": {
+          "x": 292.0625,
+          "y": 754.5,
+          "width": 72.9375,
+          "height": 44
+        },
+        "firstRow": {
+          "x": 20,
+          "y": 306.5,
+          "width": 350,
+          "height": 64.796875
+        }
+      }
+    }
+  ]
+}

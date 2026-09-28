@@ -1,6 +1,9 @@
 # Evidence
 
-Future benchmark results will be stored here.
+Benchmark results are stored here.
+
+- [2026-06-25 Todo run](todo/2026-06-25-codex-gpt-5/README.md): directional evidence.
+- [2026-09-28 paired rendered Todo run](todo/2026-09-28-codex-paired-todo/README.md): frozen source, forty screenshots, runtime checks, and an internal unblinded comparison with mixed results.
 
 Do not add fabricated scores.
 

@@ -22,7 +22,7 @@ This file is generated from registry metadata. Do not edit manually.
 | derived_from | 32 |
 | implements | 12 |
 | related_to | 65 |
-| requires | 61 |
+| requires | 64 |
 | validates | 18 |
 
 ## Orphan Objects
@@ -56,11 +56,11 @@ None
 - PROMPT-TODO-BENCHMARK / PROMPT-00003 Todo App Benchmark Prompt: 18
 - REF-TODO-BENCHMARK / REF-00001 Todo App Benchmark Reference Project: 16
 - PAT-002 / PAT-00002 Quick Capture: 15
+- PAT-005 / PAT-00005 Context-Preserving Preview: 13
 - PAT-006 / PAT-00006 Object Status List: 13
 - UX-003 / RULE-00007 Preserve Context During Inspection: 13
-- PAT-005 / PAT-00005 Context-Preserving Preview: 12
+- PAT-001 / PAT-00001 Daily Home Surface: 12
 - A11Y-001 / RULE-00009 44x44 Touch Targets: 12
-- PAT-007 / PAT-00007 Consequential Action Confirmation: 11
 
 ## Patterns Without Required Rules
 
@@ -68,5 +68,4 @@ None
 
 ## Rules Not Used By Any Pattern
 
-- VIS-002 / RULE-00014 Keep Expression Subordinate To Content
-- UX-004 / RULE-00015 Use Motion To Explain State Continuity
+None

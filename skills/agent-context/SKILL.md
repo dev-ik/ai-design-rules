@@ -22,9 +22,11 @@ Run this skill before a user-facing implementation or review when the applicable
 4. Apply only the returned rules and patterns that fit the task.
 5. Preserve every returned evidence boundary; `draft` and `seed` do not justify broad product claims.
 6. If the resolver returns no match, create an observation or research need rather than inventing a rule.
+7. Inspect each object's selection reason. Required dependencies are complete, while optional links in broad review gates must be followed explicitly when the review needs them.
 
 ## Boundaries
 
 - The CLI is read-only and does not replace `npm run check`.
 - `--platform` adds relevant context; it does not prove that a pattern applies.
 - Use `--format json` for another agent or script; errors are machine-readable on stderr.
+- Task matching is lexical. Simple English task wrappers are supported; arbitrary paraphrases and translation are not. Prefer an exact known slug or ID when available.

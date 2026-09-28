@@ -1,0 +1,890 @@
+diff --git a/CHANGELOG.md b/CHANGELOG.md
+index 2e97f56..59642ca 100644
+--- a/CHANGELOG.md
++++ b/CHANGELOG.md
+@@ -1,5 +1,18 @@
+ # Changelog
+ 
++## Unreleased — Focused Context And Applied Patterns
++
++- Rank task context by exact identifiers and focused titles before incidental mentions, with whole-word matching and support for simple English task phrasing.
++- Resolve all transitive required and upstream knowledge dependencies while limiting optional graph expansion; include an explanation for every selected object.
++- Select platform context from eligible rules and patterns before ranking, and preserve JSON object fields with additive selection reasons.
++- Apply `VIS-001` and `VIS-002` in Daily Home Surface and `UX-004` in Context-Preserving Preview, with concrete hierarchy, focus, interruption, and fallback contracts.
++- Add regression coverage for realistic queries, dependency completeness, cycles, platform selection, and missing targets.
++- Define the next paired rendered Todo run, with identical generation conditions, mobile/desktop state captures, interaction checks, and evaluation limits.
++
++### Evidence Boundary
++
++The updated patterns remain `draft` / `seed`. Retrieval behavior is covered by automated tests, but the rendered Todo comparison is a protocol pending execution. No visual-quality gain or independent evaluation is claimed.
++
+ ## v0.3.0 — Expressive Systems And Agent Context
+ 
+ - Added primary-source observations for expressive platform materials, adaptive web UI, systematic motion, and observable agentic workflows.
+diff --git a/docs/AGENT_CONTEXT.md b/docs/AGENT_CONTEXT.md
+index 06a3d31..865952e 100644
+--- a/docs/AGENT_CONTEXT.md
++++ b/docs/AGENT_CONTEXT.md
+@@ -7,6 +7,7 @@
+ ```bash
+ # Design or implement a feature.
+ npm run context -- --task quick-capture --platform mobile --intent implement
++npm run context -- --task "build a shopping list" --intent implement
+ 
+ # Review an implementation, benchmark artifact, or reference fixture.
+ npm run context -- --review examples/todo-reference --intent qa
+@@ -29,7 +30,56 @@ Markdown is the human default. `--format json` emits only this stable shape on s
+ }
+ ```
+ 
+-Task and review modes search stable registry fields and object Markdown. Object mode matches an exact ID, alias, slug, or registry path. From its anchors the resolver follows typed relationships to include directly applicable rules, upstream research, patterns, prompts, checklists, reference projects, and reviews. Platform matching is additive: it can include mobile-relevant rules or patterns, but does not replace the task's graph context.
++Every entry in `anchors` and `objects` retains `id`, `alias`, `title`, `type`, `status`, `maturity`, and `path`, and now adds a `reason` object. Consumers should allow additive fields. For example:
++
++```json
++{
++  "id": "RULE-00002",
++  "alias": "PRD-002",
++  "title": "Low-Friction Capture Before Organization",
++  "type": "rule",
++  "status": "draft",
++  "maturity": "seed",
++  "path": "rules/product/PRD-002.md",
++  "reason": { "kind": "dependency", "source": "PAT-00002", "relationship": "requires" }
++}
++```
++
++## Matching And Scope
++
++Task and review modes search stable registry fields and object Markdown. An exact ID, alias, slug, or registry path wins first. Otherwise, whole Unicode words must match; titles rank above slugs, aliases, categories, and incidental body mentions. Shorter focused titles break otherwise equal title matches. One highest-ranked anchor is selected, with stable ID ordering as the final tie-breaker.
++
++The small English filler set (`a`, `an`, `the`, `please`, `build`, `create`, `implement`, `make`, `for`, `me`) is ignored in non-exact queries. Thus `build a shopping list` and `shopping list` resolve alike. Unknown subject terms are not dropped. This is lexical retrieval, not translation or semantic search: use a known slug or ID when a paraphrase or another language has no matching words. A query containing only fillers fails instead of selecting arbitrary knowledge.
++
++Object mode matches only an exact ID, alias, slug, or registry path and does not apply filler handling.
++
++From the anchor the resolver includes:
++
++- Direct `related_to` neighbors for research, rules, and patterns, without recursively following optional neighbors.
++- Rules derived from a research anchor through `derived_from` or `inspired_by`.
++- Direct review prompts and checklists for anchors and those derived rules; reviews that `validate` a reference-project anchor.
++- All transitive registered `requires`, `derived_from`, `inspired_by`, and `implements` dependencies of every selected object; `validates` targets of selected reviews and reference projects.
++
++Dependencies are followed to completion even across cycles. A missing registered dependency is an error. The resolver does not walk backward from every shared rule into every consuming pattern or generation prompt. Broad review checklists remain available as gates, but their optional `related_to` links do not automatically select the whole graph. Follow those links explicitly when broadening a review. Non-registry observation sources remain in the research files and must be read there.
++
++Platform matching is additive. It selects at most one matching rule or pattern from eligible types **before** ranking, then includes its dependencies and direct context under the same rules. A platform with no match adds nothing. Platform matching does not replace the task anchor or prove applicability.
++
++There is no hard object-count cap: completeness of required dependencies takes priority over a fixed limit. Large mandatory graphs may still produce large bundles.
++
++## Selection Reasons
++
++Markdown explains the selection beside each object. JSON records the first deterministic inclusion reason:
++
++| `reason.kind` | Meaning | Additional fields |
++| --- | --- | --- |
++| `match` | Exact match or highest-ranked lexical match | `field`, `terms` matched in that field |
++| `platform` | Added by the platform query | `value`, `field`, `terms` |
++| `dependency` | Outgoing mandatory or validation edge from a selected object | `source`, `relationship` |
++| `related` | Direct optional neighbor of a seed object | `source`, `relationship` |
++| `derived_rule` | Rule points back to selected research | `source` (research), `relationship` |
++| `review` | Review gate points back to the selected object | `source` (reviewed object), `relationship` |
++
++For `derived_rule` and `review`, the stored graph edge points from the returned object to `reason.source`. For `dependency` and `related`, it points from `reason.source` to the returned object. A reason explains inclusion; it is not a confidence score or a claim of validation.
+ 
+ `--intent implement` gives an implementation-first use order. `--intent qa` gives an evidence-and-checklist-first use order. Task mode defaults to `implement`; review mode defaults to `qa`.
+ 
+@@ -42,3 +92,4 @@ An unmatched query returns a non-zero exit code; with `--format json` the error
+ 3. Treat `draft` and `seed` objects as guidance with explicit limits, not as validated truth.
+ 4. Use listed checklists and reviews as quality gates.
+ 5. If no context matches, capture an observation or research need; do not invent a rule to fill the gap.
++6. Use `reason` to distinguish task matches, required knowledge, and review gates. Apply only guidance relevant to the current task.
+diff --git a/docs/BENCHMARK.md b/docs/BENCHMARK.md
+index f3baa88..4324bef 100644
+--- a/docs/BENCHMARK.md
++++ b/docs/BENCHMARK.md
+@@ -118,3 +118,51 @@ Benchmark results should guide rule, pattern, prompt, and skill evolution. They
+ Store future results in `evidence/`.
+ 
+ Do not add synthetic scores. Do not invent studies. Do not compare against private internal systems.
++
++## Next Rendered Run: Todo
++
++Use `benchmarks/todo-app.md` for the first paired rendered run of the next release. It exercises the updated Daily Home Surface (`PAT-001`, `VIS-002`) and Context-Preserving Preview (`PAT-005`, `UX-004`) alongside existing capture, accessibility, and recovery guidance. This is a run protocol, not a completed experiment or evidence of improvement.
++
++### Freeze The Setup
++
++Before either generation starts, record one shared setup in the run notes:
++
++- The scenario file, its hash, the knowledge revision, and any uncommitted knowledge patch used by the rules run.
++- The exact common brief: the Product Brief, Expected User, Expected Platform, Constraints, and Core User Tasks sections from `benchmarks/todo-app.md`, unchanged and identical in both prompts.
++- One model/provider/version, generation surface, exposed sampling settings, tool set, and time budget. Record unexposed settings as unexposed; do not invent values.
++- The implementation target: static HTML, CSS, and JavaScript served locally, with no build dependencies or external assets. Use the same target for both runs.
++- The same deterministic task data, browser/version, viewport sizes, and storage-reset procedure for both evaluations.
++
++Give both runs the same technical requirement to document how the evaluator can reproduce empty, loading, failed-save, and successful-save states. Local test hooks are acceptable; do not expose test controls as product features. Let each run design its interface from the same brief.
++
++Use two fresh generation sessions with no shared conversation or output access. Give the baseline only the common brief and shared technical setup. Give the rules session those same inputs plus the pinned knowledge source and instructions to retrieve context for `daily-home-surface`, `quick-capture`, and `context-preserving-preview`, with `--platform mobile`, before implementation. Save the exact returned context and actual prompts. Both sessions must have equivalent tool access; document any isolation limitations.
++
++Do not use the existing runnable Todo fixture as either generated result. Do not manually improve one output before scoring. A failure to build, render, or reproduce a required state is a recorded result.
++
++### Capture The Same Tasks
++
++Evaluate both outputs at **390 × 844** and **1440 × 900** CSS pixels, at the same browser zoom and device scale. Reset storage and use the same task data before each sequence. Save these local artifacts inside each run type's `screenshots/` directory:
++
++| Artifact suffix | Action and observable evidence |
++| --- | --- |
++| `default.png` | Open the populated daily surface; inspect current work and the primary action. |
++| `empty.png` | Reset to no tasks; inspect the starting action. |
++| `saving.png` | Submit a task under controlled delay; inspect input retention and layout stability. |
++| `save-error.png` | Cause a failed save; inspect error text, retained input, and retry. |
++| `saved.png` | Retry successfully; inspect feedback and duplicate prevention. |
++| `completed.png` | Mark a task complete; inspect state clarity and remaining work. |
++| `detail.png` | Open task details after scrolling; inspect the relation to the source list. |
++| `keyboard-focus.png` | Reach a core action by keyboard; inspect visible focus and accessible naming. |
++| `detail-reduced-motion.png` | Repeat detail opening with reduced motion; inspect equivalent information and controls. |
++
++Prefix each filename with `mobile-` or `desktop-`. Record the exact reproduction steps with each capture. If a state cannot be reached, record it as missing; do not create a substitute screenshot that pretends to show the state.
++
++Screenshots do not prove timing, focus restoration, or interruption behavior. Record interaction results separately: close the preview and verify source position/focus; close or change selection during opening and check for stale content; repeat with reduced motion; verify retry and task completion. Performance observations remain qualitative unless measurements are actually collected.
++
++### Score And Publish Evidence
++
++Use the same evaluator and `docs/EVALUATION_RUBRIC.md` for both outputs. Score visible behavior, include a note and artifact reference for each category, and report all category differences as well as the averages. If possible, score anonymous A/B outputs before revealing their conditions. Disclose whether evaluation was blinded and whether the evaluator participated in generation; a parent agent reviewing its own team's output is not independent evaluation.
++
++Store completed runs using `evidence/TEMPLATE.md`, including raw source, prompts, settings, screenshots, state coverage, evaluator identity, and limitations. Run `npm run benchmark:validate`. The validator currently checks artifact presence, metadata consistency, and image signatures; it does not enforce this state matrix or judge visual quality. The evaluator must check those manually.
++
++Do not create scored evidence entries or change rule maturity while preparation is incomplete. One completed pair remains a small-sample result; it cannot establish universal improvement or isolate the effect of context retrieval from pattern changes. Repeated pairs or a separate previous-version comparison are needed for those stronger claims.
+diff --git a/graph/GENERATED_GRAPH.md b/graph/GENERATED_GRAPH.md
+index 6fa760e..eeaa66c 100644
+--- a/graph/GENERATED_GRAPH.md
++++ b/graph/GENERATED_GRAPH.md
+@@ -22,7 +22,7 @@ This file is generated from registry metadata. Do not edit manually.
+ | derived_from | 32 |
+ | implements | 12 |
+ | related_to | 65 |
+-| requires | 61 |
++| requires | 64 |
+ | validates | 18 |
+ 
+ ## Orphan Objects
+@@ -56,11 +56,11 @@ None
+ - PROMPT-TODO-BENCHMARK / PROMPT-00003 Todo App Benchmark Prompt: 18
+ - REF-TODO-BENCHMARK / REF-00001 Todo App Benchmark Reference Project: 16
+ - PAT-002 / PAT-00002 Quick Capture: 15
++- PAT-005 / PAT-00005 Context-Preserving Preview: 13
+ - PAT-006 / PAT-00006 Object Status List: 13
+ - UX-003 / RULE-00007 Preserve Context During Inspection: 13
+-- PAT-005 / PAT-00005 Context-Preserving Preview: 12
++- PAT-001 / PAT-00001 Daily Home Surface: 12
+ - A11Y-001 / RULE-00009 44x44 Touch Targets: 12
+-- PAT-007 / PAT-00007 Consequential Action Confirmation: 11
+ 
+ ## Patterns Without Required Rules
+ 
+@@ -68,5 +68,4 @@ None
+ 
+ ## Rules Not Used By Any Pattern
+ 
+-- VIS-002 / RULE-00014 Keep Expression Subordinate To Content
+-- UX-004 / RULE-00015 Use Motion To Explain State Continuity
++None
+diff --git a/patterns/GENERATED_INDEX.md b/patterns/GENERATED_INDEX.md
+index 327df50..0f287fa 100644
+--- a/patterns/GENERATED_INDEX.md
++++ b/patterns/GENERATED_INDEX.md
+@@ -4,10 +4,10 @@ This file is generated from registry metadata. Do not edit manually.
+ 
+ | ID | Alias | Title | Category | Status | Maturity | File Path | Required Rules | Related Research |
+ | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+-| PAT-00001 | PAT-001 | Daily Home Surface | product | draft | seed | patterns/daily-home-surface.md | PRD-001 / RULE-00001 Daily Actions First<br>IA-001 / RULE-00003 One Stable Home Surface<br>UX-002 / RULE-00006 Progressively Disclose Power<br>A11Y-001 / RULE-00009 44x44 Touch Targets | THINGS-3 / RESEARCH-00002 Things 3<br>TELEGRAM / RESEARCH-00001 Telegram<br>APPLE-REMINDERS / RESEARCH-00003 Apple Reminders |
++| PAT-00001 | PAT-001 | Daily Home Surface | product | draft | seed | patterns/daily-home-surface.md | PRD-001 / RULE-00001 Daily Actions First<br>IA-001 / RULE-00003 One Stable Home Surface<br>UX-002 / RULE-00006 Progressively Disclose Power<br>A11Y-001 / RULE-00009 44x44 Touch Targets<br>VIS-001 / RULE-00008 Semantic Tokens Only<br>VIS-002 / RULE-00014 Keep Expression Subordinate To Content | THINGS-3 / RESEARCH-00002 Things 3<br>TELEGRAM / RESEARCH-00001 Telegram<br>APPLE-REMINDERS / RESEARCH-00003 Apple Reminders<br>LINEAR / RESEARCH-00004 Linear<br>EXPRESSIVE-SYSTEM-UI-2026 / RESEARCH-00009 Expressive System UI In 2026 |
+ | PAT-00002 | PAT-002 | Quick Capture | workflow | draft | seed | patterns/quick-capture.md | PRD-002 / RULE-00002 Low-Friction Capture Before Organization<br>UX-001 / RULE-00005 Thumb-Zone Primary Actions<br>UX-002 / RULE-00006 Progressively Disclose Power<br>A11Y-001 / RULE-00009 44x44 Touch Targets<br>A11Y-002 / RULE-00010 Textual Input Error Recovery<br>PERF-001 / RULE-00011 Reserve Layout Space For Asynchronous Content<br>A11Y-003 / RULE-00012 Visible Keyboard Focus | APPLE-REMINDERS / RESEARCH-00003 Apple Reminders<br>THINGS-3 / RESEARCH-00002 Things 3<br>TELEGRAM / RESEARCH-00001 Telegram<br>TEXTUAL-ERROR-RECOVERY / RESEARCH-00006 Textual Error Recovery<br>RESERVED-LOADING-SPACE / RESEARCH-00007 Reserved Loading Space<br>KEYBOARD-FOCUS-AND-MOTION / RESEARCH-00008 Keyboard Focus And Interaction Motion |
+ | PAT-00003 | PAT-003 | Mobile Primary Action | mobile | draft | seed | patterns/mobile-primary-action.md | UX-001 / RULE-00005 Thumb-Zone Primary Actions<br>PRD-001 / RULE-00001 Daily Actions First<br>A11Y-001 / RULE-00009 44x44 Touch Targets | THINGS-3 / RESEARCH-00002 Things 3<br>TELEGRAM / RESEARCH-00001 Telegram<br>APPLE-REMINDERS / RESEARCH-00003 Apple Reminders |
+ | PAT-00004 | PAT-004 | Progressive Detail | ux | draft | seed | patterns/progressive-detail.md | UX-002 / RULE-00006 Progressively Disclose Power<br>PRD-002 / RULE-00002 Low-Friction Capture Before Organization<br>VIS-001 / RULE-00008 Semantic Tokens Only<br>A11Y-001 / RULE-00009 44x44 Touch Targets | APPLE-REMINDERS / RESEARCH-00003 Apple Reminders<br>THINGS-3 / RESEARCH-00002 Things 3<br>TELEGRAM / RESEARCH-00001 Telegram<br>LINEAR / RESEARCH-00004 Linear |
+-| PAT-00005 | PAT-005 | Context-Preserving Preview | ux | draft | seed | patterns/context-preserving-preview.md | UX-003 / RULE-00007 Preserve Context During Inspection<br>IA-002 / RULE-00004 Define The Object Model Before Screens<br>IA-001 / RULE-00003 One Stable Home Surface<br>A11Y-001 / RULE-00009 44x44 Touch Targets<br>A11Y-004 / RULE-00013 Reduce Non-Essential Interaction Motion | TELEGRAM / RESEARCH-00001 Telegram<br>THINGS-3 / RESEARCH-00002 Things 3<br>APPLE-REMINDERS / RESEARCH-00003 Apple Reminders<br>LINEAR / RESEARCH-00004 Linear<br>ARC / RESEARCH-00005 Arc<br>KEYBOARD-FOCUS-AND-MOTION / RESEARCH-00008 Keyboard Focus And Interaction Motion |
++| PAT-00005 | PAT-005 | Context-Preserving Preview | ux | draft | seed | patterns/context-preserving-preview.md | UX-003 / RULE-00007 Preserve Context During Inspection<br>IA-002 / RULE-00004 Define The Object Model Before Screens<br>IA-001 / RULE-00003 One Stable Home Surface<br>A11Y-001 / RULE-00009 44x44 Touch Targets<br>A11Y-004 / RULE-00013 Reduce Non-Essential Interaction Motion<br>UX-004 / RULE-00015 Use Motion To Explain State Continuity | TELEGRAM / RESEARCH-00001 Telegram<br>THINGS-3 / RESEARCH-00002 Things 3<br>APPLE-REMINDERS / RESEARCH-00003 Apple Reminders<br>LINEAR / RESEARCH-00004 Linear<br>ARC / RESEARCH-00005 Arc<br>KEYBOARD-FOCUS-AND-MOTION / RESEARCH-00008 Keyboard Focus And Interaction Motion<br>MOTION-AS-STATE-CONTINUITY / RESEARCH-00010 Motion As State Continuity |
+ | PAT-00006 | PAT-006 | Object Status List | ia | draft | seed | patterns/object-status-list.md | IA-002 / RULE-00004 Define The Object Model Before Screens<br>UX-003 / RULE-00007 Preserve Context During Inspection<br>VIS-001 / RULE-00008 Semantic Tokens Only<br>A11Y-001 / RULE-00009 44x44 Touch Targets | LINEAR / RESEARCH-00004 Linear<br>TELEGRAM / RESEARCH-00001 Telegram<br>ARC / RESEARCH-00005 Arc<br>THINGS-3 / RESEARCH-00002 Things 3<br>APPLE-REMINDERS / RESEARCH-00003 Apple Reminders |
+ | PAT-00007 | PAT-007 | Consequential Action Confirmation | ux | active | validated | patterns/consequential-action-confirmation.md | UX-006 / RULE-00017 Confirm Consequential Actions With Preserved Context<br>UX-003 / RULE-00007 Preserve Context During Inspection<br>A11Y-002 / RULE-00010 Textual Input Error Recovery<br>UX-005 / RULE-00016 Expose Agent Work And Intervention | ARC / RESEARCH-00005 Arc<br>LINEAR / RESEARCH-00004 Linear<br>TELEGRAM / RESEARCH-00001 Telegram<br>TEXTUAL-ERROR-RECOVERY / RESEARCH-00006 Textual Error Recovery<br>CONTEXTUAL-AGENTIC-INTERFACE / RESEARCH-00011 Contextual And Observable Agentic Interfaces<br>HIGH-RISK-OPERATIONAL-FLOWS / RESEARCH-00012 High-Risk Operational Flows |
+diff --git a/patterns/context-preserving-preview.md b/patterns/context-preserving-preview.md
+index 06ef6cb..5ab2fb3 100644
+--- a/patterns/context-preserving-preview.md
++++ b/patterns/context-preserving-preview.md
+@@ -5,7 +5,7 @@ slug: context-preserving-preview
+ title: Context-Preserving Preview
+ object_type: pattern
+ status: draft
+-version: 0.1.0
++version: 0.2.0
+ category: ux
+ tags:
+   - ux
+@@ -23,6 +23,8 @@ relationships:
+     target: RULE-00009
+   - type: requires
+     target: RULE-00013
++  - type: requires
++    target: RULE-00015
+   - type: related_to
+     target: PAT-00006
+ ---
+@@ -58,6 +60,7 @@ Lists, workspaces, conversations, and browsers where users inspect multiple item
+ - `UX-003` Preserve Context During Inspection
+ - `IA-002` Define The Object Model Before Screens
+ - `IA-001` One Stable Home Surface
++- `UX-004` Use Motion To Explain State Continuity
+ 
+ ## Accessibility Rules
+ 
+@@ -68,6 +71,16 @@ Lists, workspaces, conversations, and browsers where users inspect multiple item
+ 
+ If opening or closing preview uses non-essential motion, respect a reduced-motion preference or provide an equivalent way to disable it. The reduced-motion state may switch directly to the same sheet, panel, or preview state; it must not remove the preview or its return path.
+ 
++Use motion only to explain the selected item's relationship to its preview (`UX-004`). Reuse the product's named timing and easing roles; do not introduce a fixed duration or require a particular animation API. Define the following behavior before implementing the transition:
++
++| State or transition | Required outcome |
++| --- | --- |
++| Closed to open | Keep the selected item, filters, and scroll position; show which item the preview belongs to. Define the focus destination for the chosen panel or dialog behavior. |
++| Loading or error | Keep the source usable and show feedback in the preview. Feedback must remain understandable without movement. |
++| Close | Restore the source context. If focus moved into the preview, return it to the invoking control or a logical surviving control if that item was removed. |
++| Interrupted opening or item switch | The latest selection determines the visible item. A delayed transition must not reopen a closed preview or move focus to an old item. |
++| Reduced motion or unsupported animation | Reach the same selected item, information, controls, and focus outcome without non-essential movement. |
++
+ ## Mobile Behavior
+ 
+ Use a sheet, drawer, or temporary detail view that preserves return state. Avoid resetting filters or scroll on close.
+@@ -95,12 +108,14 @@ Show preview-level error and keep the source list usable.
+ - `IA-001` One Stable Home Surface
+ - `A11Y-001` 44x44 Touch Targets
+ - `A11Y-004` Reduce Non-Essential Interaction Motion
++- `UX-004` Use Motion To Explain State Continuity
+ 
+ ## Related Research
+ 
+ - `research/products/arc.md`
+ - `research/products/linear.md`
+ - `research/products/telegram.md`
++- `research/ux/motion-as-state-continuity.md`
+ 
+ ## Related Patterns
+ 
+@@ -114,6 +129,8 @@ Show preview-level error and keep the source list usable.
+ - A consumer task app opens task detail from Today without losing the Today list.
+ - An issue tracker opens issue detail beside the filtered issue list.
+ 
++For a task preview, a brief local transition can connect the selected row to its details. With reduced motion, open those same details immediately. Animating every list row or waiting for a closing animation before accepting the next selection would add motion without preserving useful context.
++
+ ## Agent Checklist
+ 
+ - Does opening detail preserve source context?
+@@ -121,3 +138,8 @@ Show preview-level error and keep the source list usable.
+ - Is the return path obvious?
+ - Does preview stay smaller than a full workspace?
+ - When motion exists, can reduced motion reach the same preview and return state?
++- Are the start state, end state, focus destination, interruption behavior, and fallback recorded?
++- Can a user close or switch items during opening without stale content or focus taking over?
++- Is loading and error feedback still clear with animation disabled?
++
++The motion guidance remains `draft` / `seed`; this revision does not establish rendered or independent validation.
+diff --git a/patterns/daily-home-surface.md b/patterns/daily-home-surface.md
+index 31c7e39..054386a 100644
+--- a/patterns/daily-home-surface.md
++++ b/patterns/daily-home-surface.md
+@@ -5,7 +5,7 @@ slug: daily-home-surface
+ title: Daily Home Surface
+ object_type: pattern
+ status: draft
+-version: 0.1.0
++version: 0.2.0
+ category: product
+ tags:
+   - product
+@@ -21,6 +21,10 @@ relationships:
+     target: RULE-00006
+   - type: requires
+     target: RULE-00009
++  - type: requires
++    target: RULE-00008
++  - type: requires
++    target: RULE-00014
+   - type: related_to
+     target: PAT-00002
+   - type: related_to
+@@ -67,10 +71,14 @@ Consumer products with recurring workflows, such as family tasks, reminders, rou
+ 
+ Show the current work and primary daily action in the first 390px-wide viewport. Keep navigation secondary and reachable.
+ 
++Keep current-work labels readable beside the primary action. Use the same semantic content, action, and supporting-surface roles as desktop; reducing width must not give every row or navigation control the same emphasis as the main action (`VIS-001`, `VIS-002`).
++
+ ## Desktop Behavior
+ 
+ Use the extra width for supporting context, not competing entry points. Keep the same home concept as mobile.
+ 
++Identify the content layer (current work), functional layer (navigation and controls), focal emphasis (the repeated daily action), and quiet supporting surfaces. Reuse existing typography, spacing, and color roles. Strong material, shape, or color treatments must clarify that hierarchy; removing decorative effects must leave content order and the primary action understandable (`VIS-001`, `VIS-002`).
++
+ ## Empty State
+ 
+ Explain what belongs here and provide the primary create or start action.
+@@ -89,12 +97,15 @@ Preserve the home surface and show a recovery action without replacing the whole
+ - `IA-001` One Stable Home Surface
+ - `UX-002` Progressively Disclose Power
+ - `A11Y-001` 44x44 Touch Targets
++- `VIS-001` Semantic Tokens Only
++- `VIS-002` Keep Expression Subordinate To Content
+ 
+ ## Related Research
+ 
+ - `research/products/things-3.md`
+ - `research/products/telegram.md`
+ - `research/products/apple-reminders.md`
++- `research/visual/expressive-system-ui-2026.md`
+ 
+ ## Related Patterns
+ 
+@@ -108,9 +119,16 @@ Preserve the home surface and show a recovery action without replacing the whole
+ - A consumer task app opens to Today, showing current tasks and the main add action.
+ - A reminders app opens to the user's current list instead of settings or analytics.
+ 
++For a household shopping list, the current items form the content layer, list switching belongs to the functional layer, and Add item is the focal action. Bought items remain readable but quieter. Giving every item, navigation control, and background the same strong accent would obscure this hierarchy. This is an application of `VIS-002`, not a required brand style or a new component system.
++
+ ## Agent Checklist
+ 
+ - Is there one recognizable home surface?
+ - Is the repeated daily action visible without scrolling?
+ - Can users return after exploring secondary modes?
+ - Are advanced controls quieter than current work?
++- Can the content, functional layer, focal emphasis, and supporting surfaces be identified on both mobile and desktop?
++- Does the hierarchy remain clear without transparency, shadows, or decorative motion?
++- Do repeated visual decisions reuse the project's semantic roles?
++
++The visual guidance remains `draft` / `seed`; this revision adds an application contract, not rendered benchmark validation.
+diff --git a/registry/objects.json b/registry/objects.json
+index ad06c2e..c1eaf10 100644
+--- a/registry/objects.json
++++ b/registry/objects.json
+@@ -223,7 +223,7 @@
+       "title": "Daily Home Surface",
+       "object_type": "pattern",
+       "status": "draft",
+-      "version": "0.1.0",
++      "version": "0.2.0",
+       "category": "product",
+       "maturity": "seed",
+       "path": "patterns/daily-home-surface.md"
+@@ -271,7 +271,7 @@
+       "title": "Context-Preserving Preview",
+       "object_type": "pattern",
+       "status": "draft",
+-      "version": "0.1.0",
++      "version": "0.2.0",
+       "category": "ux",
+       "maturity": "seed",
+       "path": "patterns/context-preserving-preview.md"
+diff --git a/registry/relationships.json b/registry/relationships.json
+index f562e4d..d658ba2 100644
+--- a/registry/relationships.json
++++ b/registry/relationships.json
+@@ -952,6 +952,21 @@
+       "type": "validates",
+       "source": "REVIEW-00003",
+       "target": "PROMPT-00006"
++    },
++    {
++      "type": "requires",
++      "source": "PAT-00001",
++      "target": "RULE-00008"
++    },
++    {
++      "type": "requires",
++      "source": "PAT-00001",
++      "target": "RULE-00014"
++    },
++    {
++      "type": "requires",
++      "source": "PAT-00005",
++      "target": "RULE-00015"
+     }
+   ]
+ }
+diff --git a/rules/GENERATED_INDEX.md b/rules/GENERATED_INDEX.md
+index ab0e91e..f2440e4 100644
+--- a/rules/GENERATED_INDEX.md
++++ b/rules/GENERATED_INDEX.md
+@@ -11,13 +11,13 @@ This file is generated from registry metadata. Do not edit manually.
+ | RULE-00005 | UX-001 | Thumb-Zone Primary Actions | ux | draft | seed | rules/ux/UX-001.md | PAT-002 / PAT-00002 Quick Capture<br>PAT-003 / PAT-00003 Mobile Primary Action | derived_from: THINGS-3 / RESEARCH-00002 Things 3<br>derived_from: APPLE-REMINDERS / RESEARCH-00003 Apple Reminders<br>related_to: PROMPT-PROTOTYPE-REVIEW / PROMPT-00002 Prototype Review Prompt<br>related_to: CHECK-DESIGN-QA / CHECK-00001 Design QA Checklist |
+ | RULE-00006 | UX-002 | Progressively Disclose Power | ux | draft | seed | rules/ux/UX-002.md | PAT-001 / PAT-00001 Daily Home Surface<br>PAT-002 / PAT-00002 Quick Capture<br>PAT-004 / PAT-00004 Progressive Detail | derived_from: THINGS-3 / RESEARCH-00002 Things 3<br>derived_from: APPLE-REMINDERS / RESEARCH-00003 Apple Reminders<br>derived_from: TELEGRAM / RESEARCH-00001 Telegram<br>related_to: PROMPT-PROTOTYPE-REVIEW / PROMPT-00002 Prototype Review Prompt<br>related_to: CHECK-DESIGN-QA / CHECK-00001 Design QA Checklist |
+ | RULE-00007 | UX-003 | Preserve Context During Inspection | ux | draft | seed | rules/ux/UX-003.md | PAT-005 / PAT-00005 Context-Preserving Preview<br>PAT-006 / PAT-00006 Object Status List<br>PAT-007 / PAT-00007 Consequential Action Confirmation | derived_from: ARC / RESEARCH-00005 Arc<br>derived_from: LINEAR / RESEARCH-00004 Linear<br>derived_from: TELEGRAM / RESEARCH-00001 Telegram<br>related_to: PROMPT-PROTOTYPE-REVIEW / PROMPT-00002 Prototype Review Prompt<br>related_to: CHECK-DESIGN-QA / CHECK-00001 Design QA Checklist<br>related_to: UX-004 / RULE-00015 Use Motion To Explain State Continuity<br>related_to: UX-005 / RULE-00016 Expose Agent Work And Intervention<br>related_to: UX-006 / RULE-00017 Confirm Consequential Actions With Preserved Context |
+-| RULE-00008 | VIS-001 | Semantic Tokens Only | visual | draft | seed | rules/visual/VIS-001.md | PAT-004 / PAT-00004 Progressive Detail<br>PAT-006 / PAT-00006 Object Status List | derived_from: LINEAR / RESEARCH-00004 Linear<br>derived_from: THINGS-3 / RESEARCH-00002 Things 3<br>related_to: PROMPT-PROTOTYPE-REVIEW / PROMPT-00002 Prototype Review Prompt<br>related_to: CHECK-DESIGN-QA / CHECK-00001 Design QA Checklist<br>related_to: VIS-002 / RULE-00014 Keep Expression Subordinate To Content |
++| RULE-00008 | VIS-001 | Semantic Tokens Only | visual | draft | seed | rules/visual/VIS-001.md | PAT-004 / PAT-00004 Progressive Detail<br>PAT-006 / PAT-00006 Object Status List<br>PAT-001 / PAT-00001 Daily Home Surface | derived_from: LINEAR / RESEARCH-00004 Linear<br>derived_from: THINGS-3 / RESEARCH-00002 Things 3<br>related_to: PROMPT-PROTOTYPE-REVIEW / PROMPT-00002 Prototype Review Prompt<br>related_to: CHECK-DESIGN-QA / CHECK-00001 Design QA Checklist<br>related_to: VIS-002 / RULE-00014 Keep Expression Subordinate To Content |
+ | RULE-00009 | A11Y-001 | 44x44 Touch Targets | accessibility | draft | seed | rules/accessibility/A11Y-001.md | PAT-001 / PAT-00001 Daily Home Surface<br>PAT-002 / PAT-00002 Quick Capture<br>PAT-003 / PAT-00003 Mobile Primary Action<br>PAT-004 / PAT-00004 Progressive Detail<br>PAT-005 / PAT-00005 Context-Preserving Preview<br>PAT-006 / PAT-00006 Object Status List | derived_from: APPLE-REMINDERS / RESEARCH-00003 Apple Reminders<br>derived_from: THINGS-3 / RESEARCH-00002 Things 3<br>related_to: PROMPT-PROTOTYPE-REVIEW / PROMPT-00002 Prototype Review Prompt<br>related_to: CHECK-DESIGN-QA / CHECK-00001 Design QA Checklist |
+ | RULE-00010 | A11Y-002 | Textual Input Error Recovery | accessibility | draft | seed | rules/accessibility/A11Y-002.md | PAT-002 / PAT-00002 Quick Capture<br>PAT-007 / PAT-00007 Consequential Action Confirmation | derived_from: TEXTUAL-ERROR-RECOVERY / RESEARCH-00006 Textual Error Recovery<br>related_to: CHECK-DESIGN-QA / CHECK-00001 Design QA Checklist<br>related_to: PROMPT-PROTOTYPE-REVIEW / PROMPT-00002 Prototype Review Prompt<br>related_to: UX-006 / RULE-00017 Confirm Consequential Actions With Preserved Context |
+ | RULE-00011 | PERF-001 | Reserve Layout Space For Asynchronous Content | performance | draft | seed | rules/performance/PERF-001.md | PAT-002 / PAT-00002 Quick Capture | derived_from: RESERVED-LOADING-SPACE / RESEARCH-00007 Reserved Loading Space<br>related_to: CHECK-DESIGN-QA / CHECK-00001 Design QA Checklist<br>related_to: PROMPT-PROTOTYPE-REVIEW / PROMPT-00002 Prototype Review Prompt |
+ | RULE-00012 | A11Y-003 | Visible Keyboard Focus | accessibility | draft | seed | rules/accessibility/A11Y-003.md | PAT-002 / PAT-00002 Quick Capture | derived_from: KEYBOARD-FOCUS-AND-MOTION / RESEARCH-00008 Keyboard Focus And Interaction Motion<br>related_to: CHECK-DESIGN-QA / CHECK-00001 Design QA Checklist<br>related_to: PROMPT-PROTOTYPE-REVIEW / PROMPT-00002 Prototype Review Prompt |
+ | RULE-00013 | A11Y-004 | Reduce Non-Essential Interaction Motion | accessibility | draft | seed | rules/accessibility/A11Y-004.md | PAT-005 / PAT-00005 Context-Preserving Preview | derived_from: KEYBOARD-FOCUS-AND-MOTION / RESEARCH-00008 Keyboard Focus And Interaction Motion<br>related_to: CHECK-DESIGN-QA / CHECK-00001 Design QA Checklist<br>related_to: UX-004 / RULE-00015 Use Motion To Explain State Continuity<br>related_to: PROMPT-PROTOTYPE-REVIEW / PROMPT-00002 Prototype Review Prompt |
+-| RULE-00014 | VIS-002 | Keep Expression Subordinate To Content | visual | draft | seed | rules/visual/VIS-002.md | None | derived_from: EXPRESSIVE-SYSTEM-UI-2026 / RESEARCH-00009 Expressive System UI In 2026<br>related_to: VIS-001 / RULE-00008 Semantic Tokens Only<br>related_to: CHECK-DESIGN-QA / CHECK-00001 Design QA Checklist<br>related_to: PROMPT-PROTOTYPE-REVIEW / PROMPT-00002 Prototype Review Prompt |
+-| RULE-00015 | UX-004 | Use Motion To Explain State Continuity | ux | draft | seed | rules/ux/UX-004.md | None | derived_from: MOTION-AS-STATE-CONTINUITY / RESEARCH-00010 Motion As State Continuity<br>related_to: UX-003 / RULE-00007 Preserve Context During Inspection<br>related_to: A11Y-004 / RULE-00013 Reduce Non-Essential Interaction Motion<br>related_to: CHECK-DESIGN-QA / CHECK-00001 Design QA Checklist<br>related_to: PROMPT-PROTOTYPE-REVIEW / PROMPT-00002 Prototype Review Prompt |
++| RULE-00014 | VIS-002 | Keep Expression Subordinate To Content | visual | draft | seed | rules/visual/VIS-002.md | PAT-001 / PAT-00001 Daily Home Surface | derived_from: EXPRESSIVE-SYSTEM-UI-2026 / RESEARCH-00009 Expressive System UI In 2026<br>related_to: VIS-001 / RULE-00008 Semantic Tokens Only<br>related_to: CHECK-DESIGN-QA / CHECK-00001 Design QA Checklist<br>related_to: PROMPT-PROTOTYPE-REVIEW / PROMPT-00002 Prototype Review Prompt |
++| RULE-00015 | UX-004 | Use Motion To Explain State Continuity | ux | draft | seed | rules/ux/UX-004.md | PAT-005 / PAT-00005 Context-Preserving Preview | derived_from: MOTION-AS-STATE-CONTINUITY / RESEARCH-00010 Motion As State Continuity<br>related_to: UX-003 / RULE-00007 Preserve Context During Inspection<br>related_to: A11Y-004 / RULE-00013 Reduce Non-Essential Interaction Motion<br>related_to: CHECK-DESIGN-QA / CHECK-00001 Design QA Checklist<br>related_to: PROMPT-PROTOTYPE-REVIEW / PROMPT-00002 Prototype Review Prompt |
+ | RULE-00016 | UX-005 | Expose Agent Work And Intervention | ux | draft | seed | rules/ux/UX-005.md | PAT-007 / PAT-00007 Consequential Action Confirmation | derived_from: CONTEXTUAL-AGENTIC-INTERFACE / RESEARCH-00011 Contextual And Observable Agentic Interfaces<br>related_to: IA-002 / RULE-00004 Define The Object Model Before Screens<br>related_to: UX-003 / RULE-00007 Preserve Context During Inspection<br>related_to: CHECK-DESIGN-QA / CHECK-00001 Design QA Checklist<br>related_to: PROMPT-PROTOTYPE-REVIEW / PROMPT-00002 Prototype Review Prompt<br>related_to: UX-006 / RULE-00017 Confirm Consequential Actions With Preserved Context<br>related_to: PROMPT-CONSEQUENTIAL-ACTION-REVIEW / PROMPT-00006 Consequential Action Review Prompt |
+ | RULE-00017 | UX-006 | Confirm Consequential Actions With Preserved Context | ux | active | validated | rules/ux/UX-006.md | PAT-007 / PAT-00007 Consequential Action Confirmation | derived_from: HIGH-RISK-OPERATIONAL-FLOWS / RESEARCH-00012 High-Risk Operational Flows<br>related_to: UX-003 / RULE-00007 Preserve Context During Inspection<br>related_to: A11Y-002 / RULE-00010 Textual Input Error Recovery<br>related_to: UX-005 / RULE-00016 Expose Agent Work And Intervention<br>related_to: CHECK-DESIGN-QA / CHECK-00001 Design QA Checklist<br>related_to: PROMPT-PROTOTYPE-REVIEW / PROMPT-00002 Prototype Review Prompt<br>validates: REF-CONSEQUENTIAL-ACTION-CONFIRMATION / REF-00002 Consequential Action Confirmation Reference Project<br>validates: REVIEW-CONSEQUENTIAL-ACTION-CONFIRMATION / REVIEW-00003 Consequential Action Confirmation Validation Review |
+diff --git a/skills/agent-context/SKILL.md b/skills/agent-context/SKILL.md
+index d825a48..3d7bb38 100644
+--- a/skills/agent-context/SKILL.md
++++ b/skills/agent-context/SKILL.md
+@@ -22,9 +22,11 @@ Run this skill before a user-facing implementation or review when the applicable
+ 4. Apply only the returned rules and patterns that fit the task.
+ 5. Preserve every returned evidence boundary; `draft` and `seed` do not justify broad product claims.
+ 6. If the resolver returns no match, create an observation or research need rather than inventing a rule.
++7. Inspect each object's selection reason. Required dependencies are complete, while optional links in broad review gates must be followed explicitly when the review needs them.
+ 
+ ## Boundaries
+ 
+ - The CLI is read-only and does not replace `npm run check`.
+ - `--platform` adds relevant context; it does not prove that a pattern applies.
+ - Use `--format json` for another agent or script; errors are machine-readable on stderr.
++- Task matching is lexical. Simple English task wrappers are supported; arbitrary paraphrases and translation are not. Prefer an exact known slug or ID when available.
+diff --git a/tools/context.mjs b/tools/context.mjs
+index 8adc592..db4815e 100644
+--- a/tools/context.mjs
++++ b/tools/context.mjs
+@@ -85,118 +85,145 @@ function normalize(value) {
+ function tokenise(value) {
+   return normalize(value)
+     .split(/\s+/u)
+-    .filter((token) => token.length > 1);
++    .filter(Boolean);
+ }
+ 
+-function objectText(object) {
+-  const filePath = path.join(root, object.path);
+-  const content = fs.existsSync(filePath) ? fs.readFileSync(filePath, 'utf8') : '';
+-  return normalize([object.id, object.alias, object.slug, object.title, object.category, object.path, content].join('\n'));
++const taskFillers = new Set(['a', 'an', 'the', 'please', 'build', 'create', 'implement', 'make', 'for', 'me']);
++const dependencyTypes = new Set(['requires', 'derived_from', 'inspired_by', 'implements']);
++
++function searchIndex(objects) {
++  return objects.map((object) => {
++    const filePath = path.join(root, object.path);
++    const content = fs.existsSync(filePath) ? fs.readFileSync(filePath, 'utf8') : '';
++    return {
++      object,
++      terms: new Set(tokenise([object.id, object.alias, object.slug, object.title, object.category, object.path, content].join('\n'))),
++      fields: [
++        ['title', object.title, 100],
++        ['slug', object.slug, 90],
++        ['alias', object.alias, 80],
++        ['category', object.category, 20],
++      ],
++    };
++  });
+ }
+ 
+-function findAnchors(objects, query) {
++function findAnchors(index, query) {
+   const normalizedQuery = normalize(query);
+-  const tokens = tokenise(query);
++  const exact = findExactObject(index.map(({ object }) => object), query);
++  if (exact.length > 0) return exact;
++  const tokens = [...new Set(tokenise(query).filter((token) => !taskFillers.has(token)))];
+   if (!normalizedQuery || tokens.length === 0) return [];
+ 
+-  const scored = objects
+-    .map((object) => {
+-      const text = objectText(object);
+-      const exactFields = [object.id, object.alias, object.slug, object.path].map(normalize);
+-      const allTokensMatch = tokens.length > 0 && tokens.every((token) => text.includes(token));
+-      if (!text.includes(normalizedQuery) && !allTokensMatch) return null;
+-
+-      const score =
+-        (exactFields.includes(normalizedQuery) ? 100 : 0) +
+-        (text.includes(normalizedQuery) ? 20 : 0) +
+-        tokens.filter((token) => text.includes(token)).length;
+-      return { object, score };
++  const scored = index
++    .map(({ object, terms, fields }) => {
++      if (!tokens.every((token) => terms.has(token))) return null;
++      let score = 0;
++      let field = 'content';
++      let matchedTerms = tokens;
++      for (const [name, value, weight] of fields) {
++        const fieldTerms = new Set(tokenise(value));
++        const matched = tokens.filter((token) => fieldTerms.has(token)).length;
++        const fieldScore = matched === 0 ? 0 : weight * matched / tokens.length + matched / fieldTerms.size;
++        if (fieldScore > score) {
++          score = fieldScore;
++          field = name;
++          matchedTerms = tokens.filter((token) => fieldTerms.has(token));
++        }
++      }
++      return { object, score, reason: { kind: 'match', field, terms: matchedTerms } };
+     })
+     .filter(Boolean)
+     .sort((left, right) => right.score - left.score || left.object.id.localeCompare(right.object.id));
+ 
+-  return scored.slice(0, 1).map(({ object }) => object);
++  return scored.slice(0, 1);
+ }
+ 
+ function findExactObject(objects, query) {
+   const normalizedQuery = normalize(query);
+   if (!normalizedQuery) return [];
+ 
+-  const object = objects.find((candidate) =>
+-    [candidate.id, candidate.alias, candidate.slug, candidate.path]
+-      .map(normalize)
+-      .includes(normalizedQuery),
+-  );
+-
+-  return object ? [object] : [];
++  for (const object of objects) {
++    const field = ['id', 'alias', 'slug', 'path'].find((name) => normalize(object[name]) === normalizedQuery);
++    if (field) return [{ object, reason: { kind: 'match', field, terms: tokenise(query) } }];
++  }
++  return [];
+ }
+ 
+-function relatedContext(anchors, objectsById, relationships, platform) {
+-  const selected = new Map(anchors.map((object) => [object.id, object]));
+-  const add = (id) => {
++function relatedContext(anchors, objectsById, relationships, platform, index) {
++  const selected = new Map();
++  const queue = [];
++  const outgoing = new Map();
++  const incoming = new Map();
++  for (const edge of [...relationships].sort((a, b) =>
++    a.source.localeCompare(b.source) || a.type.localeCompare(b.type) || a.target.localeCompare(b.target))) {
++    if (!outgoing.has(edge.source)) outgoing.set(edge.source, []);
++    if (!incoming.has(edge.target)) incoming.set(edge.target, []);
++    outgoing.get(edge.source).push(edge);
++    incoming.get(edge.target).push(edge);
++  }
++  const add = (id, reason) => {
+     const object = objectsById.get(id);
+-    if (object) selected.set(id, object);
++    if (!object) throw new Error(`Context relationship target is not registered: ${id}`);
++    if (selected.has(id)) return;
++    selected.set(id, { object, reason });
++    queue.push(object);
+   };
+-  const outgoing = (id) => relationships.filter((relationship) => relationship.source === id);
+-  const incoming = (id) => relationships.filter((relationship) => relationship.target === id);
+-
+-  for (const anchor of anchors) {
+-    for (const relationship of outgoing(anchor.id)) add(relationship.target);
++  const seeds = [...anchors];
++  if (platform) {
++    const matches = findAnchors(
++      index.filter(({ object }) => ['rule', 'pattern'].includes(object.object_type)), platform,
++    );
++    seeds.push(...matches.map(({ object, reason }) => ({ object, reason: { ...reason, kind: 'platform', value: platform } })));
++  }
++  for (const { object, reason } of seeds) add(object.id, reason);
+ 
+-    if (anchor.object_type === 'rule') {
+-      for (const relationship of incoming(anchor.id)) {
+-        if (['pattern', 'prompt', 'checklist'].includes(objectsById.get(relationship.source)?.object_type)) add(relationship.source);
++  // Only seed objects select optional neighbors; dependencies cannot pull in every consumer.
++  const reviewTargets = new Set(seeds.map(({ object }) => object.id));
++  for (const { object } of seeds) {
++    for (const edge of outgoing.get(object.id) ?? []) {
++      if (edge.type === 'related_to' && ['research', 'rule', 'pattern'].includes(object.object_type)) {
++        add(edge.target, { kind: 'related', source: edge.source, relationship: edge.type });
+       }
+     }
+-    if (anchor.object_type === 'research') {
+-      for (const relationship of incoming(anchor.id)) {
+-        if (objectsById.get(relationship.source)?.object_type === 'rule') add(relationship.source);
++    for (const edge of incoming.get(object.id) ?? []) {
++      const source = objectsById.get(edge.source);
++      if (object.object_type === 'research' && source?.object_type === 'rule' && ['derived_from', 'inspired_by'].includes(edge.type)) {
++        add(source.id, { kind: 'derived_rule', source: object.id, relationship: edge.type });
++        reviewTargets.add(source.id);
+       }
+-    }
+-    if (anchor.object_type === 'pattern') {
+-      for (const relationship of incoming(anchor.id)) {
+-        if (['prompt', 'reference_project'].includes(objectsById.get(relationship.source)?.object_type)) add(relationship.source);
++      if (object.object_type === 'reference_project' && source?.object_type === 'review' && edge.type === 'validates') {
++        add(source.id, { kind: 'review', source: object.id, relationship: edge.type });
+       }
+     }
+-    if (anchor.object_type === 'reference_project') {
+-      for (const relationship of incoming(anchor.id)) {
+-        if (objectsById.get(relationship.source)?.object_type === 'review') add(relationship.source);
++  }
++  for (const id of reviewTargets) {
++    for (const edge of incoming.get(id) ?? []) {
++      const source = objectsById.get(edge.source);
++      if (['requires', 'related_to'].includes(edge.type) &&
++          (source?.object_type === 'checklist' || (source?.object_type === 'prompt' && source.category === 'review'))) {
++        add(source.id, { kind: 'review', source: id, relationship: edge.type });
+       }
+     }
+   }
+ 
+-  for (const object of [...selected.values()]) {
+-    if (object.object_type === 'rule') {
+-      for (const relationship of outgoing(object.id)) {
+-        if (objectsById.get(relationship.target)?.object_type === 'research') add(relationship.target);
+-      }
+-      for (const relationship of incoming(object.id)) {
+-        if (['pattern', 'prompt', 'checklist'].includes(objectsById.get(relationship.source)?.object_type)) add(relationship.source);
++  // A growing queue computes the dependency closure and terminates even when the graph has cycles.
++  for (let cursor = 0; cursor < queue.length; cursor += 1) {
++    const object = queue[cursor];
++    for (const edge of outgoing.get(object.id) ?? []) {
++      if (dependencyTypes.has(edge.type) ||
++          (edge.type === 'validates' && ['reference_project', 'review'].includes(object.object_type))) {
++        add(edge.target, { kind: 'dependency', source: edge.source, relationship: edge.type });
+       }
+     }
+-    if (object.object_type === 'pattern') {
+-      for (const relationship of outgoing(object.id)) {
+-        if (objectsById.get(relationship.target)?.object_type === 'rule') add(relationship.target);
+-      }
+-    }
+-    if (object.object_type === 'review') {
+-      for (const relationship of outgoing(object.id)) add(relationship.target);
+-    }
+-  }
+-
+-  if (platform) {
+-    const platformMatches = findAnchors([...objectsById.values()], platform).filter((object) =>
+-      ['rule', 'pattern'].includes(object.object_type),
+-    );
+-    for (const object of platformMatches.slice(0, 2)) add(object.id);
+   }
+ 
+   return [...selected.values()].sort(
+-    (left, right) => objectOrder.indexOf(left.object_type) - objectOrder.indexOf(right.object_type) || left.id.localeCompare(right.id),
++    (left, right) => objectOrder.indexOf(left.object.object_type) - objectOrder.indexOf(right.object.object_type) || left.object.id.localeCompare(right.object.id),
+   );
+ }
+ 
+-function serializeObject(object) {
++function serializeObject({ object, reason }) {
+   return {
+     id: object.id,
+     alias: object.alias,
+@@ -205,9 +232,17 @@ function serializeObject(object) {
+     status: object.status,
+     maturity: object.maturity,
+     path: object.path,
++    reason,
+   };
+ }
+ 
++function explainReason(reason) {
++  if (reason.kind === 'match') return `matched ${reason.field}: ${reason.terms.join(', ')}`;
++  if (reason.kind === 'platform') return `platform ${reason.value}, matched ${reason.field}`;
++  if (['review', 'derived_rule'].includes(reason.kind)) return `${reason.kind === 'review' ? 'review gate' : 'derived rule'} for ${reason.source} (${reason.relationship})`;
++  return `${reason.source} ${reason.relationship} this object`;
++}
++
+ function asMarkdown(result) {
+   const lines = [
+     '# Agent Context',
+@@ -229,7 +264,7 @@ function asMarkdown(result) {
+     lines.push(
+       ...objects.map(
+         (object) =>
+-          `- \`${object.id}\` / \`${object.alias}\` — ${object.title} (${object.status}, ${object.maturity}) · \`${object.path}\``,
++          `- \`${object.id}\` / \`${object.alias}\` — ${object.title} (${object.status}, ${object.maturity}) · \`${object.path}\` — ${explainReason(object.reason)}`,
+       ),
+     );
+   }
+@@ -268,16 +303,17 @@ function main() {
+       fs.readFileSync(path.join(root, 'registry/relationships.json'), 'utf8'),
+     );
+     const objectsById = new Map(registry.objects.map((object) => [object.id, object]));
++    const index = searchIndex(registry.objects);
+     const query = options[options.mode];
+     const anchors = options.mode === 'object'
+       ? findExactObject(registry.objects, query)
+-      : findAnchors(registry.objects, query);
++      : findAnchors(index, query);
+     if (anchors.length === 0) throw new Error(`No graph object matches "${query}"`);
+ 
+     const result = {
+       query: { mode: options.mode, value: query, platform: options.platform ?? null, intent: options.intent },
+       anchors: anchors.map(serializeObject),
+-      objects: relatedContext(anchors, objectsById, relationshipRegistry.relationships, options.platform).map(serializeObject),
++      objects: relatedContext(anchors, objectsById, relationshipRegistry.relationships, options.platform, index).map(serializeObject),
+     };
+     console.log(options.format === 'json' ? JSON.stringify(result, null, 2) : asMarkdown(result));
+   } catch (error) {
+diff --git a/tools/context.test.mjs b/tools/context.test.mjs
+index 2650ecd..69c5d63 100644
+--- a/tools/context.test.mjs
++++ b/tools/context.test.mjs
+@@ -1,5 +1,7 @@
+ import assert from 'node:assert/strict';
++import fs from 'node:fs';
+ import { spawnSync } from 'node:child_process';
++import os from 'node:os';
+ import path from 'node:path';
+ import test from 'node:test';
+ import { fileURLToPath } from 'node:url';
+@@ -7,10 +9,29 @@ import { fileURLToPath } from 'node:url';
+ const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+ 
+ function runContext(...args) {
+-  return spawnSync(process.execPath, ['tools/context.mjs', ...args], {
+-    cwd: projectRoot,
++  return runContextAt(projectRoot, ...args);
++}
++
++function runContextAt(cwd, ...args) {
++  return spawnSync(process.execPath, [path.join(projectRoot, 'tools/context.mjs'), ...args], {
++    cwd,
+     encoding: 'utf8',
++    timeout: 10000,
++  });
++}
++
++function fixture(t, definitions, relationships = []) {
++  const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'design-context-'));
++  t.after(() => fs.rmSync(directory, { recursive: true, force: true }));
++  fs.mkdirSync(path.join(directory, 'registry'));
++  const objects = definitions.map(({ content = '', ...definition }) => {
++    const object = { status: 'draft', maturity: 'seed', category: 'ux', slug: definition.title.toLowerCase().replaceAll(' ', '-'), ...definition, path: `${definition.id}.md` };
++    fs.writeFileSync(path.join(directory, object.path), content);
++    return object;
+   });
++  fs.writeFileSync(path.join(directory, 'registry/objects.json'), JSON.stringify({ objects }));
++  fs.writeFileSync(path.join(directory, 'registry/relationships.json'), JSON.stringify({ relationships }));
++  return directory;
+ }
+ 
+ test('resolves a task into patterns, rules, and upstream research', () => {
+@@ -70,3 +91,133 @@ test('object mode resolves only exact stable fields', () => {
+   assert.equal(fuzzy.status, 1);
+   assert.deepEqual(JSON.parse(fuzzy.stderr), { error: 'No graph object matches "pattern"' });
+ });
++
++test('resolves ordinary task phrasing without dropping unknown subject terms', () => {
++  const direct = runContext('--task', 'shopping list', '--format', 'json');
++  assert.equal(direct.status, 0, direct.stderr);
++  const expected = JSON.parse(direct.stdout);
++  assert.ok(expected.objects.some((object) => object.id === 'PAT-00002'), 'shopping lists include quick capture');
++  for (const query of ['shopping list', 'build a shopping list', 'please create the shopping list for me']) {
++    const result = runContext('--task', query, '--format', 'json');
++    assert.equal(result.status, 0, result.stderr);
++    const context = JSON.parse(result.stdout);
++    assert.deepEqual(context.anchors, expected.anchors);
++    assert.deepEqual(context.objects, expected.objects);
++  }
++  for (const query of ['please build', 'shopping qzxvzz-notfound']) {
++    const result = runContext('--task', query, '--format', 'json');
++    assert.equal(result.status, 1);
++    assert.match(JSON.parse(result.stderr).error, /No graph object matches/);
++  }
++});
++
++test('ranks a focused motion title above incidental checklist mentions', () => {
++  const result = runContext('--task', 'motion', '--format', 'json');
++  assert.equal(result.status, 0, result.stderr);
++  const context = JSON.parse(result.stdout);
++  assert.equal(context.anchors[0].id, 'RESEARCH-00010');
++  assert.equal(context.anchors[0].reason.field, 'title');
++  assert.ok(context.objects.some((object) => object.id === 'RULE-00015'));
++  assert.ok(context.objects.some((object) => object.id === 'CHECK-00001'));
++  assert.ok(context.objects.length <= 10, 'motion context must stay focused');
++});
++
++test('quick capture excludes unrelated consumers and explains every selection', () => {
++  const result = runContext('--task', 'quick-capture', '--format', 'json');
++  assert.equal(result.status, 0, result.stderr);
++  const context = JSON.parse(result.stdout);
++  const ids = new Set(context.objects.map((object) => object.id));
++  assert.ok(ids.has('PROMPT-00004'), 'include the directly applicable review');
++  assert.ok(!ids.has('PROMPT-00003'), 'do not pull in the entire Todo benchmark');
++  assert.ok(!ids.has('PAT-00007'), 'shared rules do not imply consequential actions');
++  assert.ok(context.objects.length <= 20);
++  for (const object of context.objects) {
++    assert.ok(object.reason.kind);
++    if (object.reason.source) assert.ok(ids.has(object.reason.source));
++  }
++  const markdown = runContext('--task', 'quick-capture');
++  assert.equal(markdown.status, 0, markdown.stderr);
++  assert.match(markdown.stdout, /matched slug: quick, capture/);
++  assert.match(markdown.stdout, /PAT-00002 requires this object/);
++});
++
++test('every registered anchor includes all transitive dependencies', () => {
++  const { objects } = JSON.parse(fs.readFileSync(path.join(projectRoot, 'registry/objects.json'), 'utf8'));
++  const { relationships } = JSON.parse(fs.readFileSync(path.join(projectRoot, 'registry/relationships.json'), 'utf8'));
++  for (const anchor of objects) {
++    const result = runContext('--object', anchor.id, '--platform', 'mobile', '--format', 'json');
++    assert.equal(result.status, 0, result.stderr);
++    const context = JSON.parse(result.stdout);
++    const ids = new Set(context.objects.map((object) => object.id));
++    for (const edge of relationships) {
++      if (ids.has(edge.source) && ['requires', 'derived_from', 'inspired_by', 'implements', 'validates'].includes(edge.type)) {
++        assert.ok(ids.has(edge.target), `${anchor.id}: missing ${edge.source} ${edge.type} ${edge.target}`);
++      }
++    }
++  }
++});
++
++test('dependency cycles terminate and optional relations do not expand recursively', (t) => {
++  const directory = fixture(t, [
++    { id: 'PAT-00001', object_type: 'pattern', title: 'Capture' },
++    { id: 'RULE-00001', object_type: 'rule', title: 'Input' },
++    { id: 'RESEARCH-00001', object_type: 'research', title: 'Evidence' },
++    { id: 'PAT-00002', object_type: 'pattern', title: 'Unrelated' },
++  ], [
++    { source: 'PAT-00001', type: 'requires', target: 'RULE-00001' },
++    { source: 'RULE-00001', type: 'derived_from', target: 'RESEARCH-00001' },
++    { source: 'RESEARCH-00001', type: 'requires', target: 'PAT-00001' },
++    { source: 'RULE-00001', type: 'related_to', target: 'PAT-00002' },
++    { source: 'PAT-00002', type: 'requires', target: 'RULE-00001' },
++  ]);
++  const result = runContextAt(directory, '--object', 'PAT-00001', '--format', 'json');
++  assert.equal(result.status, 0, result.stderr);
++  const ids = JSON.parse(result.stdout).objects.map((object) => object.id);
++  assert.deepEqual(new Set(ids), new Set(['PAT-00001', 'RULE-00001', 'RESEARCH-00001']));
++  assert.equal(ids.length, 3);
++});
++
++test('platform selection filters eligible types before ranking and includes their dependencies', (t) => {
++  const directory = fixture(t, [
++    { id: 'RESEARCH-00001', object_type: 'research', title: 'Mobile' },
++    { id: 'PAT-00001', object_type: 'pattern', title: 'Capture' },
++    { id: 'PAT-00002', object_type: 'pattern', title: 'Mobile Action' },
++    { id: 'RULE-00001', object_type: 'rule', title: 'Touch Targets' },
++    { id: 'RESEARCH-00002', object_type: 'research', title: 'Touch Evidence' },
++  ], [
++    { source: 'PAT-00002', type: 'requires', target: 'RULE-00001' },
++    { source: 'RULE-00001', type: 'derived_from', target: 'RESEARCH-00002' },
++  ]);
++  const result = runContextAt(directory, '--object', 'PAT-00001', '--platform', 'mobile', '--format', 'json');
++  assert.equal(result.status, 0, result.stderr);
++  const context = JSON.parse(result.stdout);
++  assert.equal(context.anchors[0].id, 'PAT-00001');
++  assert.equal(context.objects.find((object) => object.id === 'PAT-00002').reason.kind, 'platform');
++  assert.ok(context.objects.some((object) => object.id === 'RESEARCH-00002'));
++  assert.ok(!context.objects.some((object) => object.id === 'RESEARCH-00001'));
++});
++
++test('matches whole Unicode words and prefers an exact identifier over a title', (t) => {
++  const directory = fixture(t, [
++    { id: 'PAT-00001', alias: 'SPECIAL', object_type: 'pattern', title: 'Capture', content: 'Start capturing' },
++    { id: 'PAT-00002', object_type: 'pattern', title: 'Special' },
++    { id: 'PAT-00003', object_type: 'pattern', title: 'Быстрый ввод' },
++  ]);
++  const exact = runContextAt(directory, '--task', 'SPECIAL', '--format', 'json');
++  assert.equal(exact.status, 0, exact.stderr);
++  assert.equal(JSON.parse(exact.stdout).anchors[0].id, 'PAT-00001');
++  const unicode = runContextAt(directory, '--task', 'БЫСТРЫЙ ввод', '--format', 'json');
++  assert.equal(unicode.status, 0, unicode.stderr);
++  assert.equal(JSON.parse(unicode.stdout).anchors[0].id, 'PAT-00003');
++  const partial = runContextAt(directory, '--task', 'art', '--format', 'json');
++  assert.equal(partial.status, 1, 'art must not match Start');
++});
++
++test('reports a missing required target instead of returning incomplete context', (t) => {
++  const directory = fixture(t, [{ id: 'PAT-00001', object_type: 'pattern', title: 'Capture' }], [
++    { source: 'PAT-00001', type: 'requires', target: 'RULE-99999' },
++  ]);
++  const result = runContextAt(directory, '--object', 'PAT-00001', '--format', 'json');
++  assert.equal(result.status, 1);
++  assert.deepEqual(JSON.parse(result.stderr), { error: 'Context relationship target is not registered: RULE-99999' });
++});

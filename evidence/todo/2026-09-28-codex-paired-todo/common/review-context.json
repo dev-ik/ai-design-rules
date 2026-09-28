@@ -1,0 +1,550 @@
+{
+  "query": {
+    "mode": "review",
+    "value": "REF-00001",
+    "platform": null,
+    "intent": "qa"
+  },
+  "anchors": [
+    {
+      "id": "REF-00001",
+      "alias": "REF-TODO-BENCHMARK",
+      "title": "Todo App Benchmark Reference Project",
+      "type": "reference_project",
+      "status": "draft",
+      "maturity": "reviewed",
+      "path": "examples/todo-app-benchmark.md",
+      "reason": {
+        "kind": "match",
+        "field": "id",
+        "terms": [
+          "ref",
+          "00001"
+        ]
+      }
+    }
+  ],
+  "objects": [
+    {
+      "id": "RESEARCH-00001",
+      "alias": "TELEGRAM",
+      "title": "Telegram",
+      "type": "research",
+      "status": "draft",
+      "maturity": "seed",
+      "path": "research/products/telegram.md",
+      "reason": {
+        "kind": "dependency",
+        "source": "RULE-00001",
+        "relationship": "derived_from"
+      }
+    },
+    {
+      "id": "RESEARCH-00002",
+      "alias": "THINGS-3",
+      "title": "Things 3",
+      "type": "research",
+      "status": "draft",
+      "maturity": "seed",
+      "path": "research/products/things-3.md",
+      "reason": {
+        "kind": "dependency",
+        "source": "RULE-00001",
+        "relationship": "derived_from"
+      }
+    },
+    {
+      "id": "RESEARCH-00003",
+      "alias": "APPLE-REMINDERS",
+      "title": "Apple Reminders",
+      "type": "research",
+      "status": "draft",
+      "maturity": "seed",
+      "path": "research/products/apple-reminders.md",
+      "reason": {
+        "kind": "dependency",
+        "source": "RULE-00001",
+        "relationship": "derived_from"
+      }
+    },
+    {
+      "id": "RESEARCH-00004",
+      "alias": "LINEAR",
+      "title": "Linear",
+      "type": "research",
+      "status": "draft",
+      "maturity": "seed",
+      "path": "research/products/linear.md",
+      "reason": {
+        "kind": "dependency",
+        "source": "RULE-00008",
+        "relationship": "derived_from"
+      }
+    },
+    {
+      "id": "RESEARCH-00005",
+      "alias": "ARC",
+      "title": "Arc",
+      "type": "research",
+      "status": "draft",
+      "maturity": "seed",
+      "path": "research/products/arc.md",
+      "reason": {
+        "kind": "dependency",
+        "source": "RULE-00004",
+        "relationship": "derived_from"
+      }
+    },
+    {
+      "id": "RESEARCH-00006",
+      "alias": "TEXTUAL-ERROR-RECOVERY",
+      "title": "Textual Error Recovery",
+      "type": "research",
+      "status": "draft",
+      "maturity": "seed",
+      "path": "research/accessibility/textual-error-recovery.md",
+      "reason": {
+        "kind": "dependency",
+        "source": "RULE-00010",
+        "relationship": "derived_from"
+      }
+    },
+    {
+      "id": "RESEARCH-00007",
+      "alias": "RESERVED-LOADING-SPACE",
+      "title": "Reserved Loading Space",
+      "type": "research",
+      "status": "draft",
+      "maturity": "seed",
+      "path": "research/performance/reserved-loading-space.md",
+      "reason": {
+        "kind": "dependency",
+        "source": "RULE-00011",
+        "relationship": "derived_from"
+      }
+    },
+    {
+      "id": "RESEARCH-00008",
+      "alias": "KEYBOARD-FOCUS-AND-MOTION",
+      "title": "Keyboard Focus And Interaction Motion",
+      "type": "research",
+      "status": "draft",
+      "maturity": "seed",
+      "path": "research/accessibility/keyboard-focus-and-interaction-motion.md",
+      "reason": {
+        "kind": "dependency",
+        "source": "RULE-00012",
+        "relationship": "derived_from"
+      }
+    },
+    {
+      "id": "RESEARCH-00009",
+      "alias": "EXPRESSIVE-SYSTEM-UI-2026",
+      "title": "Expressive System UI In 2026",
+      "type": "research",
+      "status": "draft",
+      "maturity": "seed",
+      "path": "research/visual/expressive-system-ui-2026.md",
+      "reason": {
+        "kind": "dependency",
+        "source": "RULE-00014",
+        "relationship": "derived_from"
+      }
+    },
+    {
+      "id": "RESEARCH-00010",
+      "alias": "MOTION-AS-STATE-CONTINUITY",
+      "title": "Motion As State Continuity",
+      "type": "research",
+      "status": "draft",
+      "maturity": "seed",
+      "path": "research/ux/motion-as-state-continuity.md",
+      "reason": {
+        "kind": "dependency",
+        "source": "RULE-00015",
+        "relationship": "derived_from"
+      }
+    },
+    {
+      "id": "RULE-00001",
+      "alias": "PRD-001",
+      "title": "Daily Actions First",
+      "type": "rule",
+      "status": "draft",
+      "maturity": "seed",
+      "path": "rules/product/PRD-001.md",
+      "reason": {
+        "kind": "dependency",
+        "source": "PAT-00001",
+        "relationship": "requires"
+      }
+    },
+    {
+      "id": "RULE-00002",
+      "alias": "PRD-002",
+      "title": "Low-Friction Capture Before Organization",
+      "type": "rule",
+      "status": "draft",
+      "maturity": "seed",
+      "path": "rules/product/PRD-002.md",
+      "reason": {
+        "kind": "dependency",
+        "source": "PAT-00002",
+        "relationship": "requires"
+      }
+    },
+    {
+      "id": "RULE-00003",
+      "alias": "IA-001",
+      "title": "One Stable Home Surface",
+      "type": "rule",
+      "status": "draft",
+      "maturity": "seed",
+      "path": "rules/ia/IA-001.md",
+      "reason": {
+        "kind": "dependency",
+        "source": "PAT-00001",
+        "relationship": "requires"
+      }
+    },
+    {
+      "id": "RULE-00004",
+      "alias": "IA-002",
+      "title": "Define The Object Model Before Screens",
+      "type": "rule",
+      "status": "draft",
+      "maturity": "seed",
+      "path": "rules/ia/IA-002.md",
+      "reason": {
+        "kind": "dependency",
+        "source": "PAT-00005",
+        "relationship": "requires"
+      }
+    },
+    {
+      "id": "RULE-00005",
+      "alias": "UX-001",
+      "title": "Thumb-Zone Primary Actions",
+      "type": "rule",
+      "status": "draft",
+      "maturity": "seed",
+      "path": "rules/ux/UX-001.md",
+      "reason": {
+        "kind": "dependency",
+        "source": "PAT-00002",
+        "relationship": "requires"
+      }
+    },
+    {
+      "id": "RULE-00006",
+      "alias": "UX-002",
+      "title": "Progressively Disclose Power",
+      "type": "rule",
+      "status": "draft",
+      "maturity": "seed",
+      "path": "rules/ux/UX-002.md",
+      "reason": {
+        "kind": "dependency",
+        "source": "PAT-00001",
+        "relationship": "requires"
+      }
+    },
+    {
+      "id": "RULE-00007",
+      "alias": "UX-003",
+      "title": "Preserve Context During Inspection",
+      "type": "rule",
+      "status": "draft",
+      "maturity": "seed",
+      "path": "rules/ux/UX-003.md",
+      "reason": {
+        "kind": "dependency",
+        "source": "PAT-00005",
+        "relationship": "requires"
+      }
+    },
+    {
+      "id": "RULE-00008",
+      "alias": "VIS-001",
+      "title": "Semantic Tokens Only",
+      "type": "rule",
+      "status": "draft",
+      "maturity": "seed",
+      "path": "rules/visual/VIS-001.md",
+      "reason": {
+        "kind": "dependency",
+        "source": "PAT-00001",
+        "relationship": "requires"
+      }
+    },
+    {
+      "id": "RULE-00009",
+      "alias": "A11Y-001",
+      "title": "44x44 Touch Targets",
+      "type": "rule",
+      "status": "draft",
+      "maturity": "seed",
+      "path": "rules/accessibility/A11Y-001.md",
+      "reason": {
+        "kind": "dependency",
+        "source": "PAT-00001",
+        "relationship": "requires"
+      }
+    },
+    {
+      "id": "RULE-00010",
+      "alias": "A11Y-002",
+      "title": "Textual Input Error Recovery",
+      "type": "rule",
+      "status": "draft",
+      "maturity": "seed",
+      "path": "rules/accessibility/A11Y-002.md",
+      "reason": {
+        "kind": "dependency",
+        "source": "PAT-00002",
+        "relationship": "requires"
+      }
+    },
+    {
+      "id": "RULE-00011",
+      "alias": "PERF-001",
+      "title": "Reserve Layout Space For Asynchronous Content",
+      "type": "rule",
+      "status": "draft",
+      "maturity": "seed",
+      "path": "rules/performance/PERF-001.md",
+      "reason": {
+        "kind": "dependency",
+        "source": "PAT-00002",
+        "relationship": "requires"
+      }
+    },
+    {
+      "id": "RULE-00012",
+      "alias": "A11Y-003",
+      "title": "Visible Keyboard Focus",
+      "type": "rule",
+      "status": "draft",
+      "maturity": "seed",
+      "path": "rules/accessibility/A11Y-003.md",
+      "reason": {
+        "kind": "dependency",
+        "source": "PAT-00002",
+        "relationship": "requires"
+      }
+    },
+    {
+      "id": "RULE-00013",
+      "alias": "A11Y-004",
+      "title": "Reduce Non-Essential Interaction Motion",
+      "type": "rule",
+      "status": "draft",
+      "maturity": "seed",
+      "path": "rules/accessibility/A11Y-004.md",
+      "reason": {
+        "kind": "dependency",
+        "source": "PAT-00005",
+        "relationship": "requires"
+      }
+    },
+    {
+      "id": "RULE-00014",
+      "alias": "VIS-002",
+      "title": "Keep Expression Subordinate To Content",
+      "type": "rule",
+      "status": "draft",
+      "maturity": "seed",
+      "path": "rules/visual/VIS-002.md",
+      "reason": {
+        "kind": "dependency",
+        "source": "PAT-00001",
+        "relationship": "requires"
+      }
+    },
+    {
+      "id": "RULE-00015",
+      "alias": "UX-004",
+      "title": "Use Motion To Explain State Continuity",
+      "type": "rule",
+      "status": "draft",
+      "maturity": "seed",
+      "path": "rules/ux/UX-004.md",
+      "reason": {
+        "kind": "dependency",
+        "source": "PAT-00005",
+        "relationship": "requires"
+      }
+    },
+    {
+      "id": "PAT-00001",
+      "alias": "PAT-001",
+      "title": "Daily Home Surface",
+      "type": "pattern",
+      "status": "draft",
+      "maturity": "seed",
+      "path": "patterns/daily-home-surface.md",
+      "reason": {
+        "kind": "dependency",
+        "source": "REF-00001",
+        "relationship": "implements"
+      }
+    },
+    {
+      "id": "PAT-00002",
+      "alias": "PAT-002",
+      "title": "Quick Capture",
+      "type": "pattern",
+      "status": "draft",
+      "maturity": "seed",
+      "path": "patterns/quick-capture.md",
+      "reason": {
+        "kind": "dependency",
+        "source": "REF-00001",
+        "relationship": "implements"
+      }
+    },
+    {
+      "id": "PAT-00003",
+      "alias": "PAT-003",
+      "title": "Mobile Primary Action",
+      "type": "pattern",
+      "status": "draft",
+      "maturity": "seed",
+      "path": "patterns/mobile-primary-action.md",
+      "reason": {
+        "kind": "dependency",
+        "source": "REF-00001",
+        "relationship": "implements"
+      }
+    },
+    {
+      "id": "PAT-00004",
+      "alias": "PAT-004",
+      "title": "Progressive Detail",
+      "type": "pattern",
+      "status": "draft",
+      "maturity": "seed",
+      "path": "patterns/progressive-detail.md",
+      "reason": {
+        "kind": "dependency",
+        "source": "REF-00001",
+        "relationship": "implements"
+      }
+    },
+    {
+      "id": "PAT-00005",
+      "alias": "PAT-005",
+      "title": "Context-Preserving Preview",
+      "type": "pattern",
+      "status": "draft",
+      "maturity": "seed",
+      "path": "patterns/context-preserving-preview.md",
+      "reason": {
+        "kind": "dependency",
+        "source": "REF-00001",
+        "relationship": "implements"
+      }
+    },
+    {
+      "id": "PAT-00006",
+      "alias": "PAT-006",
+      "title": "Object Status List",
+      "type": "pattern",
+      "status": "draft",
+      "maturity": "seed",
+      "path": "patterns/object-status-list.md",
+      "reason": {
+        "kind": "dependency",
+        "source": "REF-00001",
+        "relationship": "implements"
+      }
+    },
+    {
+      "id": "PROMPT-00003",
+      "alias": "PROMPT-TODO-BENCHMARK",
+      "title": "Todo App Benchmark Prompt",
+      "type": "prompt",
+      "status": "draft",
+      "maturity": "seed",
+      "path": "prompts/TODO_APP_BENCHMARK.md",
+      "reason": {
+        "kind": "dependency",
+        "source": "REF-00001",
+        "relationship": "implements"
+      }
+    },
+    {
+      "id": "PROMPT-00005",
+      "alias": "PROMPT-DESIGN-EVIDENCE-REVIEW",
+      "title": "Design Evidence Review Prompt",
+      "type": "prompt",
+      "status": "draft",
+      "maturity": "seed",
+      "path": "prompts/DESIGN_EVIDENCE_REVIEW.md",
+      "reason": {
+        "kind": "dependency",
+        "source": "REVIEW-00001",
+        "relationship": "implements"
+      }
+    },
+    {
+      "id": "CHECK-00001",
+      "alias": "CHECK-DESIGN-QA",
+      "title": "Design QA Checklist",
+      "type": "checklist",
+      "status": "draft",
+      "maturity": "seed",
+      "path": "checklists/DESIGN_QA.md",
+      "reason": {
+        "kind": "dependency",
+        "source": "REVIEW-00001",
+        "relationship": "requires"
+      }
+    },
+    {
+      "id": "REF-00001",
+      "alias": "REF-TODO-BENCHMARK",
+      "title": "Todo App Benchmark Reference Project",
+      "type": "reference_project",
+      "status": "draft",
+      "maturity": "reviewed",
+      "path": "examples/todo-app-benchmark.md",
+      "reason": {
+        "kind": "match",
+        "field": "id",
+        "terms": [
+          "ref",
+          "00001"
+        ]
+      }
+    },
+    {
+      "id": "REVIEW-00001",
+      "alias": "REVIEW-TODO-BENCHMARK",
+      "title": "Todo App Benchmark Reference Review",
+      "type": "review",
+      "status": "draft",
+      "maturity": "seed",
+      "path": "reviews/todo-app-benchmark-reference-review.md",
+      "reason": {
+        "kind": "review",
+        "source": "REF-00001",
+        "relationship": "validates"
+      }
+    },
+    {
+      "id": "REVIEW-00002",
+      "alias": "REVIEW-TODO-RUNNABLE-FIXTURE",
+      "title": "Todo Runnable Fixture Review",
+      "type": "review",
+      "status": "draft",
+      "maturity": "seed",
+      "path": "reviews/todo-reference-fixture-review.md",
+      "reason": {
+        "kind": "review",
+        "source": "REF-00001",
+        "relationship": "validates"
+      }
+    }
+  ]
+}

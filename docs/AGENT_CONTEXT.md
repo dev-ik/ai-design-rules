@@ -7,6 +7,7 @@
 ```bash
 # Design or implement a feature.
 npm run context -- --task quick-capture --platform mobile --intent implement
+npm run context -- --task "build a shopping list" --intent implement
 
 # Review an implementation, benchmark artifact, or reference fixture.
 npm run context -- --review examples/todo-reference --intent qa
@@ -29,7 +30,56 @@ Markdown is the human default. `--format json` emits only this stable shape on s
 }
 ```
 
-Task and review modes search stable registry fields and object Markdown. Object mode matches an exact ID, alias, slug, or registry path. From its anchors the resolver follows typed relationships to include directly applicable rules, upstream research, patterns, prompts, checklists, reference projects, and reviews. Platform matching is additive: it can include mobile-relevant rules or patterns, but does not replace the task's graph context.
+Every entry in `anchors` and `objects` retains `id`, `alias`, `title`, `type`, `status`, `maturity`, and `path`, and now adds a `reason` object. Consumers should allow additive fields. For example:
+
+```json
+{
+  "id": "RULE-00002",
+  "alias": "PRD-002",
+  "title": "Low-Friction Capture Before Organization",
+  "type": "rule",
+  "status": "draft",
+  "maturity": "seed",
+  "path": "rules/product/PRD-002.md",
+  "reason": { "kind": "dependency", "source": "PAT-00002", "relationship": "requires" }
+}
+```
+
+## Matching And Scope
+
+Task and review modes search stable registry fields and object Markdown. An exact ID, alias, slug, or registry path wins first. Otherwise, whole Unicode words must match; titles rank above slugs, aliases, categories, and incidental body mentions. Shorter focused titles break otherwise equal title matches. One highest-ranked anchor is selected, with stable ID ordering as the final tie-breaker.
+
+The small English filler set (`a`, `an`, `the`, `please`, `build`, `create`, `implement`, `make`, `for`, `me`) is ignored in non-exact queries. Thus `build a shopping list` and `shopping list` resolve alike. Unknown subject terms are not dropped. This is lexical retrieval, not translation or semantic search: use a known slug or ID when a paraphrase or another language has no matching words. A query containing only fillers fails instead of selecting arbitrary knowledge.
+
+Object mode matches only an exact ID, alias, slug, or registry path and does not apply filler handling.
+
+From the anchor the resolver includes:
+
+- Direct `related_to` neighbors for research, rules, and patterns, without recursively following optional neighbors.
+- Rules derived from a research anchor through `derived_from` or `inspired_by`.
+- Direct review prompts and checklists for anchors and those derived rules; reviews that `validate` a reference-project anchor.
+- All transitive registered `requires`, `derived_from`, `inspired_by`, and `implements` dependencies of every selected object; `validates` targets of selected reviews and reference projects.
+
+Dependencies are followed to completion even across cycles. A missing registered dependency is an error. The resolver does not walk backward from every shared rule into every consuming pattern or generation prompt. Broad review checklists remain available as gates, but their optional `related_to` links do not automatically select the whole graph. Follow those links explicitly when broadening a review. Non-registry observation sources remain in the research files and must be read there.
+
+Platform matching is additive. It selects at most one matching rule or pattern from eligible types **before** ranking, then includes its dependencies and direct context under the same rules. A platform with no match adds nothing. Platform matching does not replace the task anchor or prove applicability.
+
+There is no hard object-count cap: completeness of required dependencies takes priority over a fixed limit. Large mandatory graphs may still produce large bundles.
+
+## Selection Reasons
+
+Markdown explains the selection beside each object. JSON records the first deterministic inclusion reason:
+
+| `reason.kind` | Meaning | Additional fields |
+| --- | --- | --- |
+| `match` | Exact match or highest-ranked lexical match | `field`, `terms` matched in that field |
+| `platform` | Added by the platform query | `value`, `field`, `terms` |
+| `dependency` | Outgoing mandatory or validation edge from a selected object | `source`, `relationship` |
+| `related` | Direct optional neighbor of a seed object | `source`, `relationship` |
+| `derived_rule` | Rule points back to selected research | `source` (research), `relationship` |
+| `review` | Review gate points back to the selected object | `source` (reviewed object), `relationship` |
+
+For `derived_rule` and `review`, the stored graph edge points from the returned object to `reason.source`. For `dependency` and `related`, it points from `reason.source` to the returned object. A reason explains inclusion; it is not a confidence score or a claim of validation.
 
 `--intent implement` gives an implementation-first use order. `--intent qa` gives an evidence-and-checklist-first use order. Task mode defaults to `implement`; review mode defaults to `qa`.
 
@@ -42,3 +92,4 @@ An unmatched query returns a non-zero exit code; with `--format json` the error 
 3. Treat `draft` and `seed` objects as guidance with explicit limits, not as validated truth.
 4. Use listed checklists and reviews as quality gates.
 5. If no context matches, capture an observation or research need; do not invent a rule to fill the gap.
+6. Use `reason` to distinguish task matches, required knowledge, and review gates. Apply only guidance relevant to the current task.

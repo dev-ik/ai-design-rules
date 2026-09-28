@@ -26,11 +26,11 @@ async function withFixture(mutate = async () => {}) {
   }
 }
 
-test('accepts the current directional benchmark run without overstating its evidence', async () => {
+test('accepts rendered evidence while preserving the older directional boundary', async () => {
   const result = await withFixture();
 
   assert.equal(result.status, 0, result.stderr);
-  assert.match(result.stdout, /1 run\(s\), 0 rendered, 1 directional/);
+  assert.match(result.stdout, /2 run\(s\), 1 rendered, 1 directional/);
   assert.match(result.stderr, /directional evidence only/);
 });
 

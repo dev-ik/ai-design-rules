@@ -5,7 +5,7 @@ slug: context-preserving-preview
 title: Context-Preserving Preview
 object_type: pattern
 status: draft
-version: 0.1.0
+version: 0.2.0
 category: ux
 tags:
   - ux
@@ -23,6 +23,8 @@ relationships:
     target: RULE-00009
   - type: requires
     target: RULE-00013
+  - type: requires
+    target: RULE-00015
   - type: related_to
     target: PAT-00006
 ---
@@ -58,6 +60,7 @@ Lists, workspaces, conversations, and browsers where users inspect multiple item
 - `UX-003` Preserve Context During Inspection
 - `IA-002` Define The Object Model Before Screens
 - `IA-001` One Stable Home Surface
+- `UX-004` Use Motion To Explain State Continuity
 
 ## Accessibility Rules
 
@@ -67,6 +70,16 @@ Lists, workspaces, conversations, and browsers where users inspect multiple item
 ## Motion Behavior
 
 If opening or closing preview uses non-essential motion, respect a reduced-motion preference or provide an equivalent way to disable it. The reduced-motion state may switch directly to the same sheet, panel, or preview state; it must not remove the preview or its return path.
+
+Use motion only to explain the selected item's relationship to its preview (`UX-004`). Reuse the product's named timing and easing roles; do not introduce a fixed duration or require a particular animation API. Define the following behavior before implementing the transition:
+
+| State or transition | Required outcome |
+| --- | --- |
+| Closed to open | Keep the selected item, filters, and scroll position; show which item the preview belongs to. Define the focus destination for the chosen panel or dialog behavior. |
+| Loading or error | Keep the source usable and show feedback in the preview. Feedback must remain understandable without movement. |
+| Close | Restore the source context. If focus moved into the preview, return it to the invoking control or a logical surviving control if that item was removed. |
+| Interrupted opening or item switch | The latest selection determines the visible item. A delayed transition must not reopen a closed preview or move focus to an old item. |
+| Reduced motion or unsupported animation | Reach the same selected item, information, controls, and focus outcome without non-essential movement. |
 
 ## Mobile Behavior
 
@@ -95,12 +108,14 @@ Show preview-level error and keep the source list usable.
 - `IA-001` One Stable Home Surface
 - `A11Y-001` 44x44 Touch Targets
 - `A11Y-004` Reduce Non-Essential Interaction Motion
+- `UX-004` Use Motion To Explain State Continuity
 
 ## Related Research
 
 - `research/products/arc.md`
 - `research/products/linear.md`
 - `research/products/telegram.md`
+- `research/ux/motion-as-state-continuity.md`
 
 ## Related Patterns
 
@@ -114,6 +129,8 @@ Show preview-level error and keep the source list usable.
 - A consumer task app opens task detail from Today without losing the Today list.
 - An issue tracker opens issue detail beside the filtered issue list.
 
+For a task preview, a brief local transition can connect the selected row to its details. With reduced motion, open those same details immediately. Animating every list row or waiting for a closing animation before accepting the next selection would add motion without preserving useful context.
+
 ## Agent Checklist
 
 - Does opening detail preserve source context?
@@ -121,3 +138,8 @@ Show preview-level error and keep the source list usable.
 - Is the return path obvious?
 - Does preview stay smaller than a full workspace?
 - When motion exists, can reduced motion reach the same preview and return state?
+- Are the start state, end state, focus destination, interruption behavior, and fallback recorded?
+- Can a user close or switch items during opening without stale content or focus taking over?
+- Is loading and error feedback still clear with animation disabled?
+
+The motion guidance remains `draft` / `seed`; this revision does not establish rendered or independent validation.

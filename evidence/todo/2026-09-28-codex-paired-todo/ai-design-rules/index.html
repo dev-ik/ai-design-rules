@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f7f8f4">
+  <title>Daylight — Your day, a little lighter</title>
+  <link rel="stylesheet" href="styles.css">
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to tasks</a>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="brand"><span class="brand-mark" aria-hidden="true">✳</span> daylight<span class="brand-dot">.</span></div>
+      <nav aria-label="Task views">
+        <button class="nav-button active" data-view="today" aria-current="page"><span aria-hidden="true">☀</span> Today <span id="today-count" class="nav-count"></span></button>
+        <button class="nav-button" data-view="all"><span aria-hidden="true">≡</span> All tasks <span id="all-count" class="nav-count"></span></button>
+      </nav>
+      <p class="sidebar-note">A little space<br>for your everyday.</p>
+    </aside>
+    <main id="main" tabindex="-1">
+      <header class="page-header">
+        <p class="eyebrow">MONDAY, SEPTEMBER 28</p>
+        <h1 id="view-title">Today<span class="sun" aria-hidden="true">☀</span></h1>
+        <p id="summary" class="summary">Getting your day ready…</p>
+      </header>
+      <section aria-label="Tasks" id="task-region" aria-busy="true">
+        <div class="section-label"><h2 id="list-title">Your next steps</h2><span id="remaining-count"></span></div>
+        <ul id="task-list" class="task-list"></ul>
+        <div id="empty" class="empty" hidden><span class="empty-mark" aria-hidden="true">✓</span><h2 id="empty-title">A little room to begin</h2><p id="empty-copy">Add your first task below.<br>One small thing is a good start.</p><button id="empty-add" class="text-button">Add a task <span aria-hidden="true">↓</span></button></div>
+        <section id="completed-section" class="completed-section" hidden>
+          <button id="completed-toggle" class="completed-toggle" aria-expanded="true" aria-controls="completed-list"><span id="completed-chevron" aria-hidden="true">⌄</span> Completed <span id="completed-count"></span></button>
+          <ul id="completed-list" class="task-list completed-list"></ul>
+        </section>
+      </section>
+      <div class="capture-space" aria-hidden="true"></div>
+    </main>
+  </div>
+  <div class="capture-dock">
+    <div class="feedback" id="feedback" role="status" aria-live="polite"><span id="feedback-text">Tasks stay on this device.</span><button id="retry" class="retry" hidden>Retry</button></div>
+    <form id="capture" class="capture" novalidate>
+      <label for="task-title" class="sr-only">New task title</label>
+      <span class="capture-plus" aria-hidden="true">+</span>
+      <input id="task-title" name="title" placeholder="What needs doing?" autocomplete="off" maxlength="240" aria-describedby="feedback-text">
+      <button id="add-task" class="primary" type="submit">Add <span aria-hidden="true">↵</span></button>
+    </form>
+    <p class="capture-hint">Add to Today · Details can wait</p>
+  </div>
+  <dialog id="detail" aria-labelledby="detail-heading">
+    <div class="detail-head"><p class="eyebrow" id="detail-heading">TASK DETAILS</p><button id="close-detail" class="icon-button" aria-label="Close task details">×</button></div>
+    <form id="detail-form" novalidate>
+      <label for="detail-title">Task</label>
+      <textarea id="detail-title" rows="2" maxlength="240" required aria-describedby="detail-feedback"></textarea>
+      <label for="detail-date">Date <span class="optional">Optional</span></label>
+      <input id="detail-date" type="date">
+      <label for="detail-notes">Notes <span class="optional">Optional</span></label>
+      <textarea id="detail-notes" rows="5" placeholder="Anything you want to remember…" maxlength="5000"></textarea>
+      <p id="detail-feedback" class="detail-feedback" role="status" aria-live="polite">Make a little space for the details.</p>
+      <div class="detail-actions"><button type="button" id="detail-cancel" class="secondary">Close</button><button type="submit" id="save-detail" class="primary">Save changes</button></div>
+    </form>
+  </dialog>
+</body>
+</html>

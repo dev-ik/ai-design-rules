@@ -1,0 +1,772 @@
+{
+  "variant": "baseline",
+  "errors": [],
+  "reports": [
+    {
+      "viewport": "mobile",
+      "artifacts": [
+        "baseline/screenshots/mobile-default.png",
+        "baseline/screenshots/mobile-empty.png",
+        "baseline/screenshots/mobile-saving.png",
+        "baseline/screenshots/mobile-save-error.png",
+        "baseline/screenshots/mobile-saved.png",
+        "baseline/screenshots/mobile-completed.png",
+        "baseline/screenshots/mobile-detail.png",
+        "baseline/screenshots/mobile-detail-reduced-motion.png",
+        "baseline/screenshots/mobile-keyboard-focus.png",
+        "baseline/screenshots/mobile-validation.png"
+      ],
+      "checks": {
+        "initial": {
+          "count": 12,
+          "overflow": false,
+          "inputBox": {
+            "x": 61.875,
+            "y": 286.671875,
+            "width": 239.3125,
+            "height": 34
+          }
+        },
+        "targets": [
+          {
+            "label": "\u2733 daylight.",
+            "width": 346,
+            "height": 31
+          },
+          {
+            "label": "Today11",
+            "width": 165.5,
+            "height": 43
+          },
+          {
+            "label": "All tasks11",
+            "width": 165.5,
+            "height": 43
+          },
+          {
+            "label": "new-task",
+            "width": 239.3125,
+            "height": 34
+          },
+          {
+            "label": "Add task \u21b5",
+            "width": 47.8125,
+            "height": 44
+          },
+          {
+            "label": "Complete: Book dentist appointment",
+            "width": 44,
+            "height": 52
+          },
+          {
+            "label": "Task details: Book dentist appointment",
+            "width": 283,
+            "height": 62
+          },
+          {
+            "label": "Complete: Pick up parcel",
+            "width": 44,
+            "height": 52
+          },
+          {
+            "label": "Task details: Pick up parcel",
+            "width": 283,
+            "height": 62
+          },
+          {
+            "label": "Complete: Reply to Maya",
+            "width": 44,
+            "height": 52
+          },
+          {
+            "label": "Task details: Reply to Maya",
+            "width": 283,
+            "height": 62
+          },
+          {
+            "label": "Complete: Pay electricity bill",
+            "width": 44,
+            "height": 52
+          },
+          {
+            "label": "Task details: Pay electricity bill",
+            "width": 283,
+            "height": 62
+          },
+          {
+            "label": "Complete: Fix bicycle light",
+            "width": 44,
+            "height": 52
+          },
+          {
+            "label": "Task details: Fix bicycle light",
+            "width": 283,
+            "height": 62
+          },
+          {
+            "label": "Complete: Water the plants",
+            "width": 44,
+            "height": 52
+          },
+          {
+            "label": "Task details: Water the plants",
+            "width": 283,
+            "height": 62
+          },
+          {
+            "label": "Complete: Read chapter twelve",
+            "width": 44,
+            "height": 52
+          },
+          {
+            "label": "Task details: Read chapter twelve",
+            "width": 283,
+            "height": 62
+          },
+          {
+            "label": "Complete: Plan weekend walk",
+            "width": 44,
+            "height": 52
+          },
+          {
+            "label": "Task details: Plan weekend walk",
+            "width": 283,
+            "height": 62
+          },
+          {
+            "label": "Complete: Return library book",
+            "width": 44,
+            "height": 52
+          },
+          {
+            "label": "Task details: Return library book",
+            "width": 283,
+            "height": 62
+          },
+          {
+            "label": "Complete: Take out recycling",
+            "width": 44,
+            "height": 52
+          },
+          {
+            "label": "Task details: Take out recycling",
+            "width": 283,
+            "height": 62
+          },
+          {
+            "label": "Complete: Order coffee beans",
+            "width": 44,
+            "height": 52
+          },
+          {
+            "label": "Task details: Order coffee beans",
+            "width": 283,
+            "height": 62
+          },
+          {
+            "label": "Completed1\u2304",
+            "width": 346,
+            "height": 44
+          },
+          {
+            "label": "Mark incomplete: Stretch for ten minutes",
+            "width": 44,
+            "height": 52
+          },
+          {
+            "label": "Task details: Stretch for ten minutes",
+            "width": 283,
+            "height": 62
+          }
+        ],
+        "saving": {
+          "input": "Buy apples",
+          "beforeBox": {
+            "x": 61.875,
+            "y": 286.671875,
+            "width": 239.3125,
+            "height": 34
+          },
+          "afterBox": {
+            "x": 61.875,
+            "y": 286.671875,
+            "width": 209.6875,
+            "height": 34
+          },
+          "submitDisabled": true,
+          "tasks": 12
+        },
+        "failedSave": {
+          "input": "Buy apples",
+          "tasks": 12,
+          "feedback": "Couldn\u2019t save. Your changes are still here. Try again.\nTry again"
+        },
+        "retry": {
+          "matchingTasks": 1,
+          "feedback": "Task added to today."
+        },
+        "completed": {
+          "completed": true,
+          "focus": {
+            "tag": "SUMMARY",
+            "id": "",
+            "label": null,
+            "text": "Completed2\u2304",
+            "scrollY": 407
+          }
+        },
+        "detail": {
+          "sourceScroll": 412,
+          "open": true,
+          "title": "Order coffee beans",
+          "focus": {
+            "tag": "INPUT",
+            "id": "detail-title",
+            "label": null,
+            "text": "",
+            "scrollY": 412
+          }
+        },
+        "detailClose": {
+          "focus": {
+            "tag": "BUTTON",
+            "id": "",
+            "label": "Task details: Order coffee beans",
+            "text": "Order coffee beans\u203a",
+            "scrollY": 412
+          },
+          "sourceFocused": true,
+          "scrollDelta": 0
+        },
+        "interruption": {
+          "open": false,
+          "focus": {
+            "tag": "BUTTON",
+            "id": "",
+            "label": "Task details: Order coffee beans",
+            "text": "Order coffee beans\u203a",
+            "scrollY": 412
+          }
+        },
+        "reducedMotion": {
+          "title": "Order coffee beans",
+          "focus": {
+            "tag": "INPUT",
+            "id": "detail-title",
+            "label": null,
+            "text": "",
+            "scrollY": 412
+          },
+          "animations": 0
+        },
+        "editFailure": {
+          "draft": "Call before 10 am.",
+          "saved": "Ask about a morning appointment.",
+          "feedback": "Couldn\u2019t save. Your changes are still here. Try again."
+        },
+        "editRetry": {
+          "saved": "Call before 10 am."
+        },
+        "persistence": "Call before 10 am.",
+        "keyboard": {
+          "tabsToCapture": 4,
+          "focus": {
+            "tag": "INPUT",
+            "id": "new-task",
+            "label": null,
+            "text": "",
+            "scrollY": 0
+          },
+          "style": {
+            "outline": "rgb(38, 52, 45) none 3px",
+            "shadow": "none"
+          }
+        },
+        "blankValidation": {
+          "state": {
+            "tasks": [
+              {
+                "id": "t01",
+                "title": "Book dentist appointment",
+                "notes": "Ask about a morning appointment.",
+                "dueDate": "2026-09-28",
+                "completed": false
+              },
+              {
+                "id": "t02",
+                "title": "Pick up parcel",
+                "notes": "",
+                "dueDate": "2026-09-28",
+                "completed": false
+              },
+              {
+                "id": "t03",
+                "title": "Reply to Maya",
+                "notes": "",
+                "dueDate": "2026-09-28",
+                "completed": false
+              },
+              {
+                "id": "t04",
+                "title": "Pay electricity bill",
+                "notes": "",
+                "dueDate": "2026-09-28",
+                "completed": false
+              },
+              {
+                "id": "t05",
+                "title": "Fix bicycle light",
+                "notes": "",
+                "dueDate": "2026-09-28",
+                "completed": false
+              },
+              {
+                "id": "t06",
+                "title": "Water the plants",
+                "notes": "",
+                "dueDate": "2026-09-28",
+                "completed": false
+              },
+              {
+                "id": "t07",
+                "title": "Read chapter twelve",
+                "notes": "",
+                "dueDate": "2026-09-28",
+                "completed": false
+              },
+              {
+                "id": "t08",
+                "title": "Plan weekend walk",
+                "notes": "",
+                "dueDate": "2026-09-28",
+                "completed": false
+              },
+              {
+                "id": "t09",
+                "title": "Return library book",
+                "notes": "",
+                "dueDate": "2026-09-28",
+                "completed": false
+              },
+              {
+                "id": "t10",
+                "title": "Take out recycling",
+                "notes": "",
+                "dueDate": "2026-09-28",
+                "completed": false
+              },
+              {
+                "id": "t11",
+                "title": "Order coffee beans",
+                "notes": "",
+                "dueDate": "2026-09-28",
+                "completed": false
+              },
+              {
+                "id": "t12",
+                "title": "Stretch for ten minutes",
+                "notes": "",
+                "dueDate": "2026-09-28",
+                "completed": true
+              }
+            ],
+            "today": "2026-09-28",
+            "view": "today",
+            "loading": false,
+            "pending": null,
+            "failed": null,
+            "feedback": "",
+            "feedbackType": "",
+            "editingId": null,
+            "saveDelay": 500
+          },
+          "feedback": "",
+          "nativeMessage": "Please fill in this field."
+        }
+      }
+    },
+    {
+      "viewport": "desktop",
+      "artifacts": [
+        "baseline/screenshots/desktop-default.png",
+        "baseline/screenshots/desktop-empty.png",
+        "baseline/screenshots/desktop-saving.png",
+        "baseline/screenshots/desktop-save-error.png",
+        "baseline/screenshots/desktop-saved.png",
+        "baseline/screenshots/desktop-completed.png",
+        "baseline/screenshots/desktop-detail.png",
+        "baseline/screenshots/desktop-detail-reduced-motion.png",
+        "baseline/screenshots/desktop-keyboard-focus.png",
+        "baseline/screenshots/desktop-validation.png"
+      ],
+      "checks": {
+        "initial": {
+          "count": 12,
+          "overflow": false,
+          "inputBox": {
+            "x": 467.78125,
+            "y": 225.015625,
+            "width": 550.953125,
+            "height": 35
+          }
+        },
+        "targets": [
+          {
+            "label": "\u2733 daylight.",
+            "width": 201,
+            "height": 36
+          },
+          {
+            "label": "Today11",
+            "width": 201,
+            "height": 50
+          },
+          {
+            "label": "All tasks11",
+            "width": 201,
+            "height": 50
+          },
+          {
+            "label": "new-task",
+            "width": 550.953125,
+            "height": 35
+          },
+          {
+            "label": "Add task \u21b5",
+            "width": 103.171875,
+            "height": 44
+          },
+          {
+            "label": "Complete: Book dentist appointment",
+            "width": 44,
+            "height": 52
+          },
+          {
+            "label": "Task details: Book dentist appointment",
+            "width": 654,
+            "height": 61
+          },
+          {
+            "label": "Complete: Pick up parcel",
+            "width": 44,
+            "height": 52
+          },
+          {
+            "label": "Task details: Pick up parcel",
+            "width": 654,
+            "height": 61
+          },
+          {
+            "label": "Complete: Reply to Maya",
+            "width": 44,
+            "height": 52
+          },
+          {
+            "label": "Task details: Reply to Maya",
+            "width": 654,
+            "height": 61
+          },
+          {
+            "label": "Complete: Pay electricity bill",
+            "width": 44,
+            "height": 52
+          },
+          {
+            "label": "Task details: Pay electricity bill",
+            "width": 654,
+            "height": 61
+          },
+          {
+            "label": "Complete: Fix bicycle light",
+            "width": 44,
+            "height": 52
+          },
+          {
+            "label": "Task details: Fix bicycle light",
+            "width": 654,
+            "height": 61
+          },
+          {
+            "label": "Complete: Water the plants",
+            "width": 44,
+            "height": 52
+          },
+          {
+            "label": "Task details: Water the plants",
+            "width": 654,
+            "height": 61
+          },
+          {
+            "label": "Complete: Read chapter twelve",
+            "width": 44,
+            "height": 52
+          },
+          {
+            "label": "Task details: Read chapter twelve",
+            "width": 654,
+            "height": 61
+          },
+          {
+            "label": "Complete: Plan weekend walk",
+            "width": 44,
+            "height": 52
+          },
+          {
+            "label": "Task details: Plan weekend walk",
+            "width": 654,
+            "height": 61
+          },
+          {
+            "label": "Complete: Return library book",
+            "width": 44,
+            "height": 52
+          },
+          {
+            "label": "Task details: Return library book",
+            "width": 654,
+            "height": 61
+          },
+          {
+            "label": "Complete: Take out recycling",
+            "width": 44,
+            "height": 52
+          },
+          {
+            "label": "Task details: Take out recycling",
+            "width": 654,
+            "height": 61
+          },
+          {
+            "label": "Complete: Order coffee beans",
+            "width": 44,
+            "height": 52
+          },
+          {
+            "label": "Task details: Order coffee beans",
+            "width": 654,
+            "height": 61
+          },
+          {
+            "label": "Completed1\u2304",
+            "width": 722,
+            "height": 44
+          },
+          {
+            "label": "Mark incomplete: Stretch for ten minutes",
+            "width": 44,
+            "height": 52
+          },
+          {
+            "label": "Task details: Stretch for ten minutes",
+            "width": 654,
+            "height": 61
+          }
+        ],
+        "saving": {
+          "input": "Buy apples",
+          "beforeBox": {
+            "x": 467.78125,
+            "y": 225.015625,
+            "width": 550.953125,
+            "height": 35
+          },
+          "afterBox": {
+            "x": 467.78125,
+            "y": 225.015625,
+            "width": 521.328125,
+            "height": 35
+          },
+          "submitDisabled": true,
+          "tasks": 12
+        },
+        "failedSave": {
+          "input": "Buy apples",
+          "tasks": 12,
+          "feedback": "Couldn\u2019t save. Your changes are still here. Try again.\nTry again"
+        },
+        "retry": {
+          "matchingTasks": 1,
+          "feedback": "Task added to today."
+        },
+        "completed": {
+          "completed": true,
+          "focus": {
+            "tag": "SUMMARY",
+            "id": "",
+            "label": null,
+            "text": "Completed2\u2304",
+            "scrollY": 299
+          }
+        },
+        "detail": {
+          "sourceScroll": 319,
+          "open": true,
+          "title": "Order coffee beans",
+          "focus": {
+            "tag": "INPUT",
+            "id": "detail-title",
+            "label": null,
+            "text": "",
+            "scrollY": 319
+          }
+        },
+        "detailClose": {
+          "focus": {
+            "tag": "BUTTON",
+            "id": "",
+            "label": "Task details: Order coffee beans",
+            "text": "Order coffee beans\u203a",
+            "scrollY": 319
+          },
+          "sourceFocused": true,
+          "scrollDelta": 0
+        },
+        "interruption": {
+          "open": false,
+          "focus": {
+            "tag": "BUTTON",
+            "id": "",
+            "label": "Task details: Order coffee beans",
+            "text": "Order coffee beans\u203a",
+            "scrollY": 319
+          }
+        },
+        "reducedMotion": {
+          "title": "Order coffee beans",
+          "focus": {
+            "tag": "INPUT",
+            "id": "detail-title",
+            "label": null,
+            "text": "",
+            "scrollY": 319
+          },
+          "animations": 0
+        },
+        "editFailure": {
+          "draft": "Call before 10 am.",
+          "saved": "Ask about a morning appointment.",
+          "feedback": "Couldn\u2019t save. Your changes are still here. Try again."
+        },
+        "editRetry": {
+          "saved": "Call before 10 am."
+        },
+        "persistence": "Call before 10 am.",
+        "keyboard": {
+          "tabsToCapture": 4,
+          "focus": {
+            "tag": "INPUT",
+            "id": "new-task",
+            "label": null,
+            "text": "",
+            "scrollY": 0
+          },
+          "style": {
+            "outline": "rgb(38, 52, 45) none 3px",
+            "shadow": "none"
+          }
+        },
+        "blankValidation": {
+          "state": {
+            "tasks": [
+              {
+                "id": "t01",
+                "title": "Book dentist appointment",
+                "notes": "Ask about a morning appointment.",
+                "dueDate": "2026-09-28",
+                "completed": false
+              },
+              {
+                "id": "t02",
+                "title": "Pick up parcel",
+                "notes": "",
+                "dueDate": "2026-09-28",
+                "completed": false
+              },
+              {
+                "id": "t03",
+                "title": "Reply to Maya",
+                "notes": "",
+                "dueDate": "2026-09-28",
+                "completed": false
+              },
+              {
+                "id": "t04",
+                "title": "Pay electricity bill",
+                "notes": "",
+                "dueDate": "2026-09-28",
+                "completed": false
+              },
+              {
+                "id": "t05",
+                "title": "Fix bicycle light",
+                "notes": "",
+                "dueDate": "2026-09-28",
+                "completed": false
+              },
+              {
+                "id": "t06",
+                "title": "Water the plants",
+                "notes": "",
+                "dueDate": "2026-09-28",
+                "completed": false
+              },
+              {
+                "id": "t07",
+                "title": "Read chapter twelve",
+                "notes": "",
+                "dueDate": "2026-09-28",
+                "completed": false
+              },
+              {
+                "id": "t08",
+                "title": "Plan weekend walk",
+                "notes": "",
+                "dueDate": "2026-09-28",
+                "completed": false
+              },
+              {
+                "id": "t09",
+                "title": "Return library book",
+                "notes": "",
+                "dueDate": "2026-09-28",
+                "completed": false
+              },
+              {
+                "id": "t10",
+                "title": "Take out recycling",
+                "notes": "",
+                "dueDate": "2026-09-28",
+                "completed": false
+              },
+              {
+                "id": "t11",
+                "title": "Order coffee beans",
+                "notes": "",
+                "dueDate": "2026-09-28",
+                "completed": false
+              },
+              {
+                "id": "t12",
+                "title": "Stretch for ten minutes",
+                "notes": "",
+                "dueDate": "2026-09-28",
+                "completed": true
+              }
+            ],
+            "today": "2026-09-28",
+            "view": "today",
+            "loading": false,
+            "pending": null,
+            "failed": null,
+            "feedback": "",
+            "feedbackType": "",
+            "editingId": null,
+            "saveDelay": 500
+          },
+          "feedback": "",
+          "nativeMessage": "Please fill in this field."
+        }
+      }
+    }
+  ]
+}

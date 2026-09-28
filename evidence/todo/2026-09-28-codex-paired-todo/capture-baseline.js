@@ -1,0 +1,60 @@
+async (page) => {
+  const variant = 'baseline';
+  const config = {input:'#new-task',add:'#add-button',feedback:'#save-feedback',dialog:'#task-dialog',retry:'.retry-button',complete:'input.task-checkbox',completed:'details#completed-section',completionToggle:'details#completed-section summary'};
+  const reports=[]; const errors=[];
+  page.on('pageerror',error=>errors.push(error.message));
+  const state=()=>page.evaluate(()=>window.__benchmark.getState());
+  const waitSave=()=>page.waitForFunction(()=>!window.__benchmark.getState().pending);
+  const focus=()=>page.evaluate(()=>({tag:document.activeElement.tagName,id:document.activeElement.id,label:document.activeElement.getAttribute('aria-label'),text:document.activeElement.textContent.slice(0,100),scrollY:window.scrollY}));
+  for(const [name,width,height] of [['mobile',390,844],['desktop',1440,900]]) {
+    await page.setViewportSize({width,height}); await page.emulateMedia({reducedMotion:'no-preference',colorScheme:'light'});
+    await page.evaluate(()=>{window.__benchmark.reset('seed');document.activeElement.blur();window.scrollTo(0,0);});
+    const report={viewport:name,artifacts:[],checks:{}};
+    const shot=async(suffix)=>{const file=`${variant}/screenshots/${name}-${suffix}.png`;await page.screenshot({path:file});report.artifacts.push(file);};
+    report.checks.initial={count:(await state()).tasks.length,overflow:await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),inputBox:await page.locator(config.input).boundingBox()};
+    report.checks.targets=await page.locator('button,a,input,summary').evaluateAll(elements=>elements.filter(e=>e.getClientRects().length).map(e=>{const target=e.matches('input[type=checkbox]')?e.closest('label')||e:e; const r=target.getBoundingClientRect();return {label:e.getAttribute('aria-label')||e.textContent.trim()||e.id,width:r.width,height:r.height};}));
+    await shot('default');
+    await page.evaluate(()=>{window.__benchmark.reset('empty');window.scrollTo(0,0);});await shot('empty');
+    await page.evaluate(()=>{window.__benchmark.reset('seed');window.__benchmark.setSaveDelay(2500);window.__benchmark.failNextSave();window.scrollTo(0,0);});
+    await page.locator(config.input).fill('Buy apples');
+    const beforeBox=await page.locator(config.input).boundingBox();
+    await page.locator(config.add).click();
+    report.checks.saving={input:await page.locator(config.input).inputValue(),beforeBox,afterBox:await page.locator(config.input).boundingBox(),submitDisabled:await page.locator(config.add).isDisabled(),tasks:(await state()).tasks.length};
+    await shot('saving'); await waitSave();
+    report.checks.failedSave={input:await page.locator(config.input).inputValue(),tasks:(await state()).tasks.length,feedback:await page.locator(config.feedback).innerText()};
+    await shot('save-error');
+    await page.evaluate(()=>window.__benchmark.setSaveDelay(50));
+    await page.locator(config.retry).click(); await waitSave();
+    report.checks.retry={matchingTasks:(await state()).tasks.filter(t=>t.title==='Buy apples').length,feedback:await page.locator(config.feedback).innerText()};
+    await shot('saved');
+    await page.evaluate(()=>window.__benchmark.reset('seed'));
+    await page.locator('[data-task-id="t01"]').locator(config.complete).click();await waitSave();
+    if(await page.locator(config.completed).evaluate(e=>e.tagName==='DETAILS'&&!e.open)) await page.locator(config.completionToggle).click();
+    await page.locator(config.completed).scrollIntoViewIfNeeded();
+    report.checks.completed={completed:(await state()).tasks.find(t=>t.id==='t01').completed,focus:await focus()};await shot('completed');
+    await page.evaluate(()=>window.__benchmark.reset('seed'));
+    const source=page.locator('[data-task-id="t11"] .task-open');await source.evaluate(e=>e.scrollIntoView({block:'center',behavior:'instant'}));
+    const sourceScroll=await page.evaluate(()=>window.scrollY);await source.click();await page.waitForTimeout(250);
+    report.checks.detail={sourceScroll,open:await page.locator(config.dialog).evaluate(e=>e.open),title:await page.locator('#detail-title').inputValue(),focus:await focus()};await shot('detail');
+    await page.keyboard.press('Escape');await page.waitForTimeout(250);
+    report.checks.detailClose={focus:await focus(),sourceFocused:await source.evaluate(e=>e===document.activeElement),scrollDelta:await page.evaluate(y=>window.scrollY-y,sourceScroll)};
+    await source.click();await page.keyboard.press('Escape');await page.waitForTimeout(300);
+    report.checks.interruption={open:await page.locator(config.dialog).evaluate(e=>e.open),focus:await focus()};
+    await page.emulateMedia({reducedMotion:'reduce'});await source.click();
+    report.checks.reducedMotion={title:await page.locator('#detail-title').inputValue(),focus:await focus(),animations:await page.evaluate(()=>document.getAnimations().length)};await shot('detail-reduced-motion');await page.keyboard.press('Escape');
+    await page.emulateMedia({reducedMotion:'no-preference'});
+    await page.evaluate(()=>window.__benchmark.reset('seed'));await page.locator('[data-task-id="t01"] .task-open').click();
+    await page.locator('#detail-notes').fill('Call before 10 am.');await page.evaluate(()=>window.__benchmark.failNextSave());await page.locator('#save-detail').click();await waitSave();
+    report.checks.editFailure={draft:await page.locator('#detail-notes').inputValue(),saved:(await state()).tasks.find(t=>t.id==='t01').notes,feedback:await page.locator('#detail-feedback').innerText()};
+    await page.locator('#save-detail').click();await waitSave();report.checks.editRetry={saved:(await state()).tasks.find(t=>t.id==='t01').notes};
+    await page.reload();await page.waitForFunction(()=>window.__benchmark&&!window.__benchmark.getState().loading);
+    report.checks.persistence=(await state()).tasks.find(t=>t.id==='t01').notes;
+    await page.evaluate(()=>{window.__benchmark.reset('seed');document.activeElement.blur();window.scrollTo(0,0);});
+    let tabs=0;while(tabs<50){await page.keyboard.press('Tab');tabs++;if(await page.locator(config.input).evaluate(e=>e===document.activeElement))break;}
+    report.checks.keyboard={tabsToCapture:tabs,focus:await focus(),style:await page.locator(config.input).evaluate(e=>({outline:getComputedStyle(e).outline,shadow:getComputedStyle(e).boxShadow}))};await shot('keyboard-focus');
+    await page.locator(config.input).fill('   ');await page.locator(config.add).click();
+    report.checks.blankValidation={state:await state(),feedback:await page.locator(config.feedback).innerText(),nativeMessage:await page.locator(config.input).evaluate(e=>e.validationMessage)};
+    await shot('validation');reports.push(report);
+  }
+  return {variant,errors,reports};
+}
