@@ -2,6 +2,18 @@
 
 ## Unreleased
 
+## v0.5.0 — Discoverable Design Skills And Browser QA
+
+- Adapt the four supplied UI checklist skills with standalone metadata, existing graph references, concrete browser/image workflows, and explicit evidence boundaries.
+- Add read-only `skills list` / `skills show` CLI commands with Markdown and JSON output.
+- Install missing namespaced `.agents/skills` launchers for all 20 bundled workflows through `init`, preserving existing local files.
+- Load current workflows from the pinned npm package so package updates do not overwrite customized launchers.
+- Append design/browser-review routing separately from the original context block for safe upgrades from `0.4.0`.
+- Extend initialization and packed-install verification for skill discovery, source retrieval, local customization, malformed markers, and symlink paths.
+- Document browser and image-model prerequisites, reproducible findings, scoped verdicts, and unverified coverage.
+
+## npm v0.4.0 — AI Design Context Package
+
 - Rename the project to AI Design Context and use `ai-design-context` as the package name; keep the GitHub URL at `dev-ik/ai-design-rules`.
 - Preserve historical releases, frozen benchmark evidence, stable graph identifiers, and schema URIs under their original names.
 - Package the complete graph and upstream evidence with a dependency-free Node.js 20+ CLI and an explicit publish allowlist.

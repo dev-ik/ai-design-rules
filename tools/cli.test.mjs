@@ -78,6 +78,68 @@ test('init creates instructions in an empty project', (t) => {
   assert.ok(agents.includes('absolutePath'));
 });
 
+test('skills lists bundled workflows and shows their source with usable paths', (t) => {
+  const cwd = project(t);
+  const listed = run(cwd, 'skills', 'list', '--format', 'json');
+  assert.equal(listed.status, 0, listed.stderr);
+  const catalog = JSON.parse(listed.stdout);
+  for (const name of ['design-understand', 'visual-qa', 'responsive-check', 'accessibility-check', 'product-designer']) {
+    assert.ok(catalog.skills.some((skill) => skill.name === name), name);
+  }
+  const shown = run(cwd, 'skills', 'show', 'visual-qa', '--format', 'json');
+  assert.equal(shown.status, 0, shown.stderr);
+  const skill = JSON.parse(shown.stdout);
+  assert.equal(skill.name, 'visual-qa');
+  assert.equal(skill.knowledgeRoot, root);
+  assert.equal(skill.content, fs.readFileSync(path.join(root, 'skills/visual-qa/SKILL.md'), 'utf8'));
+  assert.equal(skill.absolutePath, path.join(root, 'skills/visual-qa/SKILL.md'));
+  assert.equal(run(cwd, 'skills', 'show', '../../AGENTS.md').status, 1);
+  assert.equal(run(cwd, 'skills', 'list', '--force').status, 1);
+  assert.deepEqual(fs.readdirSync(cwd), []);
+});
+
+test('init installs discoverable namespaced skill launchers and preserves local skills', (t) => {
+  const cwd = project(t);
+  const custom = path.join(cwd, '.agents/skills/ai-design-context-visual-qa');
+  fs.mkdirSync(custom, { recursive: true });
+  fs.writeFileSync(path.join(custom, 'SKILL.md'), '# My custom QA workflow\n');
+  const existingAgents = '# Project\n<!-- ai-design-context:start -->\nExisting context instructions.\n<!-- ai-design-context:end -->\n';
+  fs.writeFileSync(path.join(cwd, 'AGENTS.md'), existingAgents);
+  const result = run(cwd, 'init');
+  assert.equal(result.status, 0, result.stderr);
+  assert.equal(fs.readFileSync(path.join(custom, 'SKILL.md'), 'utf8'), '# My custom QA workflow\n');
+  for (const name of ['product-designer', 'design-understand', 'responsive-check', 'accessibility-check']) {
+    const launcher = fs.readFileSync(path.join(cwd, `.agents/skills/ai-design-context-${name}/SKILL.md`), 'utf8');
+    assert.ok(launcher.includes(`name: ai-design-context-${name}`));
+    assert.ok(launcher.includes(`ai-design-context skills show ${name}`));
+  }
+  const agents = fs.readFileSync(path.join(cwd, 'AGENTS.md'), 'utf8');
+  assert.ok(agents.startsWith(existingAgents));
+  assert.ok(agents.includes('<!-- ai-design-context:skills:start -->'));
+  assert.ok(agents.includes('ai-design-context-visual-qa'));
+  assert.equal(run(cwd, 'init').status, 0);
+  assert.equal(fs.readFileSync(path.join(cwd, 'AGENTS.md'), 'utf8'), agents);
+});
+
+test('init validates skill symlinks and routing markers before creating any files', (t) => {
+  const cwd = project(t);
+  const outside = project(t);
+  fs.mkdirSync(path.join(cwd, '.agents'));
+  fs.symlinkSync(outside, path.join(cwd, '.agents/skills'));
+  const symlinked = run(cwd, 'init');
+  assert.equal(symlinked.status, 1);
+  assert.match(symlinked.stderr, /symlink/i);
+  assert.ok(!fs.existsSync(path.join(cwd, 'AGENTS.md')));
+  assert.ok(!fs.existsSync(path.join(cwd, 'docs')));
+  assert.deepEqual(fs.readdirSync(outside), []);
+  fs.unlinkSync(path.join(cwd, '.agents/skills'));
+  fs.writeFileSync(path.join(cwd, 'AGENTS.md'), '<!-- ai-design-context:skills:start -->\n');
+  const malformed = run(cwd, 'init');
+  assert.equal(malformed.status, 1);
+  assert.match(malformed.stderr, /marker/i);
+  assert.ok(!fs.existsSync(path.join(cwd, 'docs')));
+});
+
 test('init rejects malformed markers before creating templates', (t) => {
   const cwd = project(t);
   const existing = '# Local\n<!-- ai-design-context:start -->\nUnfinished block\n';
@@ -111,7 +173,10 @@ test('init preserves a customized marked instruction block', (t) => {
   fs.writeFileSync(path.join(cwd, 'AGENTS.md'), original);
   const result = run(cwd, 'init');
   assert.equal(result.status, 0, result.stderr);
-  assert.equal(fs.readFileSync(path.join(cwd, 'AGENTS.md'), 'utf8'), original);
+  const updated = fs.readFileSync(path.join(cwd, 'AGENTS.md'), 'utf8');
+  assert.ok(updated.startsWith(original), 'custom instructions remain byte-for-byte intact before the added routing section');
+  assert.equal(run(cwd, 'init').status, 0);
+  assert.equal(fs.readFileSync(path.join(cwd, 'AGENTS.md'), 'utf8'), updated);
   assert.ok(fs.statSync(path.join(cwd, 'docs/PRD.md')).isFile());
 });
 

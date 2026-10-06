@@ -28,9 +28,11 @@ npx ai-design-context init
 npx ai-design-context context --task quick-capture --platform mobile --intent implement
 ```
 
-Before publication, run `npm pack` in the knowledge-source checkout, then install that generated `.tgz` with `npm install --save-dev /path/to/ai-design-context-0.4.0.tgz` in the product repository. The same `init` and `context` commands work with the local tarball.
+For local evaluation before a new version is published, run `npm pack` in the knowledge-source checkout, then install that generated `.tgz` with `npm install --save-dev /path/to/ai-design-context-0.5.0.tgz` in the product repository. The same `init`, `context`, and `skills` commands work with the local tarball.
 
-`init` appends an optional, marked section to the existing `AGENTS.md` and creates only missing files under `docs/`, `templates/`, `reviews/`, and `benchmarks/`. It preserves existing project-specific instructions, populated documents, and edited integration blocks. Repeat it safely to create newly missing templates; it does not refresh an existing block. Review any newly created placeholders and fill them with actual product context. There are no install hooks and no runtime dependencies.
+`init` appends optional, marked context and design-review sections to the existing `AGENTS.md` and creates only missing files under `docs/`, `templates/`, `reviews/`, `benchmarks/`, and `.agents/skills/`. It preserves existing project-specific instructions, populated documents, edited integration blocks, and customized skill launchers. Repeat it safely to create newly missing templates or launchers; it does not refresh an existing block. An upgrade from `0.4.0` adds the new skill-routing section without changing the original block. Review any newly created placeholders and fill them with actual product context. There are no install hooks and no runtime dependencies.
+
+The 20 namespaced launchers read current workflows from the pinned package. Use `npx ai-design-context skills list` and `npx ai-design-context skills show visual-qa`. Browser and image tools must be available in the agent/project; missing capabilities are recorded as unverified QA scope. See [Design and Browser QA](../docs/BROWSER_DESIGN_QA.md).
 
 Ask the agent to use the returned absolute reading paths, read research and rules, and preserve evidence limits. JSON output includes `knowledgeRoot`, relative `path`, and `absolutePath`. `--review` matches graph identifiers or phrases rather than analyzing arbitrary product files.
 

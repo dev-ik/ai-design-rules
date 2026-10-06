@@ -131,7 +131,7 @@ npx ai-design-context init
 npx ai-design-context context --task quick-capture --platform mobile --intent implement
 ```
 
-Commit the project's dependency manifest and lockfile to pin the knowledge version. Installation alone does not edit project files: `init` explicitly appends a marked section to `AGENTS.md` and creates only missing product-context docs, feature/task templates, and review/benchmark checklists. It preserves existing instructions, populated files, and edited integration blocks; repeated runs do not duplicate them. Fill new placeholders with actual product context.
+Commit the project's dependency manifest and lockfile to pin the knowledge version. Installation alone does not edit project files: `init` explicitly appends marked context and design-review sections to `AGENTS.md` and creates only missing product-context docs, feature/task templates, review/benchmark checklists, and namespaced `.agents/skills` launchers. It preserves existing instructions, populated files, and edited integration blocks; repeated runs do not duplicate them. Fill new placeholders with actual product context.
 
 `context` reads the graph from the installed package, independently of the project's working directory. Markdown provides absolute reading paths; JSON adds `knowledgeRoot` and each object's `absolutePath` while preserving graph-relative `path`. Read the selected research and rules before implementing UI changes.
 
@@ -139,9 +139,13 @@ Commit the project's dependency manifest and lockfile to pin the knowledge versi
 npx ai-design-context context --object PAT-00002 --format json
 npx ai-design-context context --review REF-00001 --intent qa
 npx ai-design-context --help
+npx ai-design-context skills list
+npx ai-design-context skills show visual-qa
 ```
 
 Review queries retrieve matching graph knowledge; they do not analyze arbitrary application files. Matching is lexical, with known IDs and slugs available when phrases do not match. See [Agent Context](docs/AGENT_CONTEXT.md).
+
+After UI work, the installed skills guide browser interaction, screenshot inspection, responsive checks, and accessibility checks before final design review. Use the agent's browser tools or the project's Playwright setup and an image-capable model. The npm package supplies workflows and graph context; it does not provision browser binaries, connectors, or model vision. See [Design and Browser QA](docs/BROWSER_DESIGN_QA.md) for capability requirements and evidence reporting.
 
 Before publication, build a local tarball from this repository and install it into a product repository:
 
@@ -150,7 +154,7 @@ Before publication, build a local tarball from this repository and install it in
 npm pack
 
 # In the product repository; replace the path with the generated tarball path.
-npm install --save-dev /path/to/ai-design-context-0.4.0.tgz
+npm install --save-dev /path/to/ai-design-context-0.5.0.tgz
 npx ai-design-context init
 ```
 

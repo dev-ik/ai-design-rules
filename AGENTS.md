@@ -92,6 +92,10 @@ Use them when the task matches their role:
 - `skills/prompt-architect/SKILL.md` for graph-backed prompt structure and output contracts.
 - `skills/knowledge-graph-architect/SKILL.md` for schema, registry, generated indexes, relationships, and validation scope.
 - `skills/agent-context/SKILL.md` for focused graph retrieval before implementation or review.
+- `skills/design-understand/SKILL.md` for understanding an existing screen before UI changes.
+- `skills/visual-qa/SKILL.md` for browser/screenshot evidence and scoped visual QA.
+- `skills/responsive-check/SKILL.md` for executing viewport and responsive interaction checks.
+- `skills/accessibility-check/SKILL.md` for executing semantic and keyboard/state checks.
 
 These skill files are not registered knowledge objects yet. Do not add them to `registry/objects.json` until skill metadata migration is explicitly requested.
 

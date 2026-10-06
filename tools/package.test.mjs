@@ -56,6 +56,19 @@ test('a packed package installs offline and supports context, init, and graph va
   const init = run('init');
   assert.equal(init.status, 0, init.stderr);
   assert.ok(fs.readFileSync(path.join(consumer, 'AGENTS.md'), 'utf8').includes('ai-design-context context'));
+  const catalogResult = run('skills', 'list', '--format', 'json');
+  assert.equal(catalogResult.status, 0, catalogResult.stderr);
+  const catalog = JSON.parse(catalogResult.stdout);
+  assert.equal(catalog.version, manifest.version);
+  assert.equal(catalog.skills.length, 20);
+  for (const name of ['design-understand', 'visual-qa', 'responsive-check', 'accessibility-check']) {
+    const source = run('skills', 'show', name, '--format', 'json');
+    assert.equal(source.status, 0, source.stderr);
+    assert.ok(JSON.parse(source.stdout).content.startsWith(`---\nname: ${name}\n`));
+    const launcher = fs.readFileSync(path.join(consumer, `.agents/skills/ai-design-context-${name}/SKILL.md`), 'utf8');
+    assert.ok(launcher.includes(`name: ai-design-context-${name}`));
+    assert.ok(launcher.includes(`skills show ${name}`));
+  }
   const agents = fs.readFileSync(path.join(consumer, 'AGENTS.md'), 'utf8');
   assert.equal(run('init').status, 0);
   assert.equal(fs.readFileSync(path.join(consumer, 'AGENTS.md'), 'utf8'), agents);

@@ -27,6 +27,8 @@ research -> rules -> patterns -> prompts -> prototype -> review -> code -> bench
 
 For an existing repository, start with `INSTALL_WITH_AGENT.md`. It tells an agent how to preserve current instructions and populated project documents.
 
+The npm CLI's `init` also creates missing namespaced `.agents/skills` launchers and a separately marked design/browser-review section. Use `skills list` and `skills show <name>` to load current workflows from the pinned package. Browser tools and image analysis remain capabilities of the agent/project environment.
+
 1. Fill `docs/PRD.md`.
 2. Define users in `docs/PERSONAS.md`.
 3. Map the core journey in `docs/USER_FLOWS.md`.

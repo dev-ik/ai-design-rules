@@ -2,6 +2,8 @@
 
 Read these files in order when you are new to AI Design Context or when an agent needs repository context.
 
+For npm installation and the implemented-screen QA loop, see [Design and Browser QA](BROWSER_DESIGN_QA.md), [Agent Context](AGENT_CONTEXT.md), and [npm Releases](NPM_RELEASE.md).
+
 AI Design Context is a connected knowledge graph. Each layer depends on the previous one:
 
 ```text
