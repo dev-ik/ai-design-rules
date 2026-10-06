@@ -29,7 +29,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 24
-          registry-url: https://registry.npmjs.org
 
       - name: Verify release metadata and npm version
         env:
@@ -57,11 +56,16 @@ jobs:
       - name: Install dependencies
         run: npm ci --ignore-scripts --no-audit --no-fund
 
-      - name: Validate, test, and pack
+      - name: Validate and test
+        run: |
+          npm run check
+          npm test
+
+      - name: Pack verified source
         id: pack
         run: |
-          # prepack runs npm run check and npm test, including an offline tarball install.
-          npm pack --json > pack.json
+          # Checks already passed. Keep lifecycle output out of the JSON manifest.
+          npm pack --ignore-scripts --json > pack.json
           node --input-type=module <<'NODE'
           import fs from 'node:fs';
           const [{ filename }] = JSON.parse(fs.readFileSync('pack.json', 'utf8'));
@@ -73,5 +77,4 @@ jobs:
         env:
           TARBALL: ${{ steps.pack.outputs.filename }}
           DIST_TAG: ${{ github.event.release.prerelease && 'next' || 'latest' }}
-        run: npm publish "$TARBALL" --provenance --access public --tag "$DIST_TAG" --ignore-scripts
-
+        run: npm publish "$TARBALL" --provenance --access public --tag "$DIST_TAG" --ignore-scripts --registry https://registry.npmjs.org
