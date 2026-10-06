@@ -5,6 +5,7 @@
 <h1 align="center">AI Design Context</h1>
 
 <p align="center">
+  <a href="https://www.npmjs.com/package/ai-design-context"><img alt="npm version" src="https://img.shields.io/npm/v/ai-design-context.svg"></a>
   <a href="LICENSE"><img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-blue.svg"></a>
   <a href="CHANGELOG.md"><img alt="Status: active" src="https://img.shields.io/badge/status-active-success.svg"></a>
   <a href="evidence/README.md"><img alt="Evidence: benchmark driven" src="https://img.shields.io/badge/evidence-benchmark--driven-orange.svg"></a>
@@ -82,6 +83,8 @@ The repository is built as a **schema-first knowledge graph** for both humans an
 - Research-driven design rules
 - Reusable product and UI patterns
 - AI agent skills
+- Discoverable project-local skill launchers and a `skills` CLI
+- Browser and image QA workflows with explicit capability and evidence limits
 - Validation tooling
 - Benchmark framework
 - DesignLint v0 for evidence-chain relationship checks

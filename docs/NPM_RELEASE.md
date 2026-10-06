@@ -34,7 +34,7 @@ The workflow uses a GitHub-hosted runner, Node.js 24, npm >=11.5.1, and `id-toke
 
 1. Update `package.json` and `package-lock.json` to a new version, write its changelog, and run `npm run check` and `npm test`.
 2. Commit and push the reviewed source, including the workflow and lockfile.
-3. Create and push a tag matching `v<package.json version>`, such as `v0.4.1`.
+3. Create and push a tag matching `v<package.json version>`, such as `v0.5.1`.
 4. Publish a GitHub Release for that tag. This triggers **Publish npm Package**.
 5. Confirm the workflow succeeds, then verify the version in npm.
 

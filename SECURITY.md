@@ -1,6 +1,6 @@
 # Security Policy
 
-AI Design Context ships a local npm CLI, documentation, schemas, a knowledge graph, and validation tools including DesignLint. It does not run a hosted service. Graph retrieval is read-only and offline; `init` explicitly writes agent instructions and missing templates into the current project. Installation has no initialization hooks. Review repository guidance as input to your agent, with project-specific instructions remaining authoritative.
+AI Design Context ships a local npm CLI, documentation, schemas, a knowledge graph, and validation tools including DesignLint. It does not run a hosted service. Graph and skill retrieval are read-only and offline; `init` explicitly writes agent instructions, missing templates, and namespaced `.agents/skills` launchers into the current project. Installation has no initialization hooks. Browser and image tools belong to the consuming agent/project environment. Review repository guidance as input to your agent, with project-specific instructions remaining authoritative.
 
 ## Supported Versions
 

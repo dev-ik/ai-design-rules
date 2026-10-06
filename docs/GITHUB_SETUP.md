@@ -6,23 +6,30 @@ The project is named **AI Design Context** and the npm package is `ai-design-con
 
 ## Repository Description
 
-Evidence-driven design context and benchmarks for AI agents building products, not dashboards.
+Evidence-driven design context, reusable agent skills, and browser QA workflows for AI coding agents. Install via npm: ai-design-context.
+
+## About Link
+
+https://www.npmjs.com/package/ai-design-context
 
 ## Suggested Topics
 
 - ai
+- ai-design-context
+- ai-agents
+- agent-skills
 - design
 - ux
 - product-design
-- ai-agents
-- codex
-- cursor
-- design-systems
+- visual-testing
 - accessibility
-- frontend
+- playwright
+- knowledge-graph
+- codex
+- npm
 
 ## Release Positioning
 
-The first public release should present AI Design Context as a schema-first knowledge base with benchmark-backed validation, not as a UI kit, component library, or generic design system.
+The current release packages a schema-first knowledge graph, reusable design skills, and browser/image QA workflows. Browser automation and image-model capabilities must be available in the consuming agent/project; the package itself does not provision them. Reference-fixture and skill smoke checks validate the process, while paired benchmarks remain the source for any comparative quality claim.
 
 Do not claim broad product-quality improvement until benchmark evidence supports it across repeated runs.
