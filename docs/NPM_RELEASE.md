@@ -38,6 +38,8 @@ The workflow uses a GitHub-hosted runner, Node.js 24, npm >=11.5.1, and `id-toke
 4. Publish a GitHub Release for that tag. This triggers **Publish npm Package**.
 5. Confirm the workflow succeeds, then verify the version in npm.
 
+npm may report that an accepted package is still being processed and needs a few minutes before it becomes available. This is part of [npm's publish-time scanning](https://github.blog/changelog/2026-07-28-npm-publish-time-malware-scanning-and-dual-use-metadata/); availability can take longer depending on load and package content. In that case, wait for `npm view ai-design-context@<version> version --prefer-online` to resolve and verify a clean consumer install. Do not interpret an immediate registry 404 as a failed publish when the workflow's npm output explicitly confirms acceptance and processing.
+
 The workflow validates the release tag and prerelease status before installing, checking, testing, and packing. Stable releases publish under `latest`; versions such as `0.5.0-beta.1` require a GitHub prerelease and publish under `next`. Publishing a GitHub Release authorizes an immutable npm version; rerunning a successful publish cannot replace it.
 
 A manual workflow run performs all checks and packs the package without publishing. Use this to verify Actions setup before creating a release. A failed or accidental release should be corrected with a new version; do not rewrite published npm versions or historical Git tags.

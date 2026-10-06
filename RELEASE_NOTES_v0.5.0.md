@@ -28,4 +28,4 @@ The package supplies knowledge and agent workflows. Browser tools or the project
 
 The new skills use existing graph-backed guidance and are not registered knowledge objects. Existing draft/seed research and rules retain their maturity. Skill application scenarios and the reference fixture check validate the workflow's operation; they do not establish a general quality gain or replace paired benchmark evidence.
 
-See [Design and Browser QA](docs/BROWSER_DESIGN_QA.md).
+See [Design and Browser QA](https://github.com/dev-ik/ai-design-rules/blob/v0.5.0/docs/BROWSER_DESIGN_QA.md).
