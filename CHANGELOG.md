@@ -1,5 +1,16 @@
 # Changelog
 
+## Unreleased
+
+- Rename the project to AI Design Context and use `ai-design-context` as the package name; keep the GitHub URL at `dev-ik/ai-design-rules`.
+- Preserve historical releases, frozen benchmark evidence, stable graph identifiers, and schema URIs under their original names.
+- Package the complete graph and upstream evidence with a dependency-free Node.js 20+ CLI and an explicit publish allowlist.
+- Add `init` for preserving existing agent instructions and creating only missing templates, with repeated-run and symlink protections.
+- Add installed-package `context` retrieval with absolute reading paths while preserving the existing checkout CLI contract.
+- Verify offline installation and use of the actual npm tarball; run repository checks and tests before packing.
+- Publish the first npm package as `ai-design-context@0.4.0`; preserve the existing historical GitHub `v0.4.0` tag.
+- Add automatic npm publishing from matching GitHub Releases through OIDC Trusted Publishing, with validation-only manual runs.
+
 ## v0.4.0 — Focused Context And Applied Patterns
 
 - Add an agent-led installation guide for pinned knowledge integration into existing product repositories.

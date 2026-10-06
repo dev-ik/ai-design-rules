@@ -3,7 +3,7 @@
 Benchmark scenarios define reproducible product briefs for comparing:
 
 ```text
-Baseline AI -> AI + AI Design Rules
+Baseline AI -> AI + AI Design Context
 ```
 
 Do not add implementation code here.

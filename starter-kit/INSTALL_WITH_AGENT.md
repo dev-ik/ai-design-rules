@@ -1,10 +1,10 @@
 # Install with a Coding Agent
 
-Use this guide to connect AI Design Rules to an existing product repository without replacing its application code, UI library, or current agent instructions.
+Use this guide to connect AI Design Context to an existing product repository without replacing its application code, UI library, or current agent instructions.
 
 After setup, the product repository has:
 
-- a pinned AI Design Rules knowledge source;
+- a pinned AI Design Context knowledge source;
 - project-local agent instructions;
 - product context and review templates where they are missing;
 - a repeatable command for retrieving task-specific graph context.
@@ -13,18 +13,37 @@ After setup, the product repository has:
 
 | Connection | Use when | Trade-off |
 | --- | --- | --- |
+| npm dev dependency `ai-design-context` | A Node.js project wants CLI access and lockfile-pinned guidance. | Requires Node.js 20+; upgrades are explicit dependency updates. |
 | Git submodule at `.ai-design-rules/` | A team needs a reviewable, reproducible version. | The parent repository must update the pinned commit deliberately. |
 | Sibling checkout | One developer wants to evaluate the workflow locally. | The path is machine-specific and is not shared with the team. |
 | Starter kit only | The project needs the workflow and templates but not live graph retrieval. | The agent cannot resolve current research, rules, or patterns automatically. |
 
-The instructions below use the Git submodule option.
+## npm Installation
+
+The package is published on npm. Run these commands from the product repository:
+
+```bash
+npm install --save-dev --save-exact ai-design-context
+npx ai-design-context init
+npx ai-design-context context --task quick-capture --platform mobile --intent implement
+```
+
+Before publication, run `npm pack` in the knowledge-source checkout, then install that generated `.tgz` with `npm install --save-dev /path/to/ai-design-context-0.4.0.tgz` in the product repository. The same `init` and `context` commands work with the local tarball.
+
+`init` appends an optional, marked section to the existing `AGENTS.md` and creates only missing files under `docs/`, `templates/`, `reviews/`, and `benchmarks/`. It preserves existing project-specific instructions, populated documents, and edited integration blocks. Repeat it safely to create newly missing templates; it does not refresh an existing block. Review any newly created placeholders and fill them with actual product context. There are no install hooks and no runtime dependencies.
+
+Ask the agent to use the returned absolute reading paths, read research and rules, and preserve evidence limits. JSON output includes `knowledgeRoot`, relative `path`, and `absolutePath`. `--review` matches graph identifiers or phrases rather than analyzing arbitrary product files.
+
+Commit the package manifest and lockfile. Adopt future guidance deliberately with `npm install --save-dev --save-exact ai-design-context@<version>` after reviewing its changes.
+
+The GitHub URL remains `https://github.com/dev-ik/ai-design-rules`. The instructions below describe the Git submodule alternative; its existing `.ai-design-rules/` path remains valid.
 
 ## Give the Agent This Task
 
 Run the agent from the root of the product repository and give it this prompt:
 
 ```text
-Connect AI Design Rules to this repository.
+Connect AI Design Context to this repository.
 
 Knowledge source:
 https://github.com/dev-ik/ai-design-rules.git
@@ -63,7 +82,7 @@ Use the repository's existing conventions and make only integration changes.
    npm --prefix .ai-design-rules run context -- --task quick-capture --platform mobile --intent implement
 
 8. Report the files created or merged, checks run, unresolved conflicts, and the
-   pinned AI Design Rules commit.
+   pinned AI Design Context commit.
 
 Do not change application behavior, dependencies, or product code as part of this
 integration.

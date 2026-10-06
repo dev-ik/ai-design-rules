@@ -7,7 +7,7 @@ description: Define or review reusable UI tokens, components, and state behavior
 
 ## Role
 
-Define reusable product-specific UI decisions without turning AI Design Rules into a UI kit.
+Define reusable product-specific UI decisions without turning AI Design Context into a UI kit.
 
 ## Mission
 

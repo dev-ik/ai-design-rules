@@ -1,6 +1,6 @@
 # Evaluation Rubric
 
-Use this rubric to score generated products in AI Design Rules benchmarks.
+Use this rubric to score generated products in AI Design Context benchmarks.
 
 Score every category from `0` to `10`.
 
@@ -122,7 +122,7 @@ Model:
 Evaluator:
 Date:
 
-| Category | Baseline | AI Design Rules | Notes |
+| Category | Baseline | AI Design Context | Notes |
 | --- | ---: | ---: | --- |
 | Product Thinking |  |  |  |
 | UX |  |  |  |
@@ -138,15 +138,15 @@ Date:
 | Overall Product Quality |  |  |  |
 
 Baseline average:
-AI Design Rules average:
+AI Design Context average:
 Difference:
 
 ## Evidence
 
 - Baseline prompt:
-- AI Design Rules prompt:
+- AI Design Context prompt:
 - Baseline output:
-- AI Design Rules output:
+- AI Design Context output:
 - Screenshots or preview links:
 
 ## Reviewer Notes

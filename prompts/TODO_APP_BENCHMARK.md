@@ -63,7 +63,7 @@ Generate a responsive consumer todo app for the reproducible `benchmarks/todo-ap
 ```text
 Design and implement a responsive todo app for everyday personal task management.
 
-Use AI Design Rules from this repository.
+Use AI Design Context from this repository.
 
 Follow the knowledge graph:
 research -> rules -> patterns -> prompts -> reference projects -> reviews

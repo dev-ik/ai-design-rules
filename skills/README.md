@@ -1,6 +1,6 @@
 # Skills
 
-AI Design Rules skills are reusable Codex agent workflows. Every `skills/*/SKILL.md` has standalone Codex metadata (`name` and a trigger-rich `description`) in addition to its workflow body.
+AI Design Context skills are reusable Codex agent workflows. Every `skills/*/SKILL.md` has standalone Codex metadata (`name` and a trigger-rich `description`) in addition to its workflow body.
 
 They are not design rules, patterns, prompts, or registry objects yet. Knowledge-graph registry migration is deferred until explicitly requested.
 

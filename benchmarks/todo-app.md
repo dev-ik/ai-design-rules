@@ -64,12 +64,12 @@ The app should let a user add tasks, see today's tasks, complete tasks, and edit
 Make it modern, usable, and polished.
 ```
 
-## AI Design Rules Prompt
+## AI Design Context Prompt
 
 ```text
 Design and implement a responsive todo app for everyday personal task management.
 
-Use AI Design Rules from this repository.
+Use AI Design Context from this repository.
 
 Follow the knowledge graph:
 research -> rules -> patterns -> prompts -> reference projects -> reviews
@@ -113,7 +113,7 @@ Model:
 Date:
 Evaluator:
 
-| Category | Baseline | AI Design Rules | Notes |
+| Category | Baseline | AI Design Context | Notes |
 | --- | ---: | ---: | --- |
 | Product Thinking |  |  |  |
 | UX |  |  |  |
@@ -129,13 +129,13 @@ Evaluator:
 | Overall Product Quality |  |  |  |
 
 Baseline average:
-AI Design Rules average:
+AI Design Context average:
 Difference:
 
 ## Evidence Links
 
 - Baseline output:
-- AI Design Rules output:
+- AI Design Context output:
 - Mobile screenshots:
 - Desktop screenshots:
 

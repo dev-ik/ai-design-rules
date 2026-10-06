@@ -1,6 +1,6 @@
 # Code of Conduct
 
-AI Design Rules is a public OSS project for practical, evidence-driven product design knowledge.
+AI Design Context is a public OSS project for practical, evidence-driven product design knowledge.
 
 ## Expected Behavior
 

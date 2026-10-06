@@ -1,6 +1,6 @@
 ---
 name: design-evidence-researcher
-description: Collect primary-source and product-behavior evidence for AI Design Rules. Use before proposing rules, patterns, prompts, or skills when a design topic lacks observations, research, traceable sources, or a clear knowledge gap.
+description: Collect primary-source and product-behavior evidence for AI Design Context. Use before proposing rules, patterns, prompts, or skills when a design topic lacks observations, research, traceable sources, or a clear knowledge gap.
 ---
 
 # Design Evidence Researcher

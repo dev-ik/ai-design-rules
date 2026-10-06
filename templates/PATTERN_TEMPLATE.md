@@ -11,7 +11,7 @@ tags: []
 created_at: 2026-06-25
 updated_at: 2026-06-25
 last_reviewed_at: 2026-06-25
-owner: ai-design-rules
+owner: ai-design-context
 maturity: seed
 risk_level: medium
 platform: []

@@ -1,6 +1,6 @@
 # Project Integration
 
-Integrate AI Design Rules before implementation.
+Integrate AI Design Context before implementation.
 
 ## Workflow
 
@@ -28,10 +28,11 @@ Skip this checkpoint for narrow bug fixes, already approved designs, small acces
 
 Choose the lightest integration mode that gives agents enough context without weakening local project rules.
 
+- npm package: install `ai-design-context` as a dev dependency, run `npx ai-design-context init`, and use `npx ai-design-context context` for lockfile-pinned graph retrieval. See `INSTALL_WITH_AGENT.md` for publication status and local tarball installation.
 - Direct graph: use this repository directly when the product repo is the same workspace or can run the local context CLI.
 - Pinned snapshot: copy a reviewed snapshot into the product repo when agents need reproducible offline guidance.
-- Bridge skill: create a small local skill that points agents at the snapshot, local design docs, and applicable AI Design Rules skills.
-- Optional reasoning layer: reference AI Design Rules only for UI, UX, accessibility, responsive behavior, design review, or visual polish while keeping local architecture, API, security, routing, and test rules higher priority.
+- Bridge skill: create a small local skill that points agents at the snapshot, local design docs, and applicable AI Design Context skills.
+- Optional reasoning layer: reference AI Design Context only for UI, UX, accessibility, responsive behavior, design review, or visual polish while keeping local architecture, API, security, routing, and test rules higher priority.
 
 Do not copy the starter kit wholesale into mature product repositories. Adapt only the parts that improve design reasoning and keep local product constraints authoritative.
 
@@ -52,7 +53,7 @@ For narrow UI fixes, do not require a full document set. Capture the user goal, 
 Every UI or UX change should state:
 
 - user goal;
-- applicable AI Design Rules;
+- applicable AI Design Context;
 - applicable patterns;
 - states handled;
 - review result;

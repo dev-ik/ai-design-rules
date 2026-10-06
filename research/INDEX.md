@@ -1,6 +1,6 @@
 # Research Library
 
-Research is the first step in AI Design Rules.
+Research is the first step in AI Design Context.
 
 Use product research to observe how strong products reduce effort, organize repeated actions, and make complex behavior feel simple. Do not turn research into rules until the observation is stable and reusable.
 

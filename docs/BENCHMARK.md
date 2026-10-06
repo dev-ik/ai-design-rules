@@ -1,18 +1,18 @@
 # Benchmark
 
-AI Design Rules must be evaluated by generated product quality, not by how complete the documentation looks.
+AI Design Context must be evaluated by generated product quality, not by how complete the documentation looks.
 
 This benchmark compares two outputs for the same product brief:
 
 ```text
-Baseline AI -> AI + AI Design Rules
+Baseline AI -> AI + AI Design Context
 ```
 
 ## Purpose
 
 The benchmark exists to answer one question:
 
-Does using AI Design Rules produce better AI-generated consumer product experiences than using the same AI system without this repository?
+Does using AI Design Context produce better AI-generated consumer product experiences than using the same AI system without this repository?
 
 The benchmark does not prove universal design quality. It tests whether the repository improves output on repeatable product scenarios.
 
@@ -20,20 +20,20 @@ The benchmark does not prove universal design quality. It tests whether the repo
 
 Evaluation should be:
 
-- comparative: score baseline and AI Design Rules outputs side by side;
+- comparative: score baseline and AI Design Context outputs side by side;
 - reproducible: use the same model, brief, temperature, and output target;
 - evidence-based: publish prompts, outputs, screenshots or code, and scores;
 - conservative: do not claim improvement without measured results;
 - practical: score product quality, not adherence to repository wording.
 
-The reviewer should not reward an output for mentioning AI Design Rules. Reward only visible product quality.
+The reviewer should not reward an output for mentioning AI Design Context. Reward only visible product quality.
 
 ## Benchmark Process
 
 1. Choose one benchmark scenario from `benchmarks/`.
 2. Select one model and one generation surface.
 3. Generate the baseline output using only the scenario brief.
-4. Generate the AI Design Rules output using the same scenario brief plus the repository instructions.
+4. Generate the AI Design Context output using the same scenario brief plus the repository instructions.
 5. Keep model, temperature, context window, tool access, and implementation target the same.
 6. Review both outputs using `docs/EVALUATION_RUBRIC.md`.
 7. Store prompts, outputs, screenshots or links, evaluator notes, and scores in `evidence/`.
@@ -53,14 +53,14 @@ Each benchmark run must record:
 - tools available;
 - implementation target;
 - baseline prompt;
-- AI Design Rules prompt;
+- AI Design Context prompt;
 - evaluator name or handle;
 - rubric version;
 - links to generated outputs.
 
 If this metadata is missing, the result is not reproducible enough to count.
 
-`rendered` runs must list at least one repository-local screenshot file for both baseline and AI Design Rules outputs. Each screenshot must be a regular image file stored inside its matching `baseline/` or `ai-design-rules/` directory. Preview links can be supplementary, but do not replace stored visual evidence. `directional` runs remain useful for learning but must record their limitation.
+`rendered` runs must list at least one repository-local screenshot file for both baseline and AI Design Context outputs. Each screenshot must be a regular image file stored inside its matching `baseline/` or `ai-design-rules/` directory. Preview links can be supplementary, but do not replace stored visual evidence. `directional` runs remain useful for learning but must record their limitation.
 
 ## Scoring Model
 
@@ -77,7 +77,7 @@ sum(all dimensions) / number of dimensions
 Report:
 
 - baseline total;
-- AI Design Rules total;
+- AI Design Context total;
 - absolute difference;
 - per-category differences;
 - reviewer notes.

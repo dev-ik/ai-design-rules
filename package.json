@@ -1,5 +1,54 @@
 {
+  "name": "ai-design-context",
+  "version": "0.4.0",
+  "description": "Evidence-driven design knowledge and context retrieval for AI coding agents.",
+  "license": "MIT",
+  "author": "Dev Ik",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dev-ik/ai-design-rules.git"
+  },
+  "homepage": "https://github.com/dev-ik/ai-design-rules#readme",
+  "bugs": {
+    "url": "https://github.com/dev-ik/ai-design-rules/issues"
+  },
+  "keywords": ["ai", "design", "ux", "ai-agents", "knowledge-graph", "codex", "cursor", "cli"],
+  "engines": {
+    "node": ">=20"
+  },
+  "bin": {
+    "ai-design-context": "tools/cli.mjs"
+  },
+  "files": [
+    "*.md",
+    "assets/logo.svg",
+    "benchmarks/",
+    "checklists/",
+    "docs/*.md",
+    "evidence/",
+    "examples/",
+    "graph/",
+    "observations/",
+    "patterns/",
+    "prompts/",
+    "registry/",
+    "research/",
+    "reviews/",
+    "rules/",
+    "schema/",
+    "skills/",
+    "starter-kit/",
+    "templates/",
+    "tools/cli.mjs",
+    "tools/context.mjs",
+    "tools/init.mjs",
+    "tools/validate-knowledge.mjs",
+    "tools/validate-benchmark-evidence.mjs",
+    "tools/designlint.mjs",
+    "tools/generate-indexes.mjs"
+  ],
   "scripts": {
+    "prepack": "npm run check && npm test",
     "validate": "node tools/validate-knowledge.mjs",
     "lint:design": "node tools/designlint.mjs",
     "benchmark:validate": "node tools/validate-benchmark-evidence.mjs",
@@ -8,6 +57,9 @@
     "check": "npm run validate && npm run lint:design && npm run benchmark:validate",
     "test:validate": "node --test tools/validate-knowledge.test.mjs",
     "test": "node --test tools/*.test.mjs"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "type": "module"
 }

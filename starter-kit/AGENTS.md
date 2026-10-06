@@ -1,6 +1,6 @@
 # Project AGENTS
 
-This repository follows AI Design Rules.
+This repository follows AI Design Context.
 
 ## Agent Workflow
 
@@ -10,8 +10,8 @@ For every feature:
 2. Read `docs/PERSONAS.md`.
 3. Read `docs/USER_FLOWS.md`.
 4. Read `docs/INFORMATION_ARCHITECTURE.md`.
-5. Select applicable rules from AI Design Rules.
-6. Select applicable patterns from AI Design Rules.
+5. Select applicable rules from AI Design Context.
+6. Select applicable patterns from AI Design Context.
 7. Explain the design reasoning before implementation.
 8. Prototype or implement the smallest useful change.
 9. Review with `reviews/DESIGN_REVIEW.md`.

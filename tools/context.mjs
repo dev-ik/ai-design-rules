@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import { pathToFileURL } from 'node:url';
 
-const root = process.cwd();
 const objectOrder = [
   'research',
   'rule',
@@ -21,7 +21,11 @@ const typeLabels = {
   review: 'Reviews',
 };
 
-function usage() {
+function usage(command) {
+  if (command) return `Usage:
+  ${command} --task <query> [--platform <name>] [--intent implement|qa] [--format markdown|json]
+  ${command} --review <object-id-or-path> [--intent qa] [--format markdown|json]
+  ${command} --object <object-id-or-slug> [--format markdown|json]`;
   return `Usage:
   npm run context -- --task <query> [--platform <name>] [--intent implement|qa] [--format markdown|json]
   npm run context -- --review <object-id-or-path> [--intent qa] [--format markdown|json]
@@ -91,7 +95,7 @@ function tokenise(value) {
 const taskFillers = new Set(['a', 'an', 'the', 'please', 'build', 'create', 'implement', 'make', 'for', 'me']);
 const dependencyTypes = new Set(['requires', 'derived_from', 'inspired_by', 'implements']);
 
-function searchIndex(objects) {
+function searchIndex(objects, root) {
   return objects.map((object) => {
     const filePath = path.join(root, object.path);
     const content = fs.existsSync(filePath) ? fs.readFileSync(filePath, 'utf8') : '';
@@ -264,7 +268,7 @@ function asMarkdown(result) {
     lines.push(
       ...objects.map(
         (object) =>
-          `- \`${object.id}\` / \`${object.alias}\` — ${object.title} (${object.status}, ${object.maturity}) · \`${object.path}\` — ${explainReason(object.reason)}`,
+          `- \`${object.id}\` / \`${object.alias}\` — ${object.title} (${object.status}, ${object.maturity}) · \`${object.absolutePath ?? object.path}\` — ${explainReason(object.reason)}`,
       ),
     );
   }
@@ -289,12 +293,12 @@ function asMarkdown(result) {
   return `${lines.join('\n')}\n`;
 }
 
-function main() {
+export function runContext(argv, { root = process.cwd(), readingPaths = false, command } = {}) {
   let options;
   try {
-    options = parseArgs(process.argv.slice(2));
+    options = parseArgs(argv);
     if (options.help) {
-      console.log(usage());
+      console.log(usage(command));
       return;
     }
 
@@ -303,7 +307,7 @@ function main() {
       fs.readFileSync(path.join(root, 'registry/relationships.json'), 'utf8'),
     );
     const objectsById = new Map(registry.objects.map((object) => [object.id, object]));
-    const index = searchIndex(registry.objects);
+    const index = searchIndex(registry.objects, root);
     const query = options[options.mode];
     const anchors = options.mode === 'object'
       ? findExactObject(registry.objects, query)
@@ -315,16 +319,24 @@ function main() {
       anchors: anchors.map(serializeObject),
       objects: relatedContext(anchors, objectsById, relationshipRegistry.relationships, options.platform, index).map(serializeObject),
     };
+    if (readingPaths) {
+      result.knowledgeRoot = path.resolve(root);
+      for (const object of [...result.anchors, ...result.objects]) {
+        object.absolutePath = path.resolve(root, object.path);
+      }
+    }
     console.log(options.format === 'json' ? JSON.stringify(result, null, 2) : asMarkdown(result));
   } catch (error) {
-    if (options?.format === 'json' || process.argv.includes('--json')) {
+    if (options?.format === 'json' || argv.includes('--json')) {
       console.error(JSON.stringify({ error: error.message }));
     } else {
       console.error(`Context resolution failed: ${error.message}`);
-      console.error(usage());
+      console.error(usage(command));
     }
     process.exitCode = 1;
   }
 }
 
-main();
+if (process.argv[1] && import.meta.url === pathToFileURL(path.resolve(process.argv[1])).href) {
+  runContext(process.argv.slice(2));
+}

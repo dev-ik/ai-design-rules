@@ -7,7 +7,7 @@ description: Create or review graph-backed prompts for design agents. Use when p
 
 ## Role
 
-Design and review prompts that apply existing AI Design Rules knowledge without inventing new design advice.
+Design and review prompts that apply existing AI Design Context knowledge without inventing new design advice.
 
 ## Mission
 

@@ -1,6 +1,6 @@
 # Documentation Style Guide
 
-AI Design Rules documentation must help agents act. Write for practical use inside real product codebases.
+AI Design Context documentation must help agents act. Write for practical use inside real product codebases.
 
 ## Tone
 

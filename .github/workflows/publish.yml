@@ -1,0 +1,77 @@
+name: Publish npm Package
+
+on:
+  release:
+    types: [published]
+  # Manual runs validate and pack only; they never publish a version.
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: npm-publish-${{ github.event.release.tag_name || github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - name: Checkout release source
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          registry-url: https://registry.npmjs.org
+
+      - name: Verify release metadata and npm version
+        env:
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+          RELEASE_PRERELEASE: ${{ github.event.release.prerelease }}
+        run: |
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          import { execFileSync } from 'node:child_process';
+          const { name, version } = JSON.parse(fs.readFileSync('package.json', 'utf8'));
+          if (name !== 'ai-design-context') throw new Error('Unexpected package name');
+          const [major, minor, patch] = execFileSync('npm', ['--version'], { encoding: 'utf8' }).trim().split('.').map(Number);
+          if (major < 11 || (major === 11 && (minor < 5 || (minor === 5 && patch < 1)))) {
+            throw new Error('Trusted publishing requires npm >=11.5.1');
+          }
+          if (process.env.RELEASE_TAG) {
+            if (process.env.RELEASE_TAG !== `v${version}`) throw new Error('Release tag must equal v<package.json version>');
+            const prerelease = version.includes('-');
+            if (prerelease !== (process.env.RELEASE_PRERELEASE === 'true')) {
+              throw new Error('GitHub prerelease status must match the package version');
+            }
+          }
+          NODE
+
+      - name: Install dependencies
+        run: npm ci --ignore-scripts --no-audit --no-fund
+
+      - name: Validate, test, and pack
+        id: pack
+        run: |
+          # prepack runs npm run check and npm test, including an offline tarball install.
+          npm pack --json > pack.json
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          const [{ filename }] = JSON.parse(fs.readFileSync('pack.json', 'utf8'));
+          fs.appendFileSync(process.env.GITHUB_OUTPUT, `filename=${filename}\n`);
+          NODE
+
+      - name: Publish with npm Trusted Publishing
+        if: github.event_name == 'release'
+        env:
+          TARBALL: ${{ steps.pack.outputs.filename }}
+          DIST_TAG: ${{ github.event.release.prerelease && 'next' || 'latest' }}
+        run: npm publish "$TARBALL" --provenance --access public --tag "$DIST_TAG" --ignore-scripts
+

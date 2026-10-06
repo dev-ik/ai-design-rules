@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://ai-design-rules.dev/schema/common.schema.json",
-  "title": "AI Design Rules Common Metadata",
+  "title": "AI Design Context Common Metadata",
   "type": "object",
   "additionalProperties": true,
   "properties": {

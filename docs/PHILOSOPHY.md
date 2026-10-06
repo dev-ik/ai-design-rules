@@ -1,6 +1,6 @@
 # Philosophy
 
-AI Design Rules exists to help AI coding agents make better product decisions before generating UI.
+AI Design Context exists to help AI coding agents make better product decisions before generating UI.
 
 The baseline is simple: good design reduces user effort.
 

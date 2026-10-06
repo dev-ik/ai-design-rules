@@ -18,7 +18,7 @@ Evaluate whether a proposal or implementation follows registered research, rules
 - A screen, prototype, prompt output, or pull request needs design QA.
 - An agent must prove design decisions are traceable.
 - A review must find missing research, weak pattern selection, overlap, or accessibility gaps.
-- A reference project needs validation against AI Design Rules.
+- A reference project needs validation against AI Design Context.
 
 ## When Not To Use
 

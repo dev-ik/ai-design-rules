@@ -1,8 +1,8 @@
 # Documentation Index
 
-Read these files in order when you are new to AI Design Rules or when an agent needs repository context.
+Read these files in order when you are new to AI Design Context or when an agent needs repository context.
 
-AI Design Rules is a connected knowledge graph. Each layer depends on the previous one:
+AI Design Context is a connected knowledge graph. Each layer depends on the previous one:
 
 ```text
 observations -> research -> knowledge -> rules -> patterns -> prompts -> evidence -> reviews
@@ -16,7 +16,7 @@ The `docs/` folder is the current knowledge layer.
 
 Start with `README.md`.
 
-It explains what AI Design Rules is, what it is not, who it is for, how agents should use it, and how benchmark evidence validates the project.
+It explains what AI Design Context is, what it is not, who it is for, how agents should use it, and how benchmark evidence validates the project.
 
 ## 2. Philosophy
 
@@ -104,6 +104,6 @@ Use shared vocabulary before adding new concepts.
 - `examples/` - reserved space for future public reference archetypes. Start with `examples/README.md`.
 - `benchmarks/` - reproducible benchmark scenarios.
 - `evidence/` - future benchmark results and raw outputs.
-- `starter-kit/` - copyable project bootstrap kit for adopting AI Design Rules in another repository.
+- `starter-kit/` - copyable project bootstrap kit for adopting AI Design Context in another repository.
 - `reviews/` - first-class review and validation objects.
 - `checklists/` and `templates/` - review and authoring artifacts.

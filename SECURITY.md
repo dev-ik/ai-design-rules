@@ -1,6 +1,6 @@
 # Security Policy
 
-AI Design Rules is primarily a documentation, schema, and validation repository. It does not currently ship a runtime service, package, CLI, or DesignLint implementation.
+AI Design Context ships a local npm CLI, documentation, schemas, a knowledge graph, and validation tools including DesignLint. It does not run a hosted service. Graph retrieval is read-only and offline; `init` explicitly writes agent instructions and missing templates into the current project. Installation has no initialization hooks. Review repository guidance as input to your agent, with project-specific instructions remaining authoritative.
 
 ## Supported Versions
 

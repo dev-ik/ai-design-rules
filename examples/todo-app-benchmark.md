@@ -49,7 +49,7 @@ relationships:
 
 ## Product Context
 
-This reference project records the AI Design Rules output for the public Todo App benchmark: a responsive consumer product for quickly capturing, seeing, completing, and inspecting everyday tasks.
+This reference project records the AI Design Context output for the public Todo App benchmark: a responsive consumer product for quickly capturing, seeing, completing, and inspecting everyday tasks.
 
 The core object is `Task`. Its required fields are a title and completion state; note, due time, repeat, list, and priority remain optional and secondary.
 
@@ -57,7 +57,7 @@ The core object is `Task`. Its required fields are a title and completion state;
 
 - Scenario: `benchmarks/todo-app.md`
 - Run: `evidence/todo/2026-06-25-codex-gpt-5/`
-- AI Design Rules artifact: `evidence/todo/2026-06-25-codex-gpt-5/ai-design-rules/generated-output.md`
+- AI Design Context artifact: `evidence/todo/2026-06-25-codex-gpt-5/ai-design-rules/generated-output.md`
 - Comparative evaluation: `evidence/todo/2026-06-25-codex-gpt-5/EVALUATION.md`
 
 The evaluation reports a directional score difference of `+2.09` for this run. It is not evidence of general product-quality improvement.

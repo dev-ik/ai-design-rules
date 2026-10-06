@@ -1,6 +1,6 @@
 # Knowledge Engine
 
-AI Design Rules is a schema-first, AI-first engineering knowledge graph for product design decisions.
+AI Design Context is a schema-first, AI-first engineering knowledge graph for product design decisions.
 
 It is not a documentation archive. Every object should connect to upstream evidence and downstream usage through machine-readable metadata.
 

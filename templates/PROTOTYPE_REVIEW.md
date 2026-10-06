@@ -1,6 +1,6 @@
 # Prototype Review Template
 
-Use this template to review generated product output against AI Design Rules.
+Use this template to review generated product output against AI Design Context.
 
 ## Metadata
 

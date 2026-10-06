@@ -1,6 +1,6 @@
 ---
 name: agent-context
-description: Resolve concise, graph-backed AI Design Rules context with the local context CLI. Use before implementing or reviewing a user-facing flow, reference fixture, prompt output, or known knowledge object when an agent needs relevant research, rules, patterns, checklists, and evidence limits without reading every index.
+description: Retrieve concise, graph-backed design context from AI Design Context with the local CLI. Use before implementing or reviewing a user-facing flow, reference fixture, prompt output, or known knowledge object when an agent needs relevant research, rules, patterns, checklists, and evidence limits without reading every index.
 ---
 
 # Agent Context
@@ -9,7 +9,7 @@ Run this skill before a user-facing implementation or review when the applicable
 
 ## Workflow
 
-1. Verify context resolution with `npm run context -- --help`.
+1. In a product repository with the npm package installed, verify `npx --no-install ai-design-context context --help`. In the knowledge-source checkout, use `npm run context -- --help`.
 2. Resolve the task, review target, or stable object:
 
    ```bash
@@ -17,6 +17,8 @@ Run this skill before a user-facing implementation or review when the applicable
    npm run context -- --review examples/todo-reference --intent qa
    npm run context -- --object PAT-00002 --format json
    ```
+
+   For the installed npm package, replace `npm run context --` with `npx --no-install ai-design-context context` in these examples. Markdown provides absolute reading paths; JSON adds `absolutePath` while retaining relative graph `path`.
 
 3. Read the selected files before proposing product guidance or code.
 4. Apply only the returned rules and patterns that fit the task.

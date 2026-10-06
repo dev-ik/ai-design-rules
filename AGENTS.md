@@ -1,6 +1,6 @@
-# AI Design Rules Agent Guide
+# AI Design Context Agent Guide
 
-AI Design Rules is an AI-first knowledge base for teaching coding agents how to design modern consumer products.
+AI Design Context is an AI-first knowledge base for teaching coding agents how to design modern consumer products.
 
 Do not treat this repository as a documentation dump. Treat it as a knowledge graph.
 

@@ -2,6 +2,7 @@
 .github/ISSUE_TEMPLATE/
 .github/PULL_REQUEST_TEMPLATE.md
 node_modules/
+*.tgz
 .DS_Store
 output/playwright/
 .playwright-cli/

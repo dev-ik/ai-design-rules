@@ -1,6 +1,6 @@
 # Design System
 
-AI Design Rules is not a design system or component library.
+AI Design Context is not a design system or component library.
 
 This document defines how agents should think when a product already has design-system structure.
 
@@ -20,4 +20,4 @@ tokens -> themes -> components -> screens
 
 ## Boundary
 
-AI Design Rules can describe how design-system decisions should be used by agents. It does not ship production components, token packages, or UI kit assets.
+AI Design Context can describe how design-system decisions should be used by agents. It does not ship production components, token packages, or UI kit assets.

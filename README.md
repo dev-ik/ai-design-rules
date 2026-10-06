@@ -1,8 +1,8 @@
 <p align="center">
-  <img src="assets/logo.svg" alt="AI Design Rules logo" width="96" height="96">
+  <img src="assets/logo.svg" alt="AI Design Context logo" width="96" height="96">
 </p>
 
-<h1 align="center">AI Design Rules</h1>
+<h1 align="center">AI Design Context</h1>
 
 <p align="center">
   <a href="LICENSE"><img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-blue.svg"></a>
@@ -14,19 +14,21 @@
 >
 > **Teach AI to think like a product designer.**
 
-**AI Design Rules** is a **vendor-neutral, evidence-driven knowledge base** for AI coding agents.
+**AI Design Context** is a **vendor-neutral, evidence-driven knowledge base** for AI coding agents.
 
 Instead of teaching AI how to generate interfaces, it teaches AI how to design modern software products through **research**, **design rules**, **reusable patterns**, and **reproducible benchmarks**.
 
+Previously named **AI Design Rules**. Historical releases, benchmark artifacts, and stable schema identifiers retain the original name.
+
 ---
 
-## Why AI Design Rules?
+## Why AI Design Context?
 
 Modern AI coding agents are excellent at generating code.
 
 They are far less consistent at making product decisions.
 
-AI Design Rules helps agents move beyond generating screens by providing:
+AI Design Context helps agents move beyond generating screens by providing:
 
 - Research-driven product knowledge
 - Reusable design rules
@@ -88,7 +90,7 @@ The repository is built as a **schema-first knowledge graph** for both humans an
 
 ## Supported AI Coding Agents
 
-AI Design Rules is model-agnostic and works with any AI coding agent capable of reading repository documentation, including:
+AI Design Context is model-agnostic and works with any AI coding agent capable of reading repository documentation, including:
 
 - OpenAI Codex
 - Claude Code
@@ -103,14 +105,14 @@ AI Design Rules is model-agnostic and works with any AI coding agent capable of 
 
 ## Evidence-Driven Development
 
-AI Design Rules does **not** assume it improves AI output.
+AI Design Context does **not** assume it improves AI output.
 
 Every significant change should be validated using reproducible benchmarks.
 
 ```text
 Baseline AI
       ↓
-AI + AI Design Rules
+AI + AI Design Context
 ```
 
 The first benchmark is **directional**, not conclusive, and serves as the starting point for future public validation.
@@ -119,9 +121,44 @@ The first benchmark is **directional**, not conclusive, and serves as the starti
 
 ## Add It to a Product Repository
 
-Ask your coding agent to follow [Install with a Coding Agent](starter-kit/INSTALL_WITH_AGENT.md).
+AI Design Context ships as the dependency-free npm package `ai-design-context` with a CLI and a versioned knowledge graph. Requires **Node.js 20 or later**. The GitHub repository stays at [`dev-ik/ai-design-rules`](https://github.com/dev-ik/ai-design-rules).
 
-The recommended setup pins AI Design Rules as a Git submodule, merges the starter kit with existing project instructions and documentation, and verifies graph context retrieval. It does not add a runtime dependency or replace the product's application stack.
+Install the published package:
+
+```bash
+npm install --save-dev --save-exact ai-design-context
+npx ai-design-context init
+npx ai-design-context context --task quick-capture --platform mobile --intent implement
+```
+
+Commit the project's dependency manifest and lockfile to pin the knowledge version. Installation alone does not edit project files: `init` explicitly appends a marked section to `AGENTS.md` and creates only missing product-context docs, feature/task templates, and review/benchmark checklists. It preserves existing instructions, populated files, and edited integration blocks; repeated runs do not duplicate them. Fill new placeholders with actual product context.
+
+`context` reads the graph from the installed package, independently of the project's working directory. Markdown provides absolute reading paths; JSON adds `knowledgeRoot` and each object's `absolutePath` while preserving graph-relative `path`. Read the selected research and rules before implementing UI changes.
+
+```bash
+npx ai-design-context context --object PAT-00002 --format json
+npx ai-design-context context --review REF-00001 --intent qa
+npx ai-design-context --help
+```
+
+Review queries retrieve matching graph knowledge; they do not analyze arbitrary application files. Matching is lexical, with known IDs and slugs available when phrases do not match. See [Agent Context](docs/AGENT_CONTEXT.md).
+
+Before publication, build a local tarball from this repository and install it into a product repository:
+
+```bash
+# In the AI Design Context checkout. Runs graph checks and tests before packing.
+npm pack
+
+# In the product repository; replace the path with the generated tarball path.
+npm install --save-dev /path/to/ai-design-context-0.4.0.tgz
+npx ai-design-context init
+```
+
+For deliberate updates after publication, run `npm install --save-dev --save-exact ai-design-context@<version>`, review the new guidance, and commit the lockfile. There are no install hooks, application runtime dependencies, or new UI frameworks.
+
+Git submodules and sibling checkouts remain supported alternatives. See [Install with a Coding Agent](starter-kit/INSTALL_WITH_AGENT.md) for both npm and Git workflows.
+
+Maintainers: [npm Releases](docs/NPM_RELEASE.md) describes initial publication and automatic publishing from GitHub Releases with npm Trusted Publishing.
 
 ---
 
@@ -190,7 +227,7 @@ observations/
 
 Generated indexes are built from repository metadata.
 
-`starter-kit/` can be copied into a product repository that wants to adopt AI Design Rules.
+`starter-kit/` can be copied into a product repository that wants to adopt AI Design Context.
 
 ---
 
@@ -213,7 +250,7 @@ Every contribution should explain:
 
 ## Project Status
 
-AI Design Rules is under active development.
+AI Design Context is under active development.
 
 Current public release includes:
 

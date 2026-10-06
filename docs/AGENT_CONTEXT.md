@@ -2,6 +2,22 @@
 
 `npm run context` converts a task, review target, or known graph object into a compact, traceable context bundle. It is a read-only local tool: no network, authentication, or registry writes are involved.
 
+## Installed npm Package
+
+After installing `ai-design-context` as a dev dependency, run the packaged CLI from the product repository:
+
+```bash
+npx --no-install ai-design-context context --task quick-capture --platform mobile --intent implement
+npx --no-install ai-design-context context --review REF-00001 --intent qa
+npx --no-install ai-design-context context --object PAT-00002 --format json
+```
+
+The installed CLI always reads its own graph, not a `registry/` directory in the consuming project. Markdown lists absolute paths so the agent can open the selected files. JSON preserves the relative graph `path`, adds an `absolutePath` to anchors and objects, and adds the package's `knowledgeRoot` at the top level. These reading paths depend on the installation location and must not be used as stable object identifiers.
+
+`npx ai-design-context init` appends a marked block to `AGENTS.md` and creates only missing starter-kit files. It preserves current project instructions, populated files, and existing marked blocks. It rejects malformed markers, symlinked destinations, and incompatible file/directory destinations before creating templates. Installation itself performs no initialization.
+
+Retrieval is lexical and read-only. A `--review` query matches a known graph object or phrase; it does not inspect or judge arbitrary files in the product repository. Resolve relevant context, then inspect the implementation separately. See [installation](../starter-kit/INSTALL_WITH_AGENT.md) for pre-publication tarball use.
+
 ## Commands
 
 ```bash

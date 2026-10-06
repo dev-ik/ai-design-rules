@@ -1,15 +1,15 @@
-# AI Design Rules Starter Kit
+# AI Design Context Starter Kit
 
-This starter kit bootstraps a product repository that wants to use AI Design Rules.
+This starter kit bootstraps a product repository that wants to use AI Design Context.
 
-Copy this folder into a target project, then adapt the files to that product.
+Use the npm CLI's `init` command to append agent instructions and create only missing templates, or selectively copy these files into a target project. Adapt placeholders to that product. See `INSTALL_WITH_AGENT.md` for registry and local tarball installation.
 
 It does not include a UI kit, components, or generated rules. It gives agents a working structure for applying research, rules, patterns, prompts, reviews, benchmarks, and evidence.
 
 ## Included
 
 - `INSTALL_WITH_AGENT.md` - safe, agent-driven installation for an existing repository.
-- `PROJECT_INTEGRATION.md` - how the project should adopt AI Design Rules.
+- `PROJECT_INTEGRATION.md` - how the project should adopt AI Design Context.
 - `AGENTS.md` - local agent instructions for feature work.
 - `BOOTSTRAP.md` - first setup checklist.
 - `docs/` - product context documents.
@@ -38,4 +38,4 @@ For an existing repository, start with `INSTALL_WITH_AGENT.md`. It tells an agen
 
 ## Agent Rule
 
-Agents should not jump from a feature request directly to code. They should identify the user goal, select applicable AI Design Rules, compose patterns, review states, and validate the result.
+Agents should not jump from a feature request directly to code. They should identify the user goal, select applicable AI Design Context, compose patterns, review states, and validate the result.

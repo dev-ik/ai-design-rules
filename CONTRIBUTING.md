@@ -1,6 +1,6 @@
 # Contributing
 
-AI Design Rules accepts concise, practical contributions that help AI coding agents design better consumer products.
+AI Design Context accepts concise, practical contributions that help AI coding agents design better consumer products.
 
 ## Contribution Pipeline
 

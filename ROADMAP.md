@@ -1,6 +1,6 @@
 # Roadmap
 
-AI Design Rules grows from research-backed foundations into rules, patterns, prompts, skills, and review tooling. Each phase should produce usable artifacts without generating filler content.
+AI Design Context grows from research-backed foundations into rules, patterns, prompts, skills, and review tooling. Each phase should produce usable artifacts without generating filler content.
 
 ## v0.1 Foundation
 
